@@ -4,16 +4,11 @@ import { expect } from "@storybook/jest";
 import Input, { InputProps } from "@/components/common/Input";
 
 const meta: Meta<typeof Input> = {
-  title: "hooks/Input",
+  title: "components/Input",
   component: Input,
+  tags: ["autodocs"],
   argTypes: {
     onChange: { action: "changed" },
-  },
-  parameters: {
-    layout: "centered",
-    docs: {
-      canvas: {},
-    },
   },
 };
 

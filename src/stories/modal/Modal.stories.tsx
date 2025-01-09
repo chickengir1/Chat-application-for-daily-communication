@@ -4,15 +4,18 @@ import { expect } from "@storybook/jest";
 import { userEvent, within } from "@storybook/testing-library";
 
 const meta: Meta<typeof Modal> = {
-  title: "hooks/Modal",
+  title: "components/Modal",
   component: Modal,
+  tags: ["autodocs"],
   argTypes: {
     onClose: { action: "changed" },
   },
   parameters: {
-    layout: "centered",
     docs: {
-      canvas: {},
+      story: {
+        inline: false,
+        iframeHeight: 500,
+      },
     },
   },
 };
