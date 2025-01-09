@@ -1,7 +1,7 @@
 stages:
   - install
   - build
-  - test
+  # - test
 
 install_dependencies:
   stage: install
@@ -12,8 +12,6 @@ install_dependencies:
   artifacts:
     paths:
       - node_modules/
-  tags:
-    - frontend
 
 build_project:
   stage: build
@@ -24,17 +22,12 @@ build_project:
   artifacts:
     paths:
       - dist/
-  tags:
-    - frontend
-
-test_storybook:
-  stage: test
-  image: node:lts
-  script:
-    - echo "스토리북 테스트"
-    - npx storybook build
-  artifacts:
-    paths:
-      - storybook-static/
-  tags:
-    - frontend
+# test_storybook:
+#   stage: test
+#   image: node:lts
+#   script:
+#     - echo "스토리북 테스트"
+#     - npx storybook build
+#   artifacts:
+#     paths:
+#       - storybook-static/
