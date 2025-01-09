@@ -2,6 +2,7 @@ stages:
   - install
   - build
 #  - test
+ - deploy
 
 install_dependencies:
   stage: install
@@ -37,3 +38,17 @@ build_project:
 #      - storybook-static/
 #  tags:
 #    - frontend
+deploy_to_vm:
+  stage: deploy
+  script:
+    - echo "배포 중"
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - echo "StrictHostKeyChecking no" > ~/.ssh/config
+    - scp -r dist/* team01@34.22.83.80:/var/www/html/
+    - ssh team01@34.22.83.80 'sudo systemctl restart nginx'
+  tags:
+    - frontend
+  only:
+    - master
