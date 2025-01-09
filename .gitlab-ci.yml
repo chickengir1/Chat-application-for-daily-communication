@@ -1,8 +1,8 @@
 stages:
   - install
   - build
+  - deploy
 #  - test
- - deploy
 
 install_dependencies:
   stage: install
@@ -27,17 +27,7 @@ build_project:
       - dist/
   tags:
     - frontend
-#test_storybook:
-#  stage: test
-#  image: node:lts
-#  script:
-#    - echo "스토리북 테스트"
-#    - npx storybook build
-#  artifacts:
-#    paths:
-#      - storybook-static/
-#  tags:
-#    - frontend
+
 deploy_to_vm:
   stage: deploy
   script:
@@ -52,3 +42,14 @@ deploy_to_vm:
     - frontend
   only:
     - master
+#test_storybook:
+#  stage: test
+#  image: node:lts
+#  script:
+#    - echo "스토리북 테스트"
+#    - npx storybook build
+#  artifacts:
+#    paths:
+#      - storybook-static/
+#  tags:
+#    - frontend
