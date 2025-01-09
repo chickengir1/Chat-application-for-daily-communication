@@ -12,6 +12,8 @@ install_dependencies:
   artifacts:
     paths:
       - node_modules/
+  tags:
+    - frontend
 
 build_project:
   stage: build
@@ -22,6 +24,8 @@ build_project:
   artifacts:
     paths:
       - dist/
+  tags:
+    - frontend
 
 test_storybook:
   stage: test
@@ -32,3 +36,5 @@ test_storybook:
   artifacts:
     paths:
       - storybook-static/
+  tags:
+    - frontend
