@@ -1,0 +1,34 @@
+stages:
+  - install
+  - build
+  - test
+
+install_dependencies:
+  stage: install
+  image: node:lts
+  script:
+    - echo "의존성 설치 중"
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+
+build_project:
+  stage: build
+  image: node:lts
+  script:
+    - echo "프로젝트 빌드 중"
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+
+test_storybook:
+  stage: test
+  image: node:lts
+  script:
+    - echo "스토리북 테스트"
+    - npx storybook build
+  artifacts:
+    paths:
+      - storybook-static/
