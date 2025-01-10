@@ -17,7 +17,7 @@ const IconButton = ({
   src = testImg,
   alt,
   disabled = false,
-  onClick
+  onClick,
 }: IconButtonProps) => {
   return (
     <button

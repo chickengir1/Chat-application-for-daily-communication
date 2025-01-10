@@ -13,7 +13,7 @@ const Button = ({
   width,
   height,
   disabled = false,
-  onClick
+  onClick,
 }: ButtonProps) => {
   return (
     <button

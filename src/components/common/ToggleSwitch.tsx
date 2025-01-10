@@ -11,7 +11,7 @@ const ToggleSwitch = ({
   height = "28px",
   connection = "default",
   checked = false,
-  onChange
+  onChange,
 }: ToggleSwitchProps) => {
   return (
     <label
