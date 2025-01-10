@@ -13,7 +13,7 @@ const meta: Meta<typeof ToggleSwitch> = {
     }
   },
   argTypes: {
-    connection: { control: "text" } // `connection`을 문자열로 제어
+    connection: { control: "text" }
   }
 };
 
@@ -24,7 +24,7 @@ type Story = StoryObj<ToggleSwitchProps>;
 // 기본 버튼 UI 확인
 export const Default: Story = {
   args: {
-    checked: false, // 기본 상태는 `false`
+    checked: false,
     connection: "connection"
   }
 };
