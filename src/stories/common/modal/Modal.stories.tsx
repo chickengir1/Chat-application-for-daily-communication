@@ -4,7 +4,7 @@ import { expect } from "@storybook/jest";
 import { userEvent, within } from "@storybook/testing-library";
 
 const meta: Meta<typeof Modal> = {
-  title: "components/Modal",
+  title: "Common/Modal",
   component: Modal,
   tags: ["autodocs"],
   argTypes: {

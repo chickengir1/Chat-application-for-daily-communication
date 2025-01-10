@@ -4,7 +4,7 @@ import { within } from "@storybook/testing-library";
 import { expect } from "@storybook/jest";
 
 const meta: Meta<typeof Toast> = {
-  title: "components/Toast",
+  title: "Common/Toast",
   component: Toast,
   tags: ["autodocs"],
   argTypes: {

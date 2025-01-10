@@ -1,20 +1,20 @@
 import ToggleSwitch, {
-  ToggleSwitchProps
+  ToggleSwitchProps,
 } from "@/components/common/ToggleSwitch";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof ToggleSwitch> = {
-  title: "hooks/ToggleSwitch",
+  title: "Common/ToggleSwitch",
   component: ToggleSwitch,
   parameters: {
     layout: "centered",
     docs: {
-      canvas: {}
-    }
+      canvas: {},
+    },
   },
   argTypes: {
-    connection: { control: "text" }
-  }
+    connection: { control: "text" },
+  },
 };
 
 export default meta;
@@ -25,6 +25,6 @@ type Story = StoryObj<ToggleSwitchProps>;
 export const Default: Story = {
   args: {
     checked: false,
-    connection: "connection"
-  }
+    connection: "connection",
+  },
 };

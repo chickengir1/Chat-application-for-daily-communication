@@ -4,7 +4,7 @@ import { expect } from "@storybook/jest";
 import Input from "@/components/common/Input";
 
 const meta: Meta<typeof Input> = {
-  title: "components/Input",
+  title: "Common/Input",
   component: Input,
   tags: ["autodocs"],
   argTypes: {

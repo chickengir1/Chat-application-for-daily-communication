@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import ChatBubble from "@/components/common/ChatBubble";
 
 const meta: Meta<typeof ChatBubble> = {
-  title: "Components/ChatBubble",
+  title: "Common/ChatBubble",
   component: ChatBubble,
   tags: ["autodocs"],
   parameters: {
