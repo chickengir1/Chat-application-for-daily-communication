@@ -2,7 +2,7 @@ stages:
   - install
   - build
   - deploy
-#  - test
+  - test
 
 install_dependencies:
   stage: install
