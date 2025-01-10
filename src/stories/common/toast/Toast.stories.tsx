@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import Toast, { ToastProps } from "@/components/common/Toast";
+import Toast from "@/components/common/Toast";
 import { within } from "@storybook/testing-library";
 import { expect } from "@storybook/jest";
 
@@ -25,7 +25,7 @@ const meta: Meta<typeof Toast> = {
 
 export default meta;
 
-type Story = StoryObj<ToastProps>;
+type Story = StoryObj<typeof Toast>;
 
 export const SuccessToast: Story = {
   args: {

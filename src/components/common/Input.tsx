@@ -1,6 +1,6 @@
 import React from "react";
 
-export interface InputProps {
+interface InputProps {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
@@ -10,7 +10,7 @@ export interface InputProps {
   maxLength?: number;
 }
 
-const Input: React.FC<InputProps> = ({
+const Input = ({
   value,
   onChange,
   placeholder = "",
@@ -18,7 +18,7 @@ const Input: React.FC<InputProps> = ({
   className = "border p-2 rounded",
   disabled = false,
   maxLength = 20,
-}) => {
+}: InputProps) => {
   return (
     <input
       type={type}

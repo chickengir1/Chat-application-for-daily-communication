@@ -1,5 +1,9 @@
-function App() {
-  return <h1 className="bg-white m-3 font-bold text-2xl">브랜치 설정t</h1>;
-}
+const App = () => {
+  return (
+    <div className="p-4 space-y-2">
+      <h1>테스트 중입니다.</h1>
+    </div>
+  );
+};
 
 export default App;

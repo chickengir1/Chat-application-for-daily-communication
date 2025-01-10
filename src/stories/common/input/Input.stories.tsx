@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within } from "@storybook/testing-library";
 import { expect } from "@storybook/jest";
-import Input, { InputProps } from "@/components/common/Input";
+import Input from "@/components/common/Input";
 
 const meta: Meta<typeof Input> = {
   title: "components/Input",
@@ -14,7 +14,7 @@ const meta: Meta<typeof Input> = {
 
 export default meta;
 
-type Story = StoryObj<InputProps>;
+type Story = StoryObj<typeof Input>;
 
 export const Default: Story = {
   args: {

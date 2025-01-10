@@ -1,4 +1,4 @@
-import Modal, { ModalProps } from "@/components/common/Modal";
+import Modal from "@/components/common/Modal";
 import { Meta, StoryObj } from "@storybook/react";
 import { expect } from "@storybook/jest";
 import { userEvent, within } from "@storybook/testing-library";
@@ -22,7 +22,7 @@ const meta: Meta<typeof Modal> = {
 
 export default meta;
 
-type Story = StoryObj<ModalProps>;
+type Story = StoryObj<typeof Modal>;
 
 export const Default: Story = {
   args: {
