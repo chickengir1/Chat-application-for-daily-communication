@@ -74,6 +74,8 @@ export const chatData = [
     text: "Hey There!",
     timestamp: "Today, 8:33 PM",
     position: "left",
+    type: "text",
+    content: "",
   },
   {
     id: 2,
@@ -81,5 +83,17 @@ export const chatData = [
     text: "Hello!",
     timestamp: "Today, 8:34 PM",
     position: "right",
+    type: "image",
+    content:
+      "https://kdt-gitlab.elice.io/uploads/-/system/appearance/header_logo/1/elice_x_KDT.png",
+  },
+  {
+    id: 3,
+    sender: "me",
+    text: "텍스트에요",
+    timestamp: "Today, 8:34 PM",
+    position: "right",
+    type: "text",
+    content: "",
   },
 ];

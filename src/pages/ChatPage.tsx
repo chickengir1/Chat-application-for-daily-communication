@@ -1,16 +1,21 @@
-import GroupChat from "@/components/feature/chat/GroupChat";
-import PersonalChat from "@/components/feature/chat/PersonalChat";
 import Input from "@/components/common/Input";
 import useInput from "@/hooks/common/useInput";
 import ChatWindow from "@/components/feature/chat/ChatWindow";
 import { chatData, groupChats, personalChats } from "@/utils/stub";
 import { FaSearch } from "react-icons/fa";
-import useChat, { Message } from "@/hooks/feature/useChat";
+import useChat from "@/hooks/feature/useChat";
+import ChatList from "@/components/feature/chat/ChatList";
+import { Message } from "@/utils/chatInterface";
 
 const ChatPage = () => {
   const { value: search, onChange: setSearch } = useInput("");
-  const { messages, inputValue, handleInputChange, handleKeyDown, handleSend } =
-    useChat(chatData as Message[]);
+  const {
+    messages,
+    inputValue,
+    handleInputChange,
+    handleKeyDown,
+    sendMessage,
+  } = useChat(chatData as Message[]);
 
   // 스타일 변수
   const sectionStyle =
@@ -42,12 +47,12 @@ const ChatPage = () => {
         <div
           className={`${sectionStyle} ${sectionHeight.groupChat} overflow-y-auto`}
         >
-          <GroupChat chats={groupChats} />
+          <ChatList title="Group" chats={groupChats} />
         </div>
         <div
           className={`${sectionStyle} ${sectionHeight.personalChat} overflow-y-auto`}
         >
-          <PersonalChat chats={personalChats} />
+          <ChatList title="People" chats={personalChats} />
         </div>
       </div>
       <div className="w-3/5 flex flex-col p-6">
@@ -56,7 +61,7 @@ const ChatPage = () => {
           inputValue={inputValue}
           onInputChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          onSend={handleSend}
+          sendMessage={sendMessage}
         />
       </div>
     </div>

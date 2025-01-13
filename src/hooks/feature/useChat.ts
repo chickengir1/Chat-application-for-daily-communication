@@ -1,40 +1,32 @@
 import { useState } from "react";
-
-export interface Message {
-  id: number;
-  sender: string;
-  text: string;
-  timestamp: string;
-  position: "left" | "right";
-}
+import { Message } from "@/utils/chatInterface";
 
 export default function useChat(initialMessages: Message[] = []) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [inputValue, setInputValue] = useState("");
 
-  const sendMessage = (text: string) => {
-    // 나중에 서버 통신 / 소켓 로직 추가 해야함
+  const sendMessage = (text: string = "", file?: File | null) => {
+    let fileURL = "";
+
+    if (file) {
+      fileURL = URL.createObjectURL(file); // 임시 코드
+    }
+
     setMessages((prev) => [
       ...prev,
       {
         id: prev.length + 1,
         sender: "me",
-        text,
-        timestamp: new Date().toLocaleTimeString(),
+        text: file ? "" : text,
+        content: file ? fileURL : undefined,
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
         position: "right",
+        type: file ? "file" : "text",
       },
     ]);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSend();
-    }
-  };
-
-  const handleSend = () => {
-    if (!inputValue.trim()) return;
-    sendMessage(inputValue);
     setInputValue("");
   };
 
@@ -42,11 +34,17 @@ export default function useChat(initialMessages: Message[] = []) {
     setInputValue(e.target.value);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      sendMessage(inputValue);
+    }
+  };
+
   return {
     messages,
     inputValue,
     handleInputChange,
     handleKeyDown,
-    handleSend,
+    sendMessage,
   };
 }

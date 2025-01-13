@@ -2,21 +2,14 @@ import React, { useEffect, useRef } from "react";
 import ChatBubble from "@/components/feature/chat/ChatBubble";
 import MessageInput from "./MessageInput";
 import ChatHeader from "./ChatHeader";
-
-interface Message {
-  id: number;
-  sender: string;
-  text: string;
-  timestamp: string;
-  position: "left" | "right";
-}
+import { Message } from "@/utils/chatInterface";
 
 interface ChatWindowProps {
   messages: Message[];
   inputValue: string;
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  onSend: () => void;
+  sendMessage: (text: string, file?: File | null) => void;
 }
 
 const ChatWindow = ({
@@ -24,38 +17,31 @@ const ChatWindow = ({
   inputValue,
   onInputChange,
   onKeyDown,
-  onSend,
+  sendMessage,
 }: ChatWindowProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const container = scrollRef.current;
-    if (!container) return;
-    container.scrollTop = container.scrollHeight;
+    if (container) container.scrollTop = container.scrollHeight;
   }, [messages]);
 
   return (
     <div className="w-full h-full bg-[#505050] rounded-lg flex flex-col overflow-hidden">
-      <ChatHeader title="일론머스크" subtitle="가즈아" avatarUrl="" />
+      <ChatHeader title="Elon Musk" subtitle="Going to Mars" avatarUrl="" />
       <div
         ref={scrollRef}
         className="flex-1 overflow-y-auto p-4 scrollbar-none"
       >
         {messages.map((msg) => (
-          <ChatBubble
-            key={msg.id}
-            sender={msg.sender}
-            text={msg.text}
-            timestamp={msg.timestamp}
-            position={msg.position}
-          />
+          <ChatBubble key={msg.id} {...msg} />
         ))}
       </div>
       <MessageInput
         value={inputValue}
         onChange={onInputChange}
         onKeyDown={onKeyDown}
-        onSend={onSend}
+        sendMessage={sendMessage}
       />
     </div>
   );
