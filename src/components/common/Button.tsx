@@ -1,9 +1,9 @@
 export interface ButtonProps {
   text: string;
-  type: "button" | "submit" | "reset";
-  width: string;
-  height: string;
-  disabled: boolean;
+  type?: "button" | "submit" | "reset";
+  width?: string;
+  height?: string;
+  disabled?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
