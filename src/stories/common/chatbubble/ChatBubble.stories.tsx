@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import ChatBubble from "@/components/common/ChatBubble";
+import ChatBubble from "@/components/feature/chat/ChatBubble";
 
 const meta: Meta<typeof ChatBubble> = {
   title: "Common/ChatBubble",

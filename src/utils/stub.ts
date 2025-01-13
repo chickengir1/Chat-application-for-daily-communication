@@ -66,3 +66,20 @@ export const personalChats = [
     avatar: "",
   },
 ];
+
+export const chatData = [
+  {
+    id: 1,
+    sender: "일론머스크",
+    text: "Hey There!",
+    timestamp: "Today, 8:33 PM",
+    position: "left",
+  },
+  {
+    id: 2,
+    sender: "me",
+    text: "Hello!",
+    timestamp: "Today, 8:34 PM",
+    position: "right",
+  },
+];

@@ -3,31 +3,16 @@ import PersonalChat from "@/components/feature/chat/PersonalChat";
 import Input from "@/components/common/Input";
 import useInput from "@/hooks/common/useInput";
 import ChatWindow from "@/components/feature/chat/ChatWindow";
-import { groupChats, personalChats } from "@/utils/stub";
+import { chatData, groupChats, personalChats } from "@/utils/stub";
 import { FaSearch } from "react-icons/fa";
-import useChat from "@/hooks/feature/useChat";
+import useChat, { Message } from "@/hooks/feature/useChat";
 
 const ChatPage = () => {
   const { value: search, onChange: setSearch } = useInput("");
-
   const { messages, inputValue, handleInputChange, handleKeyDown, handleSend } =
-    useChat([
-      {
-        id: 1,
-        sender: "일론머스크",
-        text: "Hey There!",
-        timestamp: "Today, 8:33 PM",
-        position: "left",
-      },
-      {
-        id: 2,
-        sender: "me",
-        text: "Hello!",
-        timestamp: "Today, 8:34 PM",
-        position: "right",
-      },
-    ]);
+    useChat(chatData as Message[]);
 
+  // 스타일 변수
   const sectionStyle =
     "bg-[#505050] text-white rounded-lg p-4 scrollbar-none transition-colors";
 

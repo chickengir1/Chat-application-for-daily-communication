@@ -1,5 +1,5 @@
 import React from "react";
-import ChatBubble from "@/components/common/ChatBubble";
+import ChatBubble from "@/components/feature/chat/ChatBubble";
 import MessageInput from "./MessageInput";
 import ChatHeader from "./ChatHeader";
 
