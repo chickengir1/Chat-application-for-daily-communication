@@ -1,5 +1,5 @@
 import Badge, { BadgeProps } from "@/components/common/Badge";
-import DefaultBadge from "@/assets/images/default_badge.svg";
+import DefaultBadge from "../../../../public/assets/images/default_badge.svg";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof Badge> = {

@@ -1,5 +1,11 @@
+import Sidebar from "@/components/ui/Sidebar";
+
 const ChatPage = () => {
-  return <div>채팅 페이지 입니다.</div>;
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <Sidebar />
+    </div>
+  );
 };
 
 export default ChatPage;

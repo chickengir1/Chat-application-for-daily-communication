@@ -1,4 +1,4 @@
-import DefaultBadge from "@/assets/images/default_badge.svg";
+import DefaultBadge from "../../../public/assets/images/default_badge.svg";
 
 export interface BadgeProps {
   size: string;
