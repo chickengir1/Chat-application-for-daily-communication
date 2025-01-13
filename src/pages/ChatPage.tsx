@@ -17,7 +17,7 @@ const ChatPage = () => {
     "bg-[#505050] text-white rounded-lg p-4 scrollbar-none transition-colors";
 
   const inputStyle =
-    "flex-1 bg-transparent placeholder-gray-400 text-white px-2 outline-none";
+    "flex-1 bg-transparent placeholder-gray-400 text-white px-2 outline-none hover:bg-[#404040] h-3/5 rounded-lg transition duration-200 ease-in-out";
 
   const sectionHeight = {
     search: "h-[8%]",
