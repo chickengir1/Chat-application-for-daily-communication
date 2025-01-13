@@ -27,7 +27,7 @@ const ChatPage = () => {
 
   return (
     <div className="flex h-screen">
-      <div className="w-2/5 flex flex-col p-6 space-y-4">
+      <div className="w-2/5 flex flex-col py-6 space-y-4">
         <div
           className={`${sectionHeight.search} bg-[#505050] text-white flex items-center rounded-lg px-4`}
         >
