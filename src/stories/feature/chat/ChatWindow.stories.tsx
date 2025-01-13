@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
-
 import ChatWindow from "@/components/feature/chat/ChatWindow";
-import { Message } from "@/hooks/feature/useChat";
+import { Message } from "@/utils/chatInterface";
 
 const meta: Meta<typeof ChatWindow> = {
   title: "feature/ChatWindow",
@@ -20,6 +19,7 @@ const sampleMessages: Message[] = [
     text: "Hey There!",
     timestamp: "Today, 8:33 PM",
     position: "left",
+    type: "text",
   },
   {
     id: 2,
@@ -27,6 +27,7 @@ const sampleMessages: Message[] = [
     text: "Hello!",
     timestamp: "Today, 8:34 PM",
     position: "right",
+    type: "text",
   },
 ];
 
@@ -37,6 +38,7 @@ const noneMessages: Message[] = [
     text: "",
     timestamp: "Today, 8:33 PM",
     position: "left",
+    type: "text",
   },
   {
     id: 2,
@@ -44,10 +46,42 @@ const noneMessages: Message[] = [
     text: "Hello!",
     timestamp: "Today, 8:34 PM",
     position: "right",
+    type: "text",
   },
 ];
 
 const longMessage: string = "아주아주긴메세지입니다".repeat(10);
+
+const mediaMessages: Message[] = [
+  {
+    id: 1,
+    sender: "일론머스크",
+    text: "",
+    timestamp: "Today, 8:35 PM",
+    position: "left",
+    type: "image",
+    content: "https://via.placeholder.com/150",
+  },
+  {
+    id: 2,
+    sender: "me",
+    text: "",
+    timestamp: "Today, 8:36 PM",
+    position: "right",
+    type: "video",
+    content:
+      "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+  },
+  {
+    id: 3,
+    sender: "me",
+    text: "파일 메시지입니다.",
+    timestamp: "Today, 8:37 PM",
+    position: "right",
+    type: "file",
+    content: "https://example.com/sample.pdf",
+  },
+];
 
 const baseArgs = {
   inputValue: "",
@@ -85,6 +119,7 @@ export const LongMessages: Story = {
         text: longMessage,
         timestamp: "Today, 8:33 PM",
         position: "left",
+        type: "text",
       },
       {
         id: 2,
@@ -92,7 +127,15 @@ export const LongMessages: Story = {
         text: longMessage,
         timestamp: "Today, 8:34 PM",
         position: "right",
+        type: "text",
       },
     ],
+  },
+};
+
+export const MediaMessages: Story = {
+  args: {
+    ...baseArgs,
+    messages: mediaMessages,
   },
 };
