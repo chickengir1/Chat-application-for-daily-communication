@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ChatBubble from "@/components/feature/chat/ChatBubble";
 import MessageInput from "./MessageInput";
 import ChatHeader from "./ChatHeader";
@@ -26,10 +26,21 @@ const ChatWindow = ({
   onKeyDown,
   onSend,
 }: ChatWindowProps) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+    container.scrollTop = container.scrollHeight;
+  }, [messages]);
+
   return (
     <div className="w-full h-full bg-[#505050] rounded-lg flex flex-col overflow-hidden">
-      <ChatHeader title={"일론머스크"} subtitle={"가즈아"} avatarUrl={""} />
-      <div className="flex-1 overflow-y-auto p-4">
+      <ChatHeader title="일론머스크" subtitle="가즈아" avatarUrl="" />
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto p-4 scrollbar-none"
+      >
         {messages.map((msg) => (
           <ChatBubble
             key={msg.id}
