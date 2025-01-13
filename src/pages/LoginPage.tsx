@@ -13,6 +13,7 @@ const LoginPage = () => {
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>();
 
+  // 스타일 변수
   const inputStyle = `w-[100%] h-[40px] p-2 text-sm border rounded`;
   const errorMessageStyle = `absolute top-[calc(100%+2px)] text-[11px] text-[#E92B2B]`;
   const accountStyle = `
@@ -22,13 +23,12 @@ const LoginPage = () => {
     after:h-[10px] after:bg-[#e1e1e1]
   `;
   const socialBtnStyle = `flex items-center justify-center gap-[4px] w-[100%] h-[40px] px-[12px]
-                        font-semibold rounded-[4px]`;
+    font-semibold rounded-[4px]`;
 
   return (
     <div className="min-w-[320px] h-[100vh] px-[3%] flex items-center justify-center">
       <div className="flex w-[100%] h-[80vh] max-w-[1024px] p-[20px] bg-[#505050] rounded-[16px]">
         <div className="flex items-center justify-center w-full sm:w-[50%]">
-          {/* <div className="w-full sm:max-w-[328px] px-[24px]"> */}
           <div className="w-full max-w-[300px] px-[16px]">
             <h1 className="text-[32px] text-center font-extrabold text-[#fff] ">
               LOGO
