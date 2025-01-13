@@ -2,84 +2,37 @@ import GroupChat from "@/components/feature/chat/GroupChat";
 import PersonalChat from "@/components/feature/chat/PersonalChat";
 import Input from "@/components/common/Input";
 import useInput from "@/hooks/common/useInput";
+import ChatWindow from "@/components/feature/chat/ChatWindow";
+import { groupChats, personalChats } from "@/utils/stub";
+import { FaSearch } from "react-icons/fa";
+import useChat from "@/hooks/feature/useChat";
 
 const ChatPage = () => {
   const { value: search, onChange: setSearch } = useInput("");
 
-  const groupChats = [
-    {
-      id: 1,
-      name: "Group Chat 1",
-      message: "Message 1",
-      time: "5:25 PM",
-      avatar: "",
-    },
-    {
-      id: 2,
-      name: "Group Chat 2",
-      message: "Message 2",
-      time: "6:00 PM",
-      avatar: "",
-    },
-    {
-      id: 3,
-      name: "Group Chat 3",
-      message: "Message 3",
-      time: "3:45 PM",
-      avatar: "",
-    },
-    {
-      id: 4,
-      name: "Group Chat 4",
-      message: "Message 4",
-      time: "7:45 PM",
-      avatar: "",
-    },
-    {
-      id: 5,
-      name: "Group Chat 5",
-      message: "Message 5",
-      time: "9:05 PM",
-      avatar: "",
-    },
-  ];
-
-  const personalChats = [
-    {
-      id: 1,
-      name: "Alice",
-      message: "Hey, how are you?",
-      time: "4:15 PM",
-      avatar: "",
-    },
-    {
-      id: 2,
-      name: "Bob",
-      message: "Can we meet tomorrow?",
-      time: "5:30 PM",
-      avatar: "",
-    },
-    {
-      id: 3,
-      name: "Charlie",
-      message: "Don't forget about the meeting.",
-      time: "2:00 PM",
-      avatar: "",
-    },
-    {
-      id: 4,
-      name: "David",
-      message: "Here's the document you asked for.",
-      time: "1:20 PM",
-      avatar: "",
-    },
-  ];
+  const { messages, inputValue, handleInputChange, handleKeyDown, handleSend } =
+    useChat([
+      {
+        id: 1,
+        sender: "일론머스크",
+        text: "Hey There!",
+        timestamp: "Today, 8:33 PM",
+        position: "left",
+      },
+      {
+        id: 2,
+        sender: "me",
+        text: "Hello!",
+        timestamp: "Today, 8:34 PM",
+        position: "right",
+      },
+    ]);
 
   const sectionStyle =
     "bg-[#505050] text-white rounded-lg p-4 scrollbar-none transition-colors";
 
   const inputStyle =
-    "bg-[#505050] text-white placeholder-gray-400 border-none p-3 rounded-lg w-full h-full";
+    "flex-1 bg-transparent placeholder-gray-400 text-white px-2 outline-none";
 
   const sectionHeight = {
     search: "h-[8%]",
@@ -88,24 +41,38 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen p-6 space-y-4">
-      <div className={sectionHeight.search}>
-        <Input
-          value={search}
-          onChange={setSearch}
-          placeholder="Search"
-          className={inputStyle}
+    <div className="flex h-screen">
+      <div className="w-2/5 flex flex-col p-6 space-y-4">
+        <div
+          className={`${sectionHeight.search} bg-[#505050] text-white flex items-center rounded-lg px-4`}
+        >
+          <FaSearch className="text-gray-300 mr-4" />
+          <Input
+            value={search}
+            onChange={setSearch}
+            placeholder="Search"
+            className={inputStyle}
+          />
+        </div>
+        <div
+          className={`${sectionStyle} ${sectionHeight.groupChat} overflow-y-auto`}
+        >
+          <GroupChat chats={groupChats} />
+        </div>
+        <div
+          className={`${sectionStyle} ${sectionHeight.personalChat} overflow-y-auto`}
+        >
+          <PersonalChat chats={personalChats} />
+        </div>
+      </div>
+      <div className="w-3/5 flex flex-col p-6">
+        <ChatWindow
+          messages={messages}
+          inputValue={inputValue}
+          onInputChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          onSend={handleSend}
         />
-      </div>
-      <div
-        className={`${sectionStyle} ${sectionHeight.groupChat} overflow-y-auto`}
-      >
-        <GroupChat chats={groupChats} />
-      </div>
-      <div
-        className={`${sectionStyle} ${sectionHeight.personalChat} overflow-y-auto`}
-      >
-        <PersonalChat chats={personalChats} />
       </div>
     </div>
   );

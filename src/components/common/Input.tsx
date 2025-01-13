@@ -3,6 +3,7 @@ import React from "react";
 interface InputProps {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
   type?: string;
   className?: string;
@@ -13,6 +14,7 @@ interface InputProps {
 const Input = ({
   value,
   onChange,
+  onKeyDown,
   placeholder = "",
   type = "text",
   className = "border p-2 rounded",
@@ -24,6 +26,7 @@ const Input = ({
       type={type}
       value={value}
       onChange={onChange}
+      onKeyDown={onKeyDown}
       placeholder={placeholder}
       className={className}
       disabled={disabled}

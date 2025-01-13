@@ -1,6 +1,7 @@
 import React from "react";
 
 interface ChatBubbleProps {
+  sender: string;
   text: string;
   timestamp: string;
   position: "left" | "right";
@@ -8,6 +9,7 @@ interface ChatBubbleProps {
 }
 
 const ChatBubble = ({
+  sender,
   text,
   timestamp,
   position,
@@ -22,7 +24,12 @@ const ChatBubble = ({
   return (
     <div className={`flex ${alignment} my-2`}>
       <div className="max-w-[45%] flex flex-col space-y-1">
-        <div className={`px-4 py-2 rounded-lg ${bubbleClass} shadow-md`}>
+        {!isRight && (
+          <span className="text-sm text-gray-50 font-bold">{sender}</span>
+        )}
+        <div
+          className={`px-4 py-2 rounded-lg ${bubbleClass} shadow-md min-h-[40px] flex items-center`}
+        >
           {text && <p>{text}</p>}
           {children}
         </div>
