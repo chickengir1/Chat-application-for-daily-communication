@@ -27,6 +27,7 @@ const MessageInput = ({
         onKeyDown={onKeyDown}
         placeholder="메세지를 입력하세요..."
         className="flex-1 bg-[#505050] text-white placeholder-gray-400 px-3 py-2 rounded-lg border-none outline-none"
+        maxLength={100}
       />
       <button className="text-gray-300 hover:text-white">
         <FaSmile size={20} />
