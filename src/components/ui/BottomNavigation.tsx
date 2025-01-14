@@ -15,12 +15,19 @@ const icons = [
 const BottomNavigation = () => {
   const { activeIndex, handleNavigation } = useNavigation();
 
+  const onNavigation =
+    (index: number, path: string) =>
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      handleNavigation(index, path);
+    };
+
   return (
     <div className="fixed bottom-0 left-0 w-full bg-[#505050] text-white flex justify-around py-3">
       {icons.map((item, index) => (
         <button
           key={item.label}
-          onClick={() => handleNavigation(index, item.path)}
+          onClick={onNavigation(index, item.path)}
           className={`flex flex-col items-center ${
             activeIndex === index ? "text-gray-200 font-bold" : "text-gray-400"
           } hover:text-gray-200`}

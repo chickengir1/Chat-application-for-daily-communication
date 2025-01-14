@@ -19,8 +19,7 @@ export default function useChat({ wsUrl }: UseChatProps) {
   return {
     value,
     onChange,
-    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) =>
-      onKeyDown(e, handleSendMessage),
+    onKeyDown: onKeyDown(handleSendMessage),
     handleSendMessage,
     connect,
     disconnect,
