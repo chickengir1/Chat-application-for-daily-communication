@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaComments,
@@ -7,54 +5,54 @@ import {
   FaCog,
   FaSignOutAlt,
 } from "react-icons/fa";
+import useNavigation from "@/hooks/common/useNavigation";
 
-// 네비 상태 저장 시켜야함
+const icons = [
+  { icon: <FaHome size={24} />, label: "Home", path: "/" },
+  { icon: <FaComments size={24} />, label: "Chat", path: "/chat" },
+  {
+    icon: <FaBell size={24} />,
+    label: "Notifications",
+    path: "/notifications",
+  },
+  { icon: <FaCog size={24} />, label: "Settings", path: "/settings" },
+];
 
 const Sidebar = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const navigate = useNavigate();
+  const { activeIndex, handleNavigation } = useNavigation();
 
-  const icons = [
-    { icon: <FaHome size={24} />, label: "Home", path: "/" },
-    { icon: <FaComments size={24} />, label: "Chat", path: "/chat" },
-    {
-      icon: <FaBell size={24} />,
-      label: "Notifications",
-      path: "/notifications",
-    },
-    { icon: <FaCog size={24} />, label: "Settings", path: "/settings" },
-  ];
+  const renderIcons = (direction: "vertical" | "horizontal") =>
+    icons.map((item, index) => {
+      const isActive = activeIndex === index;
+      const buttonClass = isActive
+        ? "bg-[#3D3D3D] text-gray-200 border-gray-500 border-r-4 font-bold w-full"
+        : "bg-transparent text-gray-300";
+      const wrapperClass =
+        direction === "vertical"
+          ? "flex flex-col items-center mb-4"
+          : "flex flex-col items-center w-full";
 
-  const navigation = icons.map((item, index) => {
-    const activeIcon = "w-full border-r-8 bg-[#3D3D3D] border-[#777777]";
-    const activeIconText = "font-bold text-gray-200";
-
-    const isActive = activeIndex === index;
-    const buttonClass = isActive ? activeIcon : "bg-transparent";
-    const textClass = isActive ? activeIconText : "text-gray-400";
-
-    return (
-      <button
-        key={item.label}
-        onClick={() => {
-          setActiveIndex(index);
-          navigate(item.path);
-        }}
-        className={`p-3 flex flex-col items-center mb-4 ${buttonClass}`}
-      >
-        {item.icon}
-        <span className={`text-xs mt-1 ${textClass}`}>{item.label}</span>
-      </button>
-    );
-  });
+      return (
+        <button
+          key={item.label}
+          onClick={() => handleNavigation(index, item.path)}
+          className={`p-3 ${wrapperClass} ${buttonClass}`}
+        >
+          {item.icon}
+          <span className="text-xs mt-1">{item.label}</span>
+        </button>
+      );
+    });
 
   return (
-    <div className="h-full bg-[#505050] rounded-lg text-white flex flex-col justify-between py-4">
-      <div className="flex flex-col items-center">
-        <div className="mb-6">
-          <div className="bg-[#D9D9D9] rounded-full mt-4 w-16 h-16"></div>
+    <div className="hidden md:flex bg-[#505050] rounded-lg h-full text-white flex-col">
+      <div className="flex flex-col items-center flex-grow">
+        <div className="flex flex-col items-center w-full">
+          <div className="mb-6">
+            <div className="bg-[#D9D9D9] rounded-full mt-4 w-16 h-16"></div>
+          </div>
+          {renderIcons("vertical")}
         </div>
-        {navigation}
       </div>
       <div className="flex flex-col items-center">
         <button className="p-3 rounded flex flex-col items-center bg-transparent hover:bg-[#3D3D3D] w-full">

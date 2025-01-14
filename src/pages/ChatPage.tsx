@@ -14,47 +14,54 @@ const ChatPage = () => {
     createdAt,
   }));
 
-  const currentUserId = 1; // 상태관리 로직에서 가져와야하는 정보
+  const currentUserId = 1; // 상태관리 로직에서 가져와야 하는 정보
 
   // 스타일 변수
   const sectionStyle =
-    "bg-[#505050] text-white rounded-lg p-4 scrollbar-none transition-colors";
+    "bg-[#505050] text-white rounded-lg scrollbar-none transition-colors";
 
   const inputStyle =
-    "flex-1 bg-transparent placeholder-gray-400 text-white px-2 outline-none hover:bg-[#404040] h-3/5 rounded-lg transition duration-200 ease-in-out";
+    "w-full bg-transparent placeholder-gray-400 text-white px-2 outline-none rounded-lg";
+
+  const hover = "hover:bg-[#404040] duration-200 ease-in-out";
 
   const sectionHeight = {
-    search: "h-[8%]",
-    groupChat: "h-[40%]",
-    personalChat: "h-[50%]",
+    search: "h-16",
+    chatSections: "h-[50%]",
   };
 
+  const headerStyle =
+    "sticky top-0 z-10 bg-[#404040] text-center text-2xl font-bold py-4";
+
+  const chatSectionStyle = `${sectionStyle} ${sectionHeight.chatSections} overflow-y-auto`;
+
   return (
-    <div className="flex h-screen">
-      <div className="w-2/5 flex flex-col py-6 space-y-4">
+    <div className="md:p-0 p-2 flex flex-col md:flex-row h-screen">
+      {/* 왼쪽 섹션 */}
+      <div className="w-full md:w-2/5 flex-col py-6 space-y-4 hidden md:flex">
         <div
-          className={`${sectionHeight.search} bg-[#505050] text-white flex items-center rounded-lg px-4`}
+          className={`${sectionHeight.search} ${sectionStyle} ${hover} flex items-center px-2`}
         >
-          <FaSearch className="text-gray-300 mr-4" />
+          <FaSearch className="text-gray-300 mx-2" />
           <Input
             value={search}
             onChange={setSearch}
-            placeholder="Search"
+            placeholder="채팅방 검색"
             className={inputStyle}
           />
         </div>
-        <div
-          className={`${sectionStyle} ${sectionHeight.groupChat} overflow-y-auto`}
-        >
-          <ChatList title="Group" chats={groupChats} />
+        <div className={chatSectionStyle}>
+          <h2 className={headerStyle}>{"Group Chat"}</h2>
+          <ChatList chats={groupChats} />
         </div>
-        <div
-          className={`${sectionStyle} ${sectionHeight.personalChat} overflow-y-auto`}
-        >
-          <ChatList title="People" chats={personalChats} />
+        <div className={chatSectionStyle}>
+          <h2 className={headerStyle}>{"Personal Chat"}</h2>
+          <ChatList chats={personalChats} />
         </div>
       </div>
-      <div className="w-3/5 flex flex-col p-6">
+
+      {/* 오른쪽 섹션 */}
+      <div className="w-full h-screen md:w-3/5 flex flex-col md:p-6">
         <ChatWindow chatData={chatData} currentUserId={currentUserId} />
       </div>
     </div>

@@ -1,5 +1,4 @@
 interface ChatListProps {
-  title: string;
   chats: {
     id: number;
     name: string;
@@ -10,13 +9,12 @@ interface ChatListProps {
   }[];
 }
 
-const ChatList = ({ title, chats }: ChatListProps) => {
+const ChatList = ({ chats }: ChatListProps) => {
   const hover =
     "cursor-pointer transition-all duration-200 ease-in-out hover:bg-[#606060] hover:shadow-md";
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">{title}</h2>
+    <div className="p-4">
       {chats.map((chat) => (
         <div
           key={chat.id}

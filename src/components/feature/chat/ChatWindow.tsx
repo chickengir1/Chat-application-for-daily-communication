@@ -19,7 +19,7 @@ const ChatWindow = ({ chatData, currentUserId }: ChatWindowProps) => {
   const isCurrentUser = (userId: number): boolean => userId === currentUserId;
 
   return (
-    <div className="w-full h-full bg-[#505050] rounded-lg flex flex-col overflow-hidden">
+    <div className="w-full h-full bg-[#505050] rounded-lg flex flex-col overflow-hidden mb-16 md:mb-0">
       <ChatHeader title="일론머스크" subtitle="화성가자" avatarUrl="" />
       <div
         ref={scrollRef}
