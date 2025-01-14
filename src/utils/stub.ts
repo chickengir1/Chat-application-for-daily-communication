@@ -93,3 +93,103 @@ export const chatData = [
     roomId: 1,
   },
 ];
+
+export const recentChats = [
+  {
+    id: 1,
+    name: "Alice",
+    message: "Hey, how are you?",
+    time: "4:15 PM",
+    avatar: "",
+  },
+  {
+    id: 2,
+    name: "Bob",
+    message: "Can we meet tomorrow?",
+    time: "5:30 PM",
+    avatar: "",
+  },
+  {
+    id: 3,
+    name: "Charlie",
+    message: "Don't forget about the meeting.",
+    time: "2:00 PM",
+    avatar: "",
+  },
+  {
+    id: 4,
+    name: "David",
+    message: "Here's the document you asked for.",
+    time: "1:20 PM",
+    avatar: "",
+  },
+];
+
+export const contactData = [
+  {
+    id: 1,
+    profile_img: "",
+    name: "김대식",
+    isOnline: false,
+  },
+  {
+    id: 2,
+    profile_img: "",
+    name: "이강호",
+    isOnline: false,
+  },
+  {
+    id: 3,
+    profile_img: "",
+    name: "김준수",
+    isOnline: false,
+  },
+  {
+    id: 4,
+    profile_img: "",
+    name: "강대희",
+    isOnline: false,
+  },
+  {
+    id: 5,
+    profile_img: "",
+    name: "엄수경",
+    isOnline: false,
+  },
+  {
+    id: 6,
+    profile_img: "",
+    name: "잊지마 거북이",
+    isOnline: false,
+  },
+  {
+    id: 7,
+    profile_img: "",
+    name: "코치",
+    isOnline: false,
+  },
+  {
+    id: 8,
+    profile_img: "",
+    name: "엘리스",
+    isOnline: false,
+  },
+  {
+    id: 9,
+    profile_img: "",
+    name: "오즈",
+    isOnline: false,
+  },
+  {
+    id: 10,
+    profile_img: "",
+    name: "행정매니저",
+    isOnline: false,
+  },
+  {
+    id: 11,
+    profile_img: "",
+    name: "운영진",
+    isOnline: false,
+  },
+];

@@ -5,6 +5,8 @@ import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Layout from "./components/ui/Layout";
+import SignupPage from "./pages/SignupPage";
+import SettingPage from "./pages/SettingPage";
 
 const App = () => {
   return (
@@ -26,8 +28,17 @@ const App = () => {
             </Layout>
           }
         />
+        <Route
+          path="/settings"
+          element={
+            <Layout>
+              <SettingPage />
+            </Layout>
+          }
+        />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </Router>
