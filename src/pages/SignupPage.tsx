@@ -4,7 +4,7 @@ import NicknameInput from "@/components/feature/input/NicknameInput";
 import PasswordInput from "@/components/feature/input/PasswordInput";
 import { useForm } from "react-hook-form";
 
-interface SignupFormValues {
+export interface SignupFormValues {
   email: string;
   nickname: string;
   password: string;

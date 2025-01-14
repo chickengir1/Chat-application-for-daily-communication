@@ -1,7 +1,8 @@
-import { UseFormRegister, FieldValues, FieldError } from "react-hook-form";
+import { SignupFormValues } from "@/pages/SignupPage";
+import { UseFormRegister, FieldError } from "react-hook-form";
 
 interface PasswordInputProps {
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<SignupFormValues>;
   errors: { password?: FieldError };
 }
 
