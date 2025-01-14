@@ -1,20 +1,20 @@
-// components/EmailInput.tsx
-import React from "react";
-import { UseFormRegister, FieldValues, FieldError } from "react-hook-form";
+import { UseFormRegister, FieldError } from "react-hook-form";
+import { SignupFormValues } from "@/pages/SignupPage";
 
 interface EmailInputProps {
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<SignupFormValues>;
+  name: keyof SignupFormValues;
   error?: FieldError;
 }
 
-const EmailInput: React.FC<EmailInputProps> = ({ register, error }) => {
+const EmailInput: React.FC<EmailInputProps> = ({ register, name, error }) => {
   return (
     <>
       <input
         type="email"
         placeholder="이메일을 입력하세요."
         className="w-[100%] h-[40px] p-2 text-sm border rounded text-[#333]"
-        {...register("email", {
+        {...register(name, {
           required: "이메일은 필수 입력 사항입니다.",
           pattern: {
             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
