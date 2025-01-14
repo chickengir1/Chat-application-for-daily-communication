@@ -1,9 +1,9 @@
 export interface ToggleSwitchProps {
-  width: string;
-  height: string;
+  width?: string;
+  height?: string;
   connection: string;
-  checked: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  checked?: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const ToggleSwitch = ({
@@ -21,7 +21,7 @@ const ToggleSwitch = ({
       <input
         type="checkbox"
         value=""
-        className="sr-only peer"
+        className="sr-only peer hidden"
         id={connection}
         checked={checked}
         onChange={onChange}
