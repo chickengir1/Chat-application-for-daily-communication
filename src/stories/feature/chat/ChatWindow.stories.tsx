@@ -1,6 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
 import ChatWindow from "@/components/feature/chat/ChatWindow";
-import { Message } from "@/utils/chatInterface";
 
 const meta: Meta<typeof ChatWindow> = {
   title: "feature/ChatWindow",
@@ -12,130 +11,68 @@ export default meta;
 
 type Story = StoryObj<typeof ChatWindow>;
 
-const sampleMessages: Message[] = [
+const sampleMessages = [
   {
-    id: 1,
     sender: "일론머스크",
-    text: "Hey There!",
-    timestamp: "Today, 8:33 PM",
-    position: "left",
-    type: "text",
+    userId: 1,
+    message: "Hey There!",
+    createdAt: "Today, 8:33 PM",
   },
   {
-    id: 2,
     sender: "me",
-    text: "Hello!",
-    timestamp: "Today, 8:34 PM",
-    position: "right",
-    type: "text",
+    userId: 101,
+    message: "Hello!",
+    createdAt: "Today, 8:34 PM",
   },
 ];
 
-const noneMessages: Message[] = [
+const noneMessages = [
   {
-    id: 1,
     sender: "일론머스크",
-    text: "",
-    timestamp: "Today, 8:33 PM",
-    position: "left",
-    type: "text",
+    userId: 1,
+    message: "",
+    createdAt: "Today, 8:33 PM",
   },
   {
-    id: 2,
     sender: "me",
-    text: "Hello!",
-    timestamp: "Today, 8:34 PM",
-    position: "right",
-    type: "text",
+    userId: 101,
+    message: "",
+    createdAt: "Today, 8:34 PM",
   },
 ];
 
-const longMessage: string = "아주아주긴메세지입니다".repeat(10);
-
-const mediaMessages: Message[] = [
-  {
-    id: 1,
-    sender: "일론머스크",
-    text: "",
-    timestamp: "Today, 8:35 PM",
-    position: "left",
-    type: "image",
-    content: "https://via.placeholder.com/150",
-  },
-  {
-    id: 2,
-    sender: "me",
-    text: "",
-    timestamp: "Today, 8:36 PM",
-    position: "right",
-    type: "video",
-    content:
-      "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
-  },
-  {
-    id: 3,
-    sender: "me",
-    text: "파일 메시지입니다.",
-    timestamp: "Today, 8:37 PM",
-    position: "right",
-    type: "file",
-    content: "https://example.com/sample.pdf",
-  },
-];
-
-const baseArgs = {
-  inputValue: "",
-  onInputChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-    console.log(e.target.value),
-  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      console.log("Enter Key Pressed");
-    }
-  },
-  onSend: () => console.log("Message Sent"),
-};
+const longMessage = "이 메시지는 매우 긴 텍스트로 이루어져 있습니다.".repeat(5);
 
 export const Default: Story = {
   args: {
-    ...baseArgs,
-    messages: sampleMessages,
+    chatData: sampleMessages,
+    currentUserId: 101,
   },
 };
 
 export const NoMessages: Story = {
   args: {
-    ...baseArgs,
-    messages: noneMessages,
+    chatData: noneMessages,
+    currentUserId: 101,
   },
 };
 
 export const LongMessages: Story = {
   args: {
-    ...baseArgs,
-    messages: [
+    chatData: [
       {
-        id: 1,
         sender: "일론머스크",
-        text: longMessage,
-        timestamp: "Today, 8:33 PM",
-        position: "left",
-        type: "text",
+        userId: 1,
+        message: longMessage,
+        createdAt: "Today, 8:33 PM",
       },
       {
-        id: 2,
         sender: "me",
-        text: longMessage,
-        timestamp: "Today, 8:34 PM",
-        position: "right",
-        type: "text",
+        userId: 101,
+        message: longMessage,
+        createdAt: "Today, 8:34 PM",
       },
     ],
-  },
-};
-
-export const MediaMessages: Story = {
-  args: {
-    ...baseArgs,
-    messages: mediaMessages,
+    currentUserId: 101,
   },
 };

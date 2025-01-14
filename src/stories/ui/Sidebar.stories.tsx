@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { BrowserRouter } from "react-router-dom";
 import Sidebar from "@/components/ui/Sidebar";
 
 const meta: Meta<typeof Sidebar> = {
@@ -13,6 +14,13 @@ const meta: Meta<typeof Sidebar> = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <BrowserRouter>
+        <Story />
+      </BrowserRouter>
+    ),
+  ],
 };
 
 export default meta;

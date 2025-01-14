@@ -1,21 +1,20 @@
 import Input from "@/components/common/Input";
 import useInput from "@/hooks/common/useInput";
 import ChatWindow from "@/components/feature/chat/ChatWindow";
-import { chatData, groupChats, personalChats } from "@/utils/stub";
+import { chatData as messages, groupChats, personalChats } from "@/utils/stub";
 import { FaSearch } from "react-icons/fa";
-import useChat from "@/hooks/feature/useChat";
 import ChatList from "@/components/feature/chat/ChatList";
-import { Message } from "@/utils/chatInterface";
 
 const ChatPage = () => {
   const { value: search, onChange: setSearch } = useInput("");
-  const {
-    messages,
-    inputValue,
-    handleInputChange,
-    handleKeyDown,
-    sendMessage,
-  } = useChat(chatData as Message[]);
+  const chatData = messages.map(({ sender, userId, message, createdAt }) => ({
+    sender,
+    userId,
+    message,
+    createdAt,
+  }));
+
+  const currentUserId = 1; // 상태관리 로직에서 가져와야하는 정보
 
   // 스타일 변수
   const sectionStyle =
@@ -56,13 +55,7 @@ const ChatPage = () => {
         </div>
       </div>
       <div className="w-3/5 flex flex-col p-6">
-        <ChatWindow
-          messages={messages}
-          inputValue={inputValue}
-          onInputChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          sendMessage={sendMessage}
-        />
+        <ChatWindow chatData={chatData} currentUserId={currentUserId} />
       </div>
     </div>
   );

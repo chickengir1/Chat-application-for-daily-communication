@@ -1,48 +1,41 @@
-import React, { useEffect, useRef } from "react";
-import ChatBubble from "@/components/feature/chat/ChatBubble";
+import { useRef } from "react";
 import MessageInput from "./MessageInput";
 import ChatHeader from "./ChatHeader";
-import { Message } from "@/utils/chatInterface";
+import ChatBubble from "./ChatBubble";
 
 interface ChatWindowProps {
-  messages: Message[];
-  inputValue: string;
-  onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  sendMessage: (text: string, file?: File | null) => void;
+  chatData: {
+    sender: string;
+    userId: number;
+    message: string;
+    createdAt: string;
+  }[];
+  currentUserId: number;
 }
 
-const ChatWindow = ({
-  messages,
-  inputValue,
-  onInputChange,
-  onKeyDown,
-  sendMessage,
-}: ChatWindowProps) => {
+const ChatWindow = ({ chatData, currentUserId }: ChatWindowProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const container = scrollRef.current;
-    if (container) container.scrollTop = container.scrollHeight;
-  }, [messages]);
+  const isCurrentUser = (userId: number): boolean => userId === currentUserId;
 
   return (
     <div className="w-full h-full bg-[#505050] rounded-lg flex flex-col overflow-hidden">
-      <ChatHeader title="Elon Musk" subtitle="Going to Mars" avatarUrl="" />
+      <ChatHeader title="일론머스크" subtitle="화성가자" avatarUrl="" />
       <div
         ref={scrollRef}
         className="flex-1 overflow-y-auto p-4 scrollbar-none"
       >
-        {messages.map((msg) => (
-          <ChatBubble key={msg.id} {...msg} />
+        {chatData.map((data) => (
+          <ChatBubble
+            key={`${data.userId}-${data.createdAt}`}
+            sender={data.sender}
+            message={data.message}
+            timestamp={data.createdAt}
+            isCurrentUser={isCurrentUser(data.userId)}
+          />
         ))}
       </div>
-      <MessageInput
-        value={inputValue}
-        onChange={onInputChange}
-        onKeyDown={onKeyDown}
-        sendMessage={sendMessage}
-      />
+      <MessageInput />
     </div>
   );
 };
