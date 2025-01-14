@@ -24,6 +24,7 @@ const ChatList = ({ chats }: ChatListProps) => {
           <div className="flex items-center space-x-3">
             <img
               src={chat.avatar || "https://via.placeholder.com/40"}
+              alt="avatar"
               className="w-10 h-10 rounded-full bg-[#D9D9D9]"
             />
             <div>

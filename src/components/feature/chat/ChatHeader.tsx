@@ -10,7 +10,10 @@ const ChatHeader = ({ title, subtitle, avatarUrl }: ChatHeaderProps) => {
   return (
     <div className="flex items-center justify-between bg-[#404040] text-white px-4 py-3">
       <div className="flex items-center space-x-3">
-        <div className="w-10 h-10 bg-gray-500 rounded-full">{avatarUrl}</div>
+        <div className="w-10 h-10 bg-gray-500 rounded-full">
+          {/*이미지 태그로 바꿔야함*/}
+          {avatarUrl}
+        </div>
         <div>
           <h2 className="text-sm font-bold">{title}</h2>
           <p className="text-xs text-gray-300">{subtitle}</p>
