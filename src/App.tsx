@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage";
 import Layout from "./components/ui/Layout";
 import SignupPage from "./pages/SignupPage";
 import SettingPage from "./pages/SettingPage";
+import FindPasswordPage from "./pages/FindPasswordPage";
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/findpassword" element={<FindPasswordPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </Router>
