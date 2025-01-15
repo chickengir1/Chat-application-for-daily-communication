@@ -1,6 +1,8 @@
 import Button from "@/components/common/Button";
 import EmailInput from "@/components/feature/input/EmailInput";
+import ErrorMessage from "@/components/feature/input/InputErrorHandler";
 import NicknameInput from "@/components/feature/input/NicknameInput";
+import PasswordConfirmationInput from "@/components/feature/input/PasswordConfirmationInput";
 import PasswordInput from "@/components/feature/input/PasswordInput";
 import { useForm } from "react-hook-form";
 
@@ -19,18 +21,6 @@ const SignUpPage = () => {
     formState: { errors, isSubmitting },
   } = useForm<SignupFormValues>();
 
-  // 이메일 인증 상태
-  // const [certification, setCertification] = useState(false);
-
-  // 이메일 인증 함수(토글)
-  // const handleCertification = () => {
-  //   setCertification(!certification);
-  // };
-
-  // 스타일 변수
-  const inputStyle = `w-[100%] h-[40px] p-2 text-sm border rounded`;
-  const errorMessageStyle = `absolute top-[calc(100%+2px)] text-[11px] text-[#E92B2B]`;
-
   return (
     <div className="min-w-[320px] h-[100vh] px-[3%] flex items-center justify-center">
       <div className="flex w-[100%] h-[80vh] max-w-[1024px] p-[20px] bg-[#505050] rounded-[16px]">
@@ -46,80 +36,44 @@ const SignUpPage = () => {
               className="flex flex-col gap-[24px] mt-[16px]"
               onSubmit={handleSubmit(async (data) => {
                 // await new Promise((r) => setTimeout(r, 3000));
-                // alert(JSON.stringify(data));
-                const requestData = {
-                  nickname: data.nickname,
-                  email: data.email,
-                  password: data.password,
-                  password_confirmation: data.password_confirmation,
-                };
-                console.log(requestData);
+                // const requestData = {
+                //   nickname: data.nickname,
+                //   email: data.email,
+                //   password: data.password,
+                //   password_confirmation: data.password_confirmation,
+                // };
+                alert(JSON.stringify(data));
+                console.log(data);
               })}
             >
               {/* 이메일 */}
               <div className="flex gap-[8px] relative">
-                <EmailInput
-                  register={register}
-                  name="email"
-                  error={errors.email}
-                />
+                <EmailInput register={register} errors={errors} />
+                <ErrorMessage message={errors.email?.message} />
                 <Button text="중복확인" />
               </div>
-
-              {/* 이메일 인증하기 */}
-              {/* <div>
-                <Button
-                  text="이메일 인증하기"
-                  width="100%"
-                  onClick={handleCertification}
-                />
-                {certification && (
-                  <div className="flex gap-[8px] mt-[8px] relative">
-                    <input
-                      type="text"
-                      placeholder="인증번호를 입력하세요."
-                      className={inputStyle}
-                    />
-                    <Button text="인증하기" />
-                    <p className="absolute left-[0px] top-[calc(100%+2px)] text-[11px] text-[#00ff00]">
-                      인증메시지 보류
-                    </p>
-                  </div>
-                )}
-              </div> */}
 
               {/* 닉네임 */}
               <div className="flex gap-[8px] relative">
                 <NicknameInput register={register} errors={errors} />
+                <ErrorMessage message={errors.nickname?.message} />
                 <Button text="중복확인" />
               </div>
 
               {/* 비밀번호 */}
               <div className="relative">
                 <PasswordInput register={register} errors={errors} />
+                <ErrorMessage message={errors.password?.message} />
               </div>
 
               {/* 비밀번호 확인 */}
               <div className="relative">
-                <input
-                  type="text"
-                  placeholder="비밀번호 확인을 입력하세요."
-                  className={inputStyle}
-                  {...register("password_confirmation", {
-                    required: "비밀번호 확인은 필수 입력 사항입니다.",
-                    validate: (value) => {
-                      if (value !== watch("password")) {
-                        return "비밀번호가 일치하지 않습니다.";
-                      }
-                      return true;
-                    },
-                  })}
+                <PasswordConfirmationInput
+                  register={register}
+                  errors={errors}
+                  watch={watch}
                 />
-                {errors.password_confirmation && (
-                  <p className={errorMessageStyle}>
-                    {errors.password_confirmation.message}
-                  </p>
-                )}
+                <ErrorMessage message={errors.password_confirmation?.message} />
               </div>
 
               <Button type="submit" text="회원가입" disabled={isSubmitting} />

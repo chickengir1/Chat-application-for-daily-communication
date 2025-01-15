@@ -35,7 +35,7 @@ const ToggleSwitch = ({
         after:start-[2px]
         after:bg-white after:border-gray-300 after:border
         after:rounded-full after:h-[24px] after:w-[24px] after:transition-all
-        dark:border-gray-600 peer-checked:bg-[#00FF00]"
+        dark:border-gray-600 peer-checked:bg-[#49c049]"
         style={{ width, height }}
       ></div>
     </label>

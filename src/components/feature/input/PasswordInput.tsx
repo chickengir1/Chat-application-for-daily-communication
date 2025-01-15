@@ -1,18 +1,19 @@
 import { SignupFormValues } from "@/pages/SignupPage";
 import { UseFormRegister, FieldError } from "react-hook-form";
+import { inputStyle } from "./inputStyle";
 
 interface PasswordInputProps {
   register: UseFormRegister<SignupFormValues>;
   errors: { password?: FieldError };
 }
 
-const PasswordInput = ({ register, errors }: PasswordInputProps) => {
+const PasswordInput = ({ register }: PasswordInputProps) => {
   return (
     <>
       <input
         type="password"
         placeholder="비밀번호를 입력하세요."
-        className="w-[100%] h-[40px] p-2 text-sm border rounded text-[#333]"
+        className={inputStyle}
         {...register("password", {
           required: "비밀번호는 필수 입력 사항입니다.",
           minLength: {
@@ -30,11 +31,6 @@ const PasswordInput = ({ register, errors }: PasswordInputProps) => {
           },
         })}
       />
-      {errors.password && (
-        <p className="absolute top-[calc(100%+2px)] text-[11px] text-[#E92B2B]">
-          {errors.password.message}
-        </p>
-      )}
     </>
   );
 };

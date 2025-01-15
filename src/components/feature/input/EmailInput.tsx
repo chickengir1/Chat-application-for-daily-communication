@@ -1,20 +1,20 @@
 import { UseFormRegister, FieldError } from "react-hook-form";
 import { SignupFormValues } from "@/pages/SignupPage";
+import { inputStyle } from "./inputStyle";
 
 interface EmailInputProps {
   register: UseFormRegister<SignupFormValues>;
-  name: keyof SignupFormValues;
-  error?: FieldError;
+  errors: { email?: FieldError };
 }
 
-const EmailInput: React.FC<EmailInputProps> = ({ register, name, error }) => {
+const EmailInput = ({ register }: EmailInputProps) => {
   return (
     <>
       <input
         type="email"
         placeholder="이메일을 입력하세요."
-        className="w-[100%] h-[40px] p-2 text-sm border rounded text-[#333]"
-        {...register(name, {
+        className={inputStyle}
+        {...register("email", {
           required: "이메일은 필수 입력 사항입니다.",
           pattern: {
             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -22,11 +22,6 @@ const EmailInput: React.FC<EmailInputProps> = ({ register, name, error }) => {
           },
         })}
       />
-      {error && (
-        <p className="absolute top-[calc(100%+2px)] text-[11px] text-[#E92B2B]">
-          {error.message}
-        </p>
-      )}
     </>
   );
 };

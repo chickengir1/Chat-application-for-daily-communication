@@ -1,18 +1,19 @@
 import { SignupFormValues } from "@/pages/SignupPage";
 import { UseFormRegister, FieldError } from "react-hook-form";
+import { inputStyle } from "./inputStyle";
 
 interface NicknameInputProps {
   register: UseFormRegister<SignupFormValues>;
   errors: { nickname?: FieldError };
 }
 
-const NicknameInput = ({ register, errors }: NicknameInputProps) => {
+const NicknameInput = ({ register }: NicknameInputProps) => {
   return (
     <>
       <input
         type="text"
         placeholder="닉네임을 입력하세요."
-        className="w-[100%] h-[40px] p-2 text-sm border rounded text-[#333]"
+        className={inputStyle}
         {...register("nickname", {
           required: "닉네임은 필수 입력 사항입니다.",
           minLength: {
@@ -29,12 +30,6 @@ const NicknameInput = ({ register, errors }: NicknameInputProps) => {
           },
         })}
       />
-
-      {errors.nickname && (
-        <p className="absolute top-[calc(100%+2px)] text-[11px] text-[#E92B2B]">
-          {errors.nickname.message}
-        </p>
-      )}
     </>
   );
 };
