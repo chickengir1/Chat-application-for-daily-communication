@@ -2,7 +2,7 @@ interface ContactListProps {
   title: string;
   contacts: {
     id: number;
-    profile_img: string;
+    profileImg: string;
     name: string;
     isOnline: boolean;
   }[];
@@ -24,7 +24,7 @@ const ContactList = ({ title, contacts }: ContactListProps) => {
               className={`flex items-center gap-[12px] w-[100%] sm:w-[calc(50%-25px)] px-4 py-2 border-b rounded-md border-gray-300 ${hover}`}
             >
               <img
-                src={contact.profile_img || "https://via.placeholder.com/40"}
+                src={contact.profileImg || "https://via.placeholder.com/40"}
                 className="w-10 h-10 rounded-full bg-[#D9D9D9]"
               />
               <div>
