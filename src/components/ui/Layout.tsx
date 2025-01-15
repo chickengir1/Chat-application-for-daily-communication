@@ -3,7 +3,7 @@ import BottomNavigation from "./BottomNavigation";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="w-full flex h-screen">
+    <div className="max-w-[1600px] flex h-screen">
       <div className="md:m-6">
         <Sidebar />
       </div>

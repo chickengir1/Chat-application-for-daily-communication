@@ -1,4 +1,4 @@
-import { FaSearch, FaEllipsisV } from "react-icons/fa";
+import { FaSearch, FaEllipsisV, FaUserCircle } from "react-icons/fa";
 
 interface ChatHeaderProps {
   title: string;
@@ -11,8 +11,11 @@ const ChatHeader = ({ title, subtitle, avatarUrl }: ChatHeaderProps) => {
     <div className="flex items-center justify-between bg-[#404040] text-white px-4 py-3">
       <div className="flex items-center space-x-3">
         <div className="w-10 h-10 bg-gray-500 rounded-full">
-          {/*이미지 태그로 바꿔야함*/}
-          {avatarUrl}
+          {avatarUrl ? (
+            <img src={avatarUrl} alt="Avatar" />
+          ) : (
+            <FaUserCircle className="text-[#ccc] w-10 h-10 mr-3 flex-shrink-0" />
+          )}
         </div>
         <div>
           <h2 className="text-sm font-bold">{title}</h2>
