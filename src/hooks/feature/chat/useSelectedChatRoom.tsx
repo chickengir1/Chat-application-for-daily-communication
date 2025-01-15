@@ -16,42 +16,6 @@ interface ChatMessage {
   roomId: number;
 }
 
-/**
- * 커스텀 훅 응답 기댓값
- * @params selectedChatId number - 선택된 채팅방의 ID
- * @params chatListData ChatRoom[] - 채팅방 목록 배열
- * @params chatData ChatMessage[] - 전체 메시지 배열
- *
- * @returns {
- *   selectedChatId: number; // 채팅방의 ID
- *   selectedRoom: Partial<ChatRoom>; // 선택된 채팅방의 정보
- *   roomName: string; // 선택된 채팅방의 유저 네임 정렬
- *   participantCount: number; // 선택된 채팅방의 참여자 수(유저 네임의 길이를 숫자로 변환)
- *   filteredChatData: ChatMessage[]; // WebSocket으로 브로드캐스팅된 메시지 배열
- * }
- * @return {
- *   selectedChatId: 1,
- *   selectedRoom: {
- *     id: 1,
- *     name: "user1, user2",
- *     createdAt: "...",
- *     lastChat: "..."
- *   },
- *   roomName: "user1, user2",
- *   participantCount: 2,
- *   filteredChatData: [
- *     {
- *       messageType: "CHAT",
- *       sender: "일론머스크",
- *       userId: 2,
- *       message: "Hey There!",
- *       createdAt: "2025-01-01 10:00:00",
- *       roomId: 1
- *     }
- *   ]
- * }
- */
-
 // 방 선택
 const getSelectedRoom = (
   selectedChatId: number,
@@ -72,6 +36,58 @@ const getFilteredChatData = (
   selectedChatId: number,
   chatData: ChatMessage[]
 ): ChatMessage[] => chatData.filter((msg) => msg.roomId === selectedChatId);
+
+/**
+ * 선택된 채팅방 정보를 관리하는 커스텀 훅
+ *
+ * @param {ChatRoom[]} chatListData - 채팅방 목록 배열
+ * @param {ChatMessage[]} chatData - 전체 메시지 배열
+ *
+ * @returns {{
+ *   selectedChatId: number; // 현재 선택된 채팅방 ID
+ *   handleChatClick: (roomId: number) => void; // 채팅방을 선택하는 핸들러 함수
+ *   selectedRoom: Partial<ChatRoom>; // 현재 선택된 채팅방의 정보 (부분적일 수 있음)
+ *   roomName: string; // 선택된 채팅방 이름
+ *   participantCount: number; // 선택된 채팅방의 참여자 수
+ *   filteredChatData: ChatMessage[]; // 선택된 채팅방과 관련된 메시지 배열
+ * }}
+ *
+ * @example
+ * // 사용 예시:
+ * const {
+ *   selectedChatId,
+ *   handleChatClick,
+ *   selectedRoom,
+ *   roomName,
+ *   participantCount,
+ *   filteredChatData,
+ * } = useSelectedChatRoom(chatListData, chatData);
+ *
+ * @example
+ * // 반환값 예시:
+ * {
+ *   selectedChatId: 1,
+ *   handleChatClick: function(roomId: number) { ... },
+ *   selectedRoom: {
+ *     id: 1,
+ *     name: "user1, user2",
+ *     createdAt: "2025-01-01T12:00:00Z",
+ *     lastChat: "Hello, world!"
+ *   },
+ *   roomName: "user1, user2",
+ *   participantCount: 2,
+ *   filteredChatData: [
+ *     {
+ *       messageType: "CHAT",
+ *       sender: "일론머스크",
+ *       userId: 2,
+ *       message: "Hey There!",
+ *       createdAt: "2025-01-01T10:00:00Z",
+ *       roomId: 1
+ *     }
+ *   ]
+ * }
+ */
 
 const useSelectedChatRoom = (
   chatListData: ChatRoom[],
