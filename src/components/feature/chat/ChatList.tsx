@@ -7,7 +7,7 @@ interface ChatListProps {
     lastChat: string;
     createdAt: string;
   }[];
-  onChatClick: (id: number) => void;
+  onChatClick?: (id: number) => void;
 }
 
 const ChatList = ({ chats, onChatClick }: ChatListProps) => {
@@ -20,13 +20,19 @@ const ChatList = ({ chats, onChatClick }: ChatListProps) => {
       minute: "2-digit",
     });
 
+  const handleChatClick = (id: number) => () => {
+    if (onChatClick) {
+      onChatClick(id);
+    }
+  };
+
   return (
     <div className="p-4">
       {chats.map((chat) => (
         <div
           key={chat.id}
           className={`flex items-center mb-4 justify-between p-2 border-b border-gray-300 ${hover}`}
-          onClick={() => onChatClick(chat.id)}
+          onClick={handleChatClick(chat.id)}
         >
           <FaUserCircle className="text-[#ccc] w-10 h-10 mr-3 flex-shrink-0" />
           <div className="flex items-center space-x-3 flex-1 overflow-hidden">
