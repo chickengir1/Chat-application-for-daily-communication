@@ -66,102 +66,68 @@ export const chatData = [
   },
 ];
 
-export const recentChats = [
-  {
-    id: 1,
-    name: "Alice",
-    message: "Hey, how are you?",
-    time: "4:15 PM",
-    avatar: "",
-  },
-  {
-    id: 2,
-    name: "Bob",
-    message: "Can we meet tomorrow?",
-    time: "5:30 PM",
-    avatar: "",
-  },
-  {
-    id: 3,
-    name: "Charlie",
-    message: "Don't forget about the meeting.",
-    time: "2:00 PM",
-    avatar: "",
-  },
-  {
-    id: 4,
-    name: "David",
-    message: "Here's the document you asked for.",
-    time: "1:20 PM",
-    avatar: "",
-  },
-];
-
-export const contactData = [
+export const friendListData = [
   {
     id: 1,
     profileImg: "",
-    name: "김대식",
-    isOnline: false,
+    username: "user1",
+    statusMessage: "상태메시지1",
   },
   {
     id: 2,
     profileImg: "",
-    name: "이강호",
-    isOnline: false,
+    username: "user2",
+    statusMessage: "상태메시지2",
   },
   {
     id: 3,
     profileImg: "",
-    name: "김준수",
-    isOnline: false,
+    username: "user3",
+    statusMessage: "상태메시지3",
   },
   {
     id: 4,
     profileImg: "",
-    name: "강대희",
-    isOnline: false,
+    username: "user4",
+    statusMessage: "상태메시지4",
   },
   {
     id: 5,
     profileImg: "",
-    name: "엄수경",
-    isOnline: false,
+    username: "user5",
+    statusMessage: "상태메시지5",
+  },
+];
+
+export const userListData = [
+  {
+    id: 1,
+    profileImg: "",
+    username: "user1",
+    statusMessage: "상태메시지1",
   },
   {
-    id: 6,
+    id: 2,
     profileImg: "",
-    name: "잊지마 거북이",
-    isOnline: false,
+    username: "user2",
+    statusMessage: "상태메시지2",
   },
   {
-    id: 7,
+    id: 3,
     profileImg: "",
-    name: "코치",
-    isOnline: false,
+    username: "user3",
+    statusMessage: "상태메시지3",
   },
   {
-    id: 8,
+    id: 4,
     profileImg: "",
-    name: "엘리스",
-    isOnline: false,
+    username: "user4",
+    statusMessage: "상태메시지4",
   },
   {
-    id: 9,
+    id: 5,
     profileImg: "",
-    name: "오즈",
-    isOnline: false,
-  },
-  {
-    id: 10,
-    profileImg: "",
-    name: "행정매니저",
-    isOnline: false,
-  },
-  {
-    id: 11,
-    profileImg: "",
-    name: "운영진",
-    isOnline: false,
+    username: "user5",
+    statusMessage: "상태메시지5",
   },
 ];

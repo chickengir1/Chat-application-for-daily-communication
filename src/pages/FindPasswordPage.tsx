@@ -1,5 +1,6 @@
 import Button from "@/components/common/Button";
-import ErrorMessage from "@/components/feature/input/InputErrorHandler";
+import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
+import JoinRightContent from "@/components/feature/join/JoinRightContent";
 import {
   certificationMinLengthMsg,
   certificationMinLengthValue,
@@ -12,7 +13,6 @@ import {
 import {
   joinConLeftBoxStyle,
   joinConLeftStyle,
-  joinConRightStyle,
   joinContentsStyle,
   joinFormStyle,
   joinInputStyle,
@@ -63,7 +63,7 @@ const FindPasswordPage = () => {
                   })}
                 />
                 <Button text="인증요청" />
-                <ErrorMessage message={errors.email?.message} />
+                <InputErrorMessage message={errors.email?.message} />
               </span>
 
               {/* 인증 번호 */}
@@ -82,7 +82,9 @@ const FindPasswordPage = () => {
                   })}
                 />
                 {/* <Button text="인증하기" /> */}
-                <ErrorMessage message={errors.certification_number?.message} />
+                <InputErrorMessage
+                  message={errors.certification_number?.message}
+                />
               </span>
               <Button
                 type="submit"
@@ -93,7 +95,7 @@ const FindPasswordPage = () => {
             </form>
           </div>
         </div>
-        <div className={joinConRightStyle}></div>
+        <JoinRightContent />
       </div>
     </div>
   );

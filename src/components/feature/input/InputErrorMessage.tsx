@@ -1,8 +1,8 @@
-interface ErrorMessageProps {
+interface InputErrorMessageProps {
   message?: string;
 }
 
-const ErrorMessage = ({ message }: ErrorMessageProps) => {
+const InputErrorMessage = ({ message }: InputErrorMessageProps) => {
   if (!message) return null;
 
   return (
@@ -12,4 +12,4 @@ const ErrorMessage = ({ message }: ErrorMessageProps) => {
   );
 };
 
-export default ErrorMessage;
+export default InputErrorMessage;

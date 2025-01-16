@@ -1,5 +1,6 @@
 import Button from "@/components/common/Button";
-import ErrorMessage from "@/components/feature/input/InputErrorHandler";
+import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
+import JoinRightContent from "@/components/feature/join/JoinRightContent";
 import {
   emailPlaceholder,
   emailRegex,
@@ -17,7 +18,6 @@ import {
 import {
   joinConLeftBoxStyle,
   joinConLeftStyle,
-  joinConRightStyle,
   joinContentsStyle,
   joinFormStyle,
   joinInputStyle,
@@ -57,8 +57,6 @@ const LoginPage = () => {
     after:top-[50%] after:-translate-y-1/2 after:w-[1px]
     after:h-[10px] after:bg-[#e1e1e1]
   `;
-  const socialBtnStyle = `flex items-center justify-center gap-[4px] w-[100%] h-[40px] px-[12px]
-    font-semibold rounded-[4px]`;
 
   return (
     <div className={joinWrapperStyle}>
@@ -89,7 +87,7 @@ const LoginPage = () => {
                     },
                   })}
                 />
-                <ErrorMessage message={errors.email?.message} />
+                <InputErrorMessage message={errors.email?.message} />
               </div>
 
               {/* 비밀번호 */}
@@ -114,7 +112,7 @@ const LoginPage = () => {
                     },
                   })}
                 />
-                <ErrorMessage message={errors.password?.message} />
+                <InputErrorMessage message={errors.password?.message} />
               </div>
 
               <Button
@@ -141,19 +139,22 @@ const LoginPage = () => {
               </button>
             </div>
 
-            <div className="mt-[20px] flex flex-col gap-[24px] border-t-[1px] border-[#e1e1e1] pt-[24px]">
-              <button type="button" className={`${socialBtnStyle} bg-[#fff]`}>
+            <div className="pt-[24px] mt-[20px] border-t-[1px] border-[#e1e1e1]">
+              <button
+                type="button"
+                className="flex items-center justify-center gap-[4px] w-full h-[40px] text-[14px] font-bold bg-[#fff] rounded-[4px]"
+              >
                 <img
                   src="assets/images/google_logo.svg"
                   alt="구글 로고"
-                  className="w-[28px]"
+                  className="w-[20px]"
                 />
                 <span>구글 로그인</span>
               </button>
             </div>
           </div>
         </div>
-        <div className={joinConRightStyle}></div>
+        <JoinRightContent />
       </div>
     </div>
   );

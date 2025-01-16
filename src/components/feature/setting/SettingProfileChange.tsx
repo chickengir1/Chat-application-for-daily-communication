@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import ErrorMessage from "../input/InputErrorHandler";
+import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
 import {
   settingButtonStyle,
   settingInputStyle,
@@ -113,7 +113,7 @@ const SettingProfileChange = () => {
                   },
                 })}
               />
-              <ErrorMessage message={errors.nickname?.message} />
+              <InputErrorMessage message={errors.nickname?.message} />
             </span>
 
             {/* 상태 메시지 */}
@@ -131,7 +131,7 @@ const SettingProfileChange = () => {
                   },
                 })}
               />
-              <ErrorMessage message={errors.status_message?.message} />
+              <InputErrorMessage message={errors.status_message?.message} />
             </span>
           </div>
           <button

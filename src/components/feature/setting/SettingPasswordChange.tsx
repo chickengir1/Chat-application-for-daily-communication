@@ -6,7 +6,6 @@ import {
   settingTitleStyle,
 } from "./settingStyle";
 import { useForm } from "react-hook-form";
-import ErrorMessage from "../input/InputErrorHandler";
 import {
   passwordConfirmationPlaceholder,
   passwordConfirmationRequiredMsg,
@@ -19,11 +18,12 @@ import {
   passwordRegexErrorMsg,
   passwordRequiredMsg,
 } from "../join/joinRule";
+import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
 
 interface SettingPasswordChangeFormValues {
-  current_password: string;
+  currentPassword: string;
   password: string;
-  password_confirmation: string;
+  passwordConfirmation: string;
 }
 
 const SettingPasswordChange = () => {
@@ -46,21 +46,21 @@ const SettingPasswordChange = () => {
       >
         <div className={settingBoxStyle}>
           {/* 현재 비밀번호 */}
-          <span className="relative">
+          <div className="relative">
             <p className={settingSubTitleStyle}>현재 비밀번호</p>
             <input
               type="password"
               className={settingInputStyle}
               placeholder="현재 비밀번호를 입력하세요."
-              {...register("current_password", {
+              {...register("currentPassword", {
                 required: passwordRequiredMsg,
               })}
             />
-            <ErrorMessage message={errors.current_password?.message} />
-          </span>
+            <InputErrorMessage message={errors.currentPassword?.message} />
+          </div>
 
           {/* 새 비밀번호 */}
-          <span className="relative">
+          <div className="relative">
             <p className={settingSubTitleStyle}>새 비밀번호</p>
             <input
               type="password"
@@ -82,17 +82,17 @@ const SettingPasswordChange = () => {
                 },
               })}
             />
-            <ErrorMessage message={errors.password?.message} />
-          </span>
+            <InputErrorMessage message={errors.password?.message} />
+          </div>
 
           {/* 새 비밀번호 확인 */}
-          <span className="relative">
+          <div className="relative">
             <p className={settingSubTitleStyle}>새 비밀번호 확인</p>
             <input
               type="password"
               className={settingInputStyle}
               placeholder={passwordConfirmationPlaceholder}
-              {...register("password_confirmation", {
+              {...register("passwordConfirmation", {
                 required: passwordConfirmationRequiredMsg,
                 validate: (value) => {
                   return (
@@ -102,8 +102,8 @@ const SettingPasswordChange = () => {
                 },
               })}
             />
-            <ErrorMessage message={errors.password_confirmation?.message} />
-          </span>
+            <InputErrorMessage message={errors.passwordConfirmation?.message} />
+          </div>
         </div>
         <button
           type="submit"
