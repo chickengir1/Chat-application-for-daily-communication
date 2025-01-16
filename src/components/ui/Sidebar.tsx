@@ -1,76 +1,37 @@
 import { useNavigation } from "@/hooks/common/useNavigation";
-import {
-  FaHome,
-  FaComments,
-  FaBell,
-  FaCog,
-  FaSignOutAlt,
-  FaUserCircle,
-} from "react-icons/fa";
+import { FaSignOutAlt, FaUserCircle } from "react-icons/fa";
+import { icons } from "@/utils/iconField";
+import { renderIcons } from "@/utils/navigationUtils";
 
-const icons = [
-  { icon: <FaHome size={24} />, label: "Home", path: "/" },
-  { icon: <FaComments size={24} />, label: "Chat", path: "/chat" },
-  {
-    icon: <FaBell size={24} />,
-    label: "Notifications",
-    path: "/notifications",
-  },
-  { icon: <FaCog size={24} />, label: "Settings", path: "/settings" },
-];
-
+//**사이드바 컴포넌트 */
 const Sidebar = () => {
   const { activeIndex, handleNavigation } = useNavigation();
-
   const userProfileImage: string | null = "";
 
-  const renderIcons = (direction: "vertical" | "horizontal") =>
-    icons.map((item, index) => {
-      const isActive = activeIndex === index;
-      const buttonClass = isActive
-        ? "bg-[#3D3D3D] text-gray-200 border-gray-500 border-b-4 font-bold w-full"
-        : "bg-transparent text-gray-300";
-      const wrapperClass =
-        direction === "vertical"
-          ? "flex flex-col items-center mb-4"
-          : "flex flex-col items-center w-full";
-
-      return (
-        <button
-          key={item.label}
-          onClick={() => handleNavigation(index, item.path)}
-          className={`p-3 ${wrapperClass} ${buttonClass}`}
-        >
-          {item.icon}
-          <span className="text-xs mt-1">{item.label}</span>
-        </button>
-      );
-    });
-
   return (
-    <div className="hidden md:flex bg-[#505050] rounded-lg h-full text-white flex-col">
-      <div className="flex flex-col items-center flex-grow">
-        <div className="flex flex-col items-center w-full">
-          <div className="mb-6">
+    <div className={styles.sidebar}>
+      <div className={styles.content}>
+        <div className={styles.userProfileWrapper}>
+          <div className={styles.userProfileContainer}>
             {userProfileImage ? (
               <img
                 src={userProfileImage}
                 alt="User Profile"
-                className="rounded-full mt-4 w-16 h-16 object-cover"
+                className={styles.userProfileImage}
               />
             ) : (
-              <div className="rounded-full mt-4 w-16 h-16 flex items-center justify-center">
-                <FaUserCircle className="text-[#ccc] w-16 h-16" />
+              <div className={styles.userProfilePlaceholder}>
+                <FaUserCircle className={styles.userProfileIcon} />
               </div>
             )}
           </div>
-          {renderIcons("vertical")}
+          {renderIcons(icons, "vertical", activeIndex, handleNavigation)}
         </div>
       </div>
-      <div className="flex flex-col items-center">
-        <button className="p-3 rounded flex flex-col items-center bg-transparent hover:bg-[#3D3D3D] w-full">
+      <div className={styles.logoutWrapper}>
+        <button className={styles.logoutButton}>
           <FaSignOutAlt size={24} />
-          <span className="text-xs mt-1 text-gray-400">Logout</span>
+          <span className={styles.logoutLabel}>Logout</span>
         </button>
       </div>
     </div>
@@ -78,3 +39,25 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
+const styles = {
+  sidebar: "hidden h-full flex-col rounded-lg bg-[#505050] text-white md:flex",
+  content: "flex flex-grow flex-col items-center",
+  userProfileWrapper: "flex w-full flex-col items-center",
+  userProfileContainer: "mb-6",
+  userProfileImage: "mt-4 h-16 w-16 rounded-full object-cover",
+  userProfilePlaceholder:
+    "mt-4 flex h-16 w-16 items-center justify-center rounded-full",
+  userProfileIcon: "h-16 w-16 text-[#ccc]",
+  baseButton: "p-3",
+  activeButton:
+    "bg-[#3D3D3D] text-gray-200 border-gray-500 border-b-4 font-bold w-full",
+  inactiveButton: "bg-transparent text-gray-300",
+  verticalWrapper: "flex flex-col items-center mb-4",
+  horizontalWrapper: "flex flex-col items-center w-full",
+  iconLabel: "mt-1 text-xs",
+  logoutWrapper: "flex flex-col items-center",
+  logoutButton:
+    "flex w-full flex-col items-center rounded bg-transparent p-3 hover:bg-[#3D3D3D]",
+  logoutLabel: "mt-1 text-xs text-gray-400",
+};

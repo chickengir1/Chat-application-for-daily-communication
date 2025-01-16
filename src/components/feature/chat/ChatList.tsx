@@ -1,4 +1,5 @@
 import { FaUserCircle } from "react-icons/fa";
+import useChatHandlers from "@/hooks/feature/chat/useChatHandlers";
 
 interface ChatListProps {
   chats: {
@@ -8,47 +9,30 @@ interface ChatListProps {
     createdAt: string;
   }[];
   onChatClick?: (id: number) => void;
-  selectedChatId?: number | null;
+  selectedChatId?: number;
 }
 
 const ChatList = ({ chats, onChatClick, selectedChatId }: ChatListProps) => {
-  const hover =
-    "cursor-pointer transition-all duration-200 ease-in-out hover:bg-[#606060] hover:shadow-md hover:rounded-lg";
-
-  const formatTime = (createdAt: string) =>
-    new Date(createdAt).toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
-  const handleChatClick = (id: number) => () => {
-    if (onChatClick) {
-      onChatClick(id);
-    }
-  };
+  const { handleChatClicked, formatTime } = useChatHandlers(chats, onChatClick);
 
   return (
     <div className="p-4">
       {chats.map((chat) => (
         <div
           key={chat.id}
-          className={`flex items-center mb-4 justify-between p-2 border-b border-gray-300 ${
-            chat.id === selectedChatId
-              ? "bg-[#404040] shadow-md rounded"
-              : hover
+          className={`${styles.chatRoom} ${
+            chat.id === selectedChatId ? styles.selected : styles.hover
           }`}
-          onClick={handleChatClick(chat.id)}
+          onClick={handleChatClicked(chat.id)}
         >
-          <FaUserCircle className="text-[#ccc] w-10 h-10 mr-3 flex-shrink-0" />
-          <div className="flex items-center space-x-3 flex-1 overflow-hidden">
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold truncate">{chat.name}</h3>
-              <p className="text-sm text-gray-300 truncate">{chat.lastChat}</p>
+          <FaUserCircle className={styles.icon} />
+          <div className={styles.chatInfo}>
+            <div className={styles.chatText}>
+              <h3 className={styles.chatName}>{chat.name}</h3>
+              <p className={styles.chatLastMessage}>{chat.lastChat}</p>
             </div>
           </div>
-          <span className="text-sm text-gray-400 flex-shrink-0 ml-4">
-            {formatTime(chat.createdAt)}
-          </span>
+          <span className={styles.chatTime}>{formatTime(chat.createdAt)}</span>
         </div>
       ))}
     </div>
@@ -56,3 +40,17 @@ const ChatList = ({ chats, onChatClick, selectedChatId }: ChatListProps) => {
 };
 
 export default ChatList;
+
+const styles = {
+  chatRoom:
+    "flex items-center mb-4 justify-between p-2 border-b border-gray-300",
+  hover:
+    "cursor-pointer transition-all duration-200 ease-in-out hover:bg-[#606060] hover:shadow-md hover:rounded-lg",
+  selected: "bg-[#404040] shadow-md rounded",
+  icon: "text-[#ccc] w-10 h-10 mr-3 flex-shrink-0",
+  chatInfo: "flex items-center space-x-3 flex-1 overflow-hidden",
+  chatText: "flex-1 min-w-0",
+  chatName: "font-semibold truncate",
+  chatLastMessage: "text-sm text-gray-300 truncate",
+  chatTime: "text-sm text-gray-400 flex-shrink-0 ml-4",
+};

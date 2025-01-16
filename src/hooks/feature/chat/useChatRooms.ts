@@ -21,6 +21,7 @@ const filterChatRooms = (rooms: ChatRoom[], search: string): ChatRoom[] => {
   );
 };
 
+/** 채팅방 리스트 정렬 및 검색을 위한 커스텀 훅 ChatPage.tsx에서 사용 */
 const useChatRooms = (initialRooms: ChatRoom[]) => {
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
   const [filteredRooms, setFilteredRooms] = useState<ChatRoom[]>([]);

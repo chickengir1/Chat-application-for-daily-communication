@@ -1,8 +1,3 @@
-export const mockParticipants = [
-  { userId: 1, name: "User1", role: "Owner" },
-  { userId: 2, name: "User2", role: "Member" },
-];
-
 export const chatListData = [
   {
     id: 1,
@@ -34,66 +29,6 @@ export const chatListData = [
     createdAt: "2025-01-01 12:30:00",
     lastChat: "다 같이 의견 주세요.",
   },
-  {
-    id: 6,
-    name: "사티아 나델라",
-    createdAt: "2025-01-01 13:00:00",
-    lastChat: "회의 일정 확인 부탁드려요.",
-  },
-  {
-    id: 7,
-    name: "제프 베조스",
-    createdAt: "2025-01-01 13:30:00",
-    lastChat: "다음 주 발표 준비 중입니다.",
-  },
-  {
-    id: 8,
-    name: "마윈, 리처드 브랜슨",
-    createdAt: "2025-01-01 14:00:00",
-    lastChat: "이 파일 함께 검토 부탁드려요.",
-  },
-  {
-    id: 9,
-    name: "리처드 브랜슨",
-    createdAt: "2025-01-01 14:30:00",
-    lastChat: "기획안 초안 공유드립니다.",
-  },
-  {
-    id: 10,
-    name: "리사 수, 마윈",
-    createdAt: "2025-01-01 15:00:00",
-    lastChat: "팀 회식 언제 할까요?",
-  },
-  {
-    id: 11,
-    name: "리사 수",
-    createdAt: "2025-01-01 15:30:00",
-    lastChat: "코드 리뷰 요청드립니다.",
-  },
-  {
-    id: 12,
-    name: "잭 도시",
-    createdAt: "2025-01-01 16:00:00",
-    lastChat: "서버 상태가 불안정합니다.",
-  },
-  {
-    id: 13,
-    name: "잭 도시, 래리 페이지, 세르게이 브린",
-    createdAt: "2025-01-01 16:30:00",
-    lastChat: "채팅 앱 테스트 중입니다.",
-  },
-  {
-    id: 14,
-    name: "래리 페이지",
-    createdAt: "2025-01-01 17:00:00",
-    lastChat: "오늘 일정이 어떻게 되시나요?",
-  },
-  {
-    id: 15,
-    name: "세르게이 브린, 팀 쿡",
-    createdAt: "2025-01-01 17:30:00",
-    lastChat: "프로젝트 진행 상황 공유 부탁드립니다.",
-  },
 ];
 
 export const chatData = [
@@ -103,7 +38,7 @@ export const chatData = [
     userId: 2,
     message: "Hey There!",
     createdAt: "2025-01-01 10:00:00",
-    roomId: 1,
+    roomid: 1,
   },
   {
     messageType: "CHAT",
@@ -111,7 +46,7 @@ export const chatData = [
     userId: 1,
     message: "안녕하세요",
     createdAt: "2025-01-01 10:01:00",
-    roomId: 1,
+    roomid: 1,
   },
   {
     messageType: "CHAT",
@@ -119,7 +54,15 @@ export const chatData = [
     userId: 1,
     message: "텍스트에요",
     createdAt: "2025-01-01 10:02:00",
-    roomId: 1,
+    roomid: 1,
+  },
+  {
+    messageType: "CHAT",
+    sender: "일론머스크",
+    userId: 2,
+    message: "반갑습니다",
+    createdAt: "2025-01-01 10:05:00",
+    roomid: 1,
   },
 ];
 

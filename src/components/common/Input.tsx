@@ -1,36 +1,21 @@
-import React from "react";
+import { InputHTMLAttributes } from "react";
 
-interface InputProps {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   value?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  placeholder?: string;
-  type?: string;
-  className?: string;
-  disabled?: boolean;
-  maxLength?: number;
 }
 
 const Input = ({
   value,
-  onChange,
-  onKeyDown,
-  placeholder = "",
-  type = "text",
-  className = "border p-2 rounded",
-  disabled = false,
+  className = "rounded border p-2",
   maxLength = 20,
+  ...inputAttributes
 }: InputProps) => {
   return (
     <input
-      type={type}
       value={value}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
-      placeholder={placeholder}
       className={className}
-      disabled={disabled}
       maxLength={maxLength}
+      {...inputAttributes}
     />
   );
 };

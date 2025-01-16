@@ -21,7 +21,6 @@ export const Default: Story = {
     value: "",
     placeholder: "Enter text...",
     className: "border p-2 rounded bg-gray-100",
-    type: "text",
     onChange: (event) => console.log(event.target.value),
   },
   play: async ({ canvasElement }) => {

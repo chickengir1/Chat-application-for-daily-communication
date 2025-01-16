@@ -5,7 +5,7 @@ import ChatWindow from "@/components/feature/chat/ChatWindow";
 import ChatList from "@/components/feature/chat/ChatList";
 import { FaSearch } from "react-icons/fa";
 import useChatRooms from "@/hooks/feature/chat/useChatRooms";
-import { chatListData, chatData } from "@/utils/stub";
+import { chatListData } from "@/utils/stub";
 import { useChatNaviation } from "@/hooks/common/useNavigation";
 import NoneClickChat from "@/components/feature/chat/NoneClickChat";
 
@@ -14,15 +14,9 @@ const ChatPage = () => {
   const { filteredRooms, filterRooms } = useChatRooms(chatListData);
   const { selectedChatId, handleChatClick } = useChatNaviation();
 
-  const currentUserId = 1; // userStore에서 가져온다고 가정
-
   useEffect(() => {
     filterRooms(search);
   }, [search, filterRooms]);
-
-  const selectedRoom = filteredRooms.find((room) => room.id === selectedChatId);
-  const selectedRoomName = selectedRoom?.name || "";
-  const selectedRoomSubtitle = "채팅 참여 중";
 
   return (
     <div className={styles.container}>
@@ -46,16 +40,7 @@ const ChatPage = () => {
         </div>
       </div>
       <div className={styles.chatWindow}>
-        {selectedChatId ? (
-          <ChatWindow
-            chatData={chatData}
-            currentUserId={currentUserId}
-            title={selectedRoomName}
-            subtitle={selectedRoomSubtitle}
-          />
-        ) : (
-          <NoneClickChat />
-        )}
+        {selectedChatId ? <ChatWindow /> : <NoneClickChat />}
       </div>
     </div>
   );
