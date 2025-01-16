@@ -1,9 +1,10 @@
+import { useNavigationStore } from "@/stores/navigationStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const useNavigation = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+export const useNavigation = () => {
   const navigate = useNavigate();
+  const { activeIndex, setActiveIndex } = useNavigationStore();
 
   const handleNavigation = (index: number, path: string) => {
     setActiveIndex(index);
@@ -13,4 +14,11 @@ const useNavigation = () => {
   return { activeIndex, handleNavigation };
 };
 
-export default useNavigation;
+export const useChatNaviation = () => {
+  const [selectedChatId, setSelectedChatId] = useState<number>(0);
+
+  const handleChatClick = (id: number) => {
+    setSelectedChatId(id);
+  };
+  return { selectedChatId, handleChatClick };
+};

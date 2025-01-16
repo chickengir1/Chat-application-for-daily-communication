@@ -1,3 +1,4 @@
+import { useNavigation } from "@/hooks/common/useNavigation";
 import {
   FaHome,
   FaComments,
@@ -6,7 +7,6 @@ import {
   FaSignOutAlt,
   FaUserCircle,
 } from "react-icons/fa";
-import useNavigation from "@/hooks/common/useNavigation";
 
 const icons = [
   { icon: <FaHome size={24} />, label: "Home", path: "/" },

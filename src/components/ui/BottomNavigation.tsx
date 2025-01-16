@@ -1,5 +1,5 @@
+import { useNavigation } from "@/hooks/common/useNavigation";
 import { FaHome, FaComments, FaBell, FaCog } from "react-icons/fa";
-import useNavigation from "@/hooks/common/useNavigation";
 
 const icons = [
   { icon: <FaHome size={24} />, label: "Home", path: "/" },

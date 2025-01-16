@@ -8,9 +8,10 @@ interface ChatListProps {
     createdAt: string;
   }[];
   onChatClick?: (id: number) => void;
+  selectedChatId?: number | null;
 }
 
-const ChatList = ({ chats, onChatClick }: ChatListProps) => {
+const ChatList = ({ chats, onChatClick, selectedChatId }: ChatListProps) => {
   const hover =
     "cursor-pointer transition-all duration-200 ease-in-out hover:bg-[#606060] hover:shadow-md hover:rounded-lg";
 
@@ -31,7 +32,11 @@ const ChatList = ({ chats, onChatClick }: ChatListProps) => {
       {chats.map((chat) => (
         <div
           key={chat.id}
-          className={`flex items-center mb-4 justify-between p-2 border-b border-gray-300 ${hover}`}
+          className={`flex items-center mb-4 justify-between p-2 border-b border-gray-300 ${
+            chat.id === selectedChatId
+              ? "bg-[#404040] shadow-md rounded"
+              : hover
+          }`}
           onClick={handleChatClick(chat.id)}
         >
           <FaUserCircle className="text-[#ccc] w-10 h-10 mr-3 flex-shrink-0" />
