@@ -1,6 +1,6 @@
 import { FaPlusCircle } from "react-icons/fa";
 
-const NoneClickChat = () => {
+const UnselectedChat = () => {
   return (
     <div className={styles.container}>
       <div className={styles.iconContainer}>
@@ -23,4 +23,4 @@ const styles = {
   paragraph: "text-gray-700 text-center max-w-md",
 };
 
-export default NoneClickChat;
+export default UnselectedChat;

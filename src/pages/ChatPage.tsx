@@ -7,7 +7,7 @@ import { FaSearch } from "react-icons/fa";
 import useChatRooms from "@/hooks/feature/chat/useChatRooms";
 import { chatListData } from "@/utils/stub";
 import { useChatNaviation } from "@/hooks/common/useNavigation";
-import NoneClickChat from "@/components/feature/chat/NoneClickChat";
+import UnselectedChat from "@/components/feature/chat/UnselectedChat";
 
 const ChatPage = () => {
   const { value: search, onChange: setSearch } = useInput("");
@@ -40,7 +40,7 @@ const ChatPage = () => {
         </div>
       </div>
       <div className={styles.chatWindow}>
-        {selectedChatId ? <ChatWindow /> : <NoneClickChat />}
+        {selectedChatId ? <ChatWindow /> : <UnselectedChat />}
       </div>
     </div>
   );
