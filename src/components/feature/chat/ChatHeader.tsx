@@ -39,7 +39,7 @@ const styles = {
   header: "flex items-center justify-between bg-[#404040] text-white p-3",
   leftContainer: "flex items-center gap-3",
   avatarContainer: "w-10 h-10 bg-gray-500 rounded-full",
-  title: "text-sm font-bold",
+  title: "text-sm font-bold max-w-[200px] md:min-w-[412px] truncate",
   subtitle: "text-xs text-gray-400",
   rightContainer: "flex items-center gap-4",
   iconButton: "text-gray-400 cursor-pointer transition-colors duration-300",

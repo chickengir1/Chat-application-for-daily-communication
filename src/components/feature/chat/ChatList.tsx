@@ -50,7 +50,7 @@ const styles = {
   icon: "text-[#ccc] w-10 h-10 mr-3 flex-shrink-0",
   chatInfo: "flex items-center space-x-3 flex-1 overflow-hidden",
   chatText: "flex-1 min-w-0",
-  chatName: "font-semibold truncate",
+  chatName: "font-semibold truncate max-w-[300px]",
   chatLastMessage: "text-sm text-gray-300 truncate",
   chatTime: "text-sm text-gray-400 flex-shrink-0 ml-4",
 };
