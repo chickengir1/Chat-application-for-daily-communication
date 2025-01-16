@@ -22,7 +22,7 @@ const ChatPage = () => {
     <div className={styles.container}>
       <div className={styles.sidebar}>
         <div className={styles.searchBar}>
-          <FaSearch className="text-gray-300 mx-2" />
+          <FaSearch className="mx-2 text-gray-300" />
           <Input
             value={search}
             onChange={setSearch}

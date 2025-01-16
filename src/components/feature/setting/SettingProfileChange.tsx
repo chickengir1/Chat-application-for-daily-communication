@@ -48,14 +48,14 @@ const SettingProfileChange = () => {
   return (
     <div>
       <h2 className={settingTitleStyle}>프로필 변경</h2>
-      <div className="sm:flex gap-[68px]">
+      <div className="gap-[68px] sm:flex">
         {/* 프로필 사진 */}
         <div className="flex flex-col items-center gap-[20px]">
           {/* 이미지 미리보기 */}
           <img
             src={previewImg}
             alt="미리보기"
-            className="w-[100px] h-[100px] object-cover rounded-full border-[1px] border-[#e1e1e1]"
+            className="h-[100px] w-[100px] rounded-full border-[1px] border-[#e1e1e1] object-cover"
           />
 
           {/* 파일 입력 */}
@@ -68,8 +68,7 @@ const SettingProfileChange = () => {
           />
           <label
             htmlFor="profile"
-            className="inline-flex items-center justify-center h-10 px-3 text-[14px] font-semibold
-                            whitespace-nowrap	rounded-sm bg-[#e7e7e7] text-[#333] cursor-pointer"
+            className="inline-flex h-10 cursor-pointer items-center justify-center whitespace-nowrap rounded-sm bg-[#e7e7e7] px-3 text-[14px] font-semibold text-[#333]"
           >
             프로필 사진 변경
           </label>
@@ -82,7 +81,7 @@ const SettingProfileChange = () => {
             alert(JSON.stringify(data));
           })}
         >
-          <div className="flex flex-col gap-[24px] sm:w-[320px] mt-[24px] sm:mt-[0]">
+          <div className="mt-[24px] flex flex-col gap-[24px] sm:mt-[0] sm:w-[320px]">
             {/* 이메일 */}
             <span>
               <p className={settingSubTitleStyle}>이메일</p>

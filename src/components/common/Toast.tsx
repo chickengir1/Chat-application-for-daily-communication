@@ -27,7 +27,7 @@ const Toast = ({ message, type, onClose }: ToastProps) => {
       <div>{message}</div>
       <div className="relative mt-2 h-1 bg-gray-300">
         <div
-          className="absolute top-0 left-0 h-1 bg-white animate-progress"
+          className="absolute left-0 top-0 h-1 animate-progress bg-white"
           style={{
             animationDuration: `${3000}ms`,
           }}

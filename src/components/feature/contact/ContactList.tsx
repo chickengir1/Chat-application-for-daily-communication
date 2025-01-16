@@ -14,18 +14,18 @@ const ContactList = ({ title, contacts }: ContactListProps) => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">{title}</h2>
+      <h2 className="mb-4 text-2xl font-bold">{title}</h2>
       <ul className="flex flex-wrap gap-x-[50px] gap-y-[28px]">
         {contacts.map((contact) => {
           console.log(contact);
           return (
             <li
               key={contact.id}
-              className={`flex items-center gap-[12px] w-[100%] sm:w-[calc(50%-25px)] px-4 py-2 border-b rounded-md border-gray-300 ${hover}`}
+              className={`flex w-[100%] items-center gap-[12px] rounded-md border-b border-gray-300 px-4 py-2 sm:w-[calc(50%-25px)] ${hover}`}
             >
               <img
                 src={contact.profileImg || "https://via.placeholder.com/40"}
-                className="w-10 h-10 rounded-full bg-[#D9D9D9]"
+                className="h-10 w-10 rounded-full bg-[#D9D9D9]"
               />
               <div>
                 <p className="font-semibold">{contact.name}</p>

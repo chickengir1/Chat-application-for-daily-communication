@@ -9,7 +9,7 @@ const ChatWindow = () => {
   const { filteredMessages } = messageStore();
 
   return (
-    <div className="w-full h-full bg-[#505050] rounded-lg flex flex-col overflow-hidden mb-16 md:mb-0">
+    <div className="mb-16 flex h-full w-full flex-col overflow-hidden rounded-lg bg-[#505050] md:mb-0">
       <ChatHeader title={title} subtitle={subtitle} />
       <div className="flex-1 overflow-y-auto p-4 scrollbar-none">
         {filteredMessages.map((message) => (

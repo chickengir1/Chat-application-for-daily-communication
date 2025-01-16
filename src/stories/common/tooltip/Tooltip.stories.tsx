@@ -18,7 +18,7 @@ export const Default: Story = {
   args: {
     text: "기본 툴팁입니다.",
     children: (
-      <div className="p-3 bg-blue-500 text-white rounded">Default Tooltip</div>
+      <div className="rounded bg-blue-500 p-3 text-white">Default Tooltip</div>
     ),
   },
 };
@@ -27,7 +27,7 @@ export const LongText: Story = {
   args: {
     text: "이 툴팁은 굉장히 긴 텍스트를 포함하고 있습니다. 다양한 내용이 표시될 수 있습니다.",
     children: (
-      <div className="p-3 bg-green-500 text-white rounded">long text</div>
+      <div className="rounded bg-green-500 p-3 text-white">long text</div>
     ),
   },
 };

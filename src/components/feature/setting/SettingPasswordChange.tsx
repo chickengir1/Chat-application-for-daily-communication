@@ -37,7 +37,7 @@ const SettingPasswordChange = () => {
   });
 
   return (
-    <div className="mt-[40px] pt-[50px] border-t border-[#e1e1e1]">
+    <div className="mt-[40px] border-t border-[#e1e1e1] pt-[50px]">
       <h2 className={settingTitleStyle}>비밀번호 변경</h2>
       <form
         onSubmit={handleSubmit((data) => {

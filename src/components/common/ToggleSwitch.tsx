@@ -15,27 +15,19 @@ const ToggleSwitch = ({
 }: ToggleSwitchProps) => {
   return (
     <label
-      className="inline-flex items-center cursor-pointer"
+      className="inline-flex cursor-pointer items-center"
       htmlFor={connection}
     >
       <input
         type="checkbox"
         value=""
-        className="sr-only peer hidden"
+        className="peer sr-only hidden"
         id={connection}
         checked={checked}
         onChange={onChange}
       />
       <div
-        className="relative bg-[#e7e7e7] 
-        rounded-full peer
-        peer-checked:after:left-[calc(100%-26px)]
-        after:content-['']
-        after:absolute after:top-[2px]
-        after:start-[2px]
-        after:bg-white after:border-gray-300 after:border
-        after:rounded-full after:h-[24px] after:w-[24px] after:transition-all
-        dark:border-gray-600 peer-checked:bg-[#49c049]"
+        className="peer relative rounded-full bg-[#e7e7e7] after:absolute after:start-[2px] after:top-[2px] after:h-[24px] after:w-[24px] after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#49c049] peer-checked:after:left-[calc(100%-26px)] dark:border-gray-600"
         style={{ width, height }}
       ></div>
     </label>

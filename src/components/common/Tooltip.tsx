@@ -16,7 +16,7 @@ export default function Tooltip({ text, children }: TooltipProps) {
     >
       {children}
       {isVisible && (
-        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max p-2 bg-gray-800 text-white text-sm rounded bg-opacity-75 shadow-lg z-10">
+        <div className="absolute bottom-full left-1/2 z-10 mb-2 w-max -translate-x-1/2 transform rounded bg-gray-800 bg-opacity-75 p-2 text-sm text-white shadow-lg">
           {text}
         </div>
       )}

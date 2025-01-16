@@ -49,7 +49,7 @@ const FindPasswordPage = () => {
               })}
             >
               {/* 이메일 */}
-              <span className="flex gap-[8px] relative">
+              <span className="relative flex gap-[8px]">
                 <input
                   type="email"
                   className={joinInputStyle}
@@ -67,7 +67,7 @@ const FindPasswordPage = () => {
               </span>
 
               {/* 인증 번호 */}
-              <span className="flex gap-[8px] relative">
+              <span className="relative flex gap-[8px]">
                 <input
                   type="text"
                   className={joinInputStyle}

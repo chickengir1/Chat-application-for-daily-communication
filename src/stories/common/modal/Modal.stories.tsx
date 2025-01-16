@@ -30,8 +30,8 @@ export const Default: Story = {
     onClose: () => console.log("close"),
     children: (
       <div>
-        <h2 className="text-xl font-bold mb-4">Modal Content</h2>
-        <p className="text-gray-700 mb-4">모달 내용</p>
+        <h2 className="mb-4 text-xl font-bold">Modal Content</h2>
+        <p className="mb-4 text-gray-700">모달 내용</p>
       </div>
     ),
     size: "medium",

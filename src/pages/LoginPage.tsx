@@ -124,7 +124,7 @@ const LoginPage = () => {
               />
             </form>
 
-            <div className="flex justify-end mt-[8px]">
+            <div className="mt-[8px] flex justify-end">
               <button
                 type="button"
                 className="text-[11px] text-[#fff]"
@@ -141,7 +141,7 @@ const LoginPage = () => {
               </button>
             </div>
 
-            <div className="flex flex-col gap-[24px] pt-[24px] mt-[20px] border-t-[1px] border-[#e1e1e1]">
+            <div className="mt-[20px] flex flex-col gap-[24px] border-t-[1px] border-[#e1e1e1] pt-[24px]">
               <button type="button" className={`${socialBtnStyle} bg-[#fff]`}>
                 <img
                   src="assets/images/google_logo.svg"

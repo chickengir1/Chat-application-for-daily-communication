@@ -13,8 +13,8 @@ const SettingPage = () => {
   const [isEmailEnabled, setIsEmailEnabled] = useState(false);
 
   return (
-    <div className="h-[100%] py-6 px-6 md:pr-6 text-[#fff]">
-      <div className="w-[100%] h-[100%] p-[28px] bg-[#505050] rounded-[8px] overflow-auto">
+    <div className="h-[100%] px-6 py-6 text-[#fff] md:pr-6">
+      <div className="h-[100%] w-[100%] overflow-auto rounded-[8px] bg-[#505050] p-[28px]">
         {/* 프로필 변경 */}
         <SettingProfileChange />
 
@@ -22,7 +22,7 @@ const SettingPage = () => {
         <SettingPasswordChange />
 
         {/* 알림 설정 */}
-        <div className="mt-[40px] pt-[50px] border-t border-[#e1e1e1]">
+        <div className="mt-[40px] border-t border-[#e1e1e1] pt-[50px]">
           <h2 className={settingTitleStyle}>알림 설정</h2>
           <div className="flex flex-col gap-[28px]">
             <div className="flex items-center justify-between gap-[16px]">

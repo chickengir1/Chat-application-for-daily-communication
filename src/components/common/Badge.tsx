@@ -16,7 +16,7 @@ const Badge = ({ size = "60px", src = DefaultBadge }: BadgeProps) => {
       <img
         src={src}
         alt="뱃지 이미지"
-        className="w-[100%] h-[100%] object-cover"
+        className="h-[100%] w-[100%] object-cover"
       />
     </div>
   );
