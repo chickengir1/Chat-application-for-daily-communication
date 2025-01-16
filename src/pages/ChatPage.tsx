@@ -59,5 +59,5 @@ const styles = {
     "bg-[#505050] text-white rounded-lg scrollbar-none transition-colors h-full overflow-y-auto",
   chatListHeader:
     "sticky top-0 z-10 bg-[#404040] text-center text-2xl font-bold py-4",
-  chatWindow: "w-full h-screen md:w-3/5 flex flex-col md:p-6",
+  chatWindow: "w-full h-screen md:w-3/5 flex flex-col pb-2 md:p-6",
 };
