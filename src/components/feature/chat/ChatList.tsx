@@ -1,5 +1,6 @@
 import { FaUserCircle } from "react-icons/fa";
 import useChatHandlers from "@/hooks/feature/chat/useChatHandlers";
+import EmptyChatList from "./EmptyChatList";
 
 interface ChatListProps {
   chats: {
@@ -14,6 +15,10 @@ interface ChatListProps {
 
 const ChatList = ({ chats, onChatClick, selectedChatId }: ChatListProps) => {
   const { handleChatClicked, formatTime } = useChatHandlers(chats, onChatClick);
+
+  if (chats.length === 0) {
+    return <EmptyChatList />;
+  }
 
   return (
     <div className="p-4">
