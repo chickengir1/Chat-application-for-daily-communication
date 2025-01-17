@@ -3,26 +3,42 @@ import Input from "@/components/common/Input";
 import useInput from "@/hooks/common/useInput";
 import ChatWindow from "@/components/feature/chat/ChatWindow";
 import ChatList from "@/components/feature/chat/ChatList";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import useChatRooms from "@/hooks/feature/chat/useChatRooms";
 import { chatListData } from "@/utils/stub";
 import { useChatNaviation } from "@/hooks/common/useNavigation";
+import { useOverlay } from "@/hooks/common/useOverlay";
 import UnselectedChat from "@/components/feature/chat/UnselectedChat";
 
 const ChatPage = () => {
   const { value: search, onChange: setSearch } = useInput("");
   const { filteredRooms, filterRooms } = useChatRooms(chatListData);
   const { selectedChatId, handleChatClick } = useChatNaviation();
+  const { toggleOverlay, renderOverlay } = useOverlay();
 
   useEffect(() => {
     filterRooms(search);
   }, [search, filterRooms]);
 
+  const mobileChatListContent = (
+    <>
+      <button className={mobileStyles.closeButton} onClick={toggleOverlay}>
+        <FaTimes />
+      </button>
+      <h2 className={mobileStyles.header}>Chat Rooms</h2>
+      <ChatList
+        chats={filteredRooms}
+        onChatClick={handleChatClick}
+        selectedChatId={selectedChatId}
+      />
+    </>
+  );
+
   return (
     <div className={styles.container}>
-      <div className={styles.sidebar}>
-        <div className={styles.searchBar}>
-          <FaSearch className="mx-2 text-gray-300" />
+      <div className={styles.chatListContainer}>
+        <div className={styles.searchContainer}>
+          <FaSearch className={styles.searchIcon} />
           <Input
             value={search}
             onChange={setSearch}
@@ -30,7 +46,7 @@ const ChatPage = () => {
             className={styles.input}
           />
         </div>
-        <div className={styles.chatListContainer}>
+        <div className={styles.chatList}>
           <h2 className={styles.chatListHeader}>Chat Rooms</h2>
           <ChatList
             chats={filteredRooms}
@@ -39,7 +55,11 @@ const ChatPage = () => {
           />
         </div>
       </div>
-      <div className={styles.chatWindow}>
+      <div className={styles.chatWindowContainer}>
+        <button className={styles.openButton} onClick={toggleOverlay}>
+          <FaBars />
+        </button>
+        {renderOverlay(mobileChatListContent)}
         {selectedChatId ? <ChatWindow /> : <UnselectedChat />}
       </div>
     </div>
@@ -49,15 +69,26 @@ const ChatPage = () => {
 export default ChatPage;
 
 const styles = {
-  container: "md:p-0 p-2 flex flex-col md:flex-row h-screen",
-  sidebar: "w-full md:w-2/5 flex-col py-6 space-y-4 hidden md:flex",
-  searchBar:
-    "h-16 bg-[#505050] text-white rounded-lg hover:bg-[#404040] duration-200 ease-in-out flex items-center px-2",
+  container: "flex h-screen flex-col p-2 md:flex-row md:p-0",
+  chatListContainer: "hidden w-full flex-col space-y-4 py-6 md:flex md:w-2/5",
+  searchContainer:
+    "flex h-16 items-center rounded-lg bg-[#505050] px-2 text-white duration-200 ease-in-out hover:bg-[#404040]",
+  searchIcon: "mx-2 text-gray-300",
   input:
-    "w-full bg-transparent placeholder-gray-400 text-white px-2 outline-none rounded-lg",
-  chatListContainer:
-    "bg-[#505050] text-white rounded-lg scrollbar-none transition-colors h-full overflow-y-auto",
+    "w-full rounded-lg bg-transparent px-2 text-white placeholder-gray-400 outline-none",
+  chatList:
+    "h-full overflow-y-auto rounded-lg bg-[#505050] text-white transition-colors scrollbar-none",
   chatListHeader:
-    "sticky top-0 z-10 bg-[#404040] text-center text-2xl font-bold py-4",
-  chatWindow: "w-full h-screen md:w-3/5 flex flex-col pb-2 md:p-6",
+    "sticky top-0 z-10 bg-[#404040] py-4 text-center text-2xl font-bold",
+  chatWindowContainer:
+    "relative flex h-screen w-full flex-col pb-2 md:w-3/5 md:p-6",
+  openButton:
+    "fixed left-4 top-4 z-20 rounded-full bg-[#606060] p-4 text-white shadow-lg transition-all hover:bg-[#505050] md:hidden",
+};
+
+const mobileStyles = {
+  closeButton:
+    "absolute right-3 top-3 rounded-full bg-[#404040] p-3 text-white shadow-lg transition-all hover:bg-[#505050]",
+  header:
+    "border-b border-gray-500 bg-[#404040] py-4 text-center text-xl font-semibold",
 };
