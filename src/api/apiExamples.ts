@@ -1,5 +1,8 @@
 import { axiosInstance, handleApiCall } from "./axiosInstance";
 
+// API 호출 함수 예제 코드입니다
+// 컴포넌트 단위에서 API 호출을 하지 않고, 훅을 사용하여 상태를 관리하면 더욱 명확한 레이어 분리를 할 수 있습니다
+
 /**
  * GET 요청
  * @param {string} api - API 엔드포인트 ("/data")
