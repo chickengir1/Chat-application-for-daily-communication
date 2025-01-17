@@ -24,6 +24,7 @@ import {
   joinWrapperStyle,
 } from "@/components/feature/join/joinStyle";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 interface ChangePasswordFormValues {
   password: string;
@@ -35,8 +36,12 @@ const ChangePasswordPage = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitting, isValid },
-  } = useForm<ChangePasswordFormValues>();
+    formState: { errors, isSubmitting },
+  } = useForm<ChangePasswordFormValues>({
+    mode: "onSubmit",
+  });
+
+  const navigate = useNavigate();
 
   return (
     <div className={joinWrapperStyle}>
@@ -49,6 +54,7 @@ const ChangePasswordPage = () => {
               className={joinFormStyle}
               onSubmit={handleSubmit((data) => {
                 console.log(data);
+                navigate('/login')
               })}
             >
               {/* 비밀번호 */}
@@ -99,7 +105,7 @@ const ChangePasswordPage = () => {
               <Button
                 type="submit"
                 text="비밀번호 변경"
-                disabled={!isValid || isSubmitting}
+                disabled={isSubmitting}
               />
             </form>
           </div>

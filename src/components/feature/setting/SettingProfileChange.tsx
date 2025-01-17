@@ -17,19 +17,62 @@ import {
   nicknameRequiredMsg,
 } from "../join/joinRule";
 
+const checkNicknameDuplicate = async (nickname: string): Promise<boolean> => {
+  const duplicateNicknames = ["admin", "tester"];
+  return duplicateNicknames.includes(nickname);
+};
+
 interface SettingProfileChangeFormValues {
   nickname: string;
-  status_message: string;
+  statusMessage: string;
 }
 
 const SettingProfileChange = () => {
+  const [initialNickname] = useState<string>("닉네임이다요");
+  const [initialStatusMessage] = useState<string>("상태 메시지다요.");
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid },
+    clearErrors,
+    setFocus,
+    formState: { errors, isSubmitting },
   } = useForm<SettingProfileChangeFormValues>({
     mode: "onChange",
+    defaultValues: {
+      nickname: initialNickname,
+      statusMessage: initialStatusMessage,
+    },
   });
+
+  const handleFormSubmit = async (data: SettingProfileChangeFormValues) => {
+    const { nickname, statusMessage } = data;
+
+    // 닉네임 중복 확인
+    const isNicknameDuplicate = await checkNicknameDuplicate(nickname);
+    if (isNicknameDuplicate) {
+      // setError("nickname", { message: "이미 사용 중인 닉네임입니다." });
+      alert('이미 사용 중인 닉네임입니다.')
+      setFocus("nickname");
+      return;
+    }
+
+    clearErrors();
+
+    // 변경 여부 확인 및 알림
+    const isNicknameChanged = nickname !== initialNickname;
+    const isStatusMessageChanged = statusMessage !== initialStatusMessage;
+
+    if (isNicknameChanged && isStatusMessageChanged) {
+      alert("닉네임과 상태 메시지가 모두 변경되었습니다.");
+    } else if (isNicknameChanged) {
+      alert("닉네임이 변경되었습니다.");
+    } else if (isStatusMessageChanged) {
+      alert("상태 메시지가 변경되었습니다.");
+    } else {
+      alert("닉네임과 상태 메시지가 이전과 동일합니다.");
+    }
+  };
 
   // 이미지 업로드 상태
   const defaultImg = "/assets/images/default_profile.svg";
@@ -77,9 +120,7 @@ const SettingProfileChange = () => {
         {/* 개인정보변경 */}
         <form
           className="w-full"
-          onSubmit={handleSubmit((data) => {
-            alert(JSON.stringify(data));
-          })}
+          onSubmit={handleSubmit(handleFormSubmit)}
         >
           <div className="mt-[24px] flex flex-col gap-[24px] sm:mt-[0] sm:w-[320px]">
             {/* 이메일 */}
@@ -100,7 +141,7 @@ const SettingProfileChange = () => {
                 type="text"
                 className={settingInputStyle}
                 placeholder={nicknamePlaceholder}
-                // value="닉네임이다요"
+                defaultValue={initialNickname}
                 {...register("nickname", {
                   required: nicknameRequiredMsg,
                   minLength: {
@@ -123,21 +164,21 @@ const SettingProfileChange = () => {
                 type="text"
                 className={settingInputStyle}
                 placeholder="상태 메시지를 입력하세요."
-                // value="상태 메시지다요."
-                {...register("status_message", {
+                defaultValue={initialStatusMessage}
+                {...register("statusMessage", {
                   maxLength: {
                     value: 30,
                     message: "상태 메시지는 최대 30자 까지 작성 가능합니다.",
                   },
                 })}
               />
-              <InputErrorMessage message={errors.status_message?.message} />
+              <InputErrorMessage message={errors.statusMessage?.message} />
             </span>
           </div>
           <button
             type="submit"
             className={settingButtonStyle}
-            disabled={!isValid || isSubmitting}
+            disabled={isSubmitting}
           >
             변경사항 저장
           </button>

@@ -3,16 +3,8 @@ import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
 import JoinRightContent from "@/components/feature/join/JoinRightContent";
 import {
   emailPlaceholder,
-  emailRegex,
-  emailRegexErrorMsg,
   emailRequiredMsg,
-  passwordMaxLengthMsg,
-  passwordMaxLengthValue,
-  passwordMinLengthMsg,
-  passwordMinLengthValue,
   passwordPlaceholder,
-  passwordRegex,
-  passwordRegexErrorMsg,
   passwordRequiredMsg,
 } from "@/components/feature/join/joinRule";
 import {
@@ -37,9 +29,9 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
-    mode: "onChange",
+    mode: "onSubmit",
   });
 
   const navigate = useNavigate();
@@ -49,14 +41,6 @@ const LoginPage = () => {
   const handleSignupClick = () => {
     navigate("/signup");
   };
-
-  // 스타일 변수
-  const accountStyle = `
-    relative pl-[9px] ml-[8px]
-    after:content-[''] after:absolute after:left-[0px]
-    after:top-[50%] after:-translate-y-1/2 after:w-[1px]
-    after:h-[10px] after:bg-[#e1e1e1]
-  `;
 
   return (
     <div className={joinWrapperStyle}>
@@ -81,10 +65,6 @@ const LoginPage = () => {
                   placeholder={emailPlaceholder}
                   {...register("email", {
                     required: emailRequiredMsg,
-                    pattern: {
-                      value: emailRegex,
-                      message: emailRegexErrorMsg,
-                    },
                   })}
                 />
                 <InputErrorMessage message={errors.email?.message} />
@@ -98,18 +78,6 @@ const LoginPage = () => {
                   placeholder={passwordPlaceholder}
                   {...register("password", {
                     required: passwordRequiredMsg,
-                    minLength: {
-                      value: passwordMinLengthValue,
-                      message: passwordMinLengthMsg,
-                    },
-                    maxLength: {
-                      value: passwordMaxLengthValue,
-                      message: passwordMaxLengthMsg,
-                    },
-                    pattern: {
-                      value: passwordRegex,
-                      message: passwordRegexErrorMsg,
-                    },
                   })}
                 />
                 <InputErrorMessage message={errors.password?.message} />
@@ -118,7 +86,7 @@ const LoginPage = () => {
               <Button
                 type="submit"
                 text="로그인"
-                disabled={!isValid || isSubmitting}
+                disabled={isSubmitting}
               />
             </form>
 
@@ -132,7 +100,10 @@ const LoginPage = () => {
               </button>
               <button
                 type="button"
-                className={`${accountStyle} text-[11px] text-[#fff]`}
+                className="relative pl-[9px] ml-[8px]
+                          after:content-[''] after:absolute after:left-[0px]
+                          after:top-[50%] after:-translate-y-1/2 after:w-[1px]
+                          after:h-[10px] after:bg-[#e1e1e1] text-[11px] text-[#fff]"
                 onClick={handleSignupClick}
               >
                 회원가입

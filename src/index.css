@@ -9,4 +9,17 @@
 
 body {
   @apply bg-[#EAEAEA];
+  
+}
+::-webkit-scrollbar {
+  width: 20px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+  border: 7px solid #505050;
+}
+::-webkit-scrollbar-track {
+  background-color: #505050;
+  border-radius: 8px;
 }

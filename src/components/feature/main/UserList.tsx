@@ -31,7 +31,7 @@ const UserList = ({ users }: UserListProps) => {
               </div>
             </div>
             <button type="button" onClick={() => console.log("친구추가")}>
-              <FaUserPlus className="w-[20px] h-[20px] text-[#49c049]" />
+              <FaUserPlus className="w-[20px] h-[20px] text-[#ccc] hover:text-[#48cd48]" />
             </button>
           </div>
         );
