@@ -1,3 +1,4 @@
+import { CgSmileSad } from "react-icons/cg";
 import { FaUserCircle, FaUserPlus } from "react-icons/fa";
 
 interface UserListProps {
@@ -14,8 +15,8 @@ const hover =
 
 const UserList = ({ users }: UserListProps) => {
   return (
-    <div>
-      {users.map((user) => {
+    <>
+      {users && users.length > 0 ? users.map((user) => {
         return (
           <div
             className={`flex items-center mb-4 justify-between p-2 border-b border-gray-300 ${hover}`}
@@ -35,8 +36,11 @@ const UserList = ({ users }: UserListProps) => {
             </button>
           </div>
         );
-      })}
-    </div>
+      }) : <div className="flex flex-col items-center justify-center gap-[8px] w-full h-full">
+          <CgSmileSad className="w-[60px] h-[60px]" />
+          <p className="text-center">검색된 사용자가 없습니다.</p>
+          </div>}
+    </>
   );
 };
 

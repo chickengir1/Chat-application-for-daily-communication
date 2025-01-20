@@ -6,6 +6,7 @@ import {
 } from "@/components/feature/setting/settingStyle";
 import SettingPasswordChange from "@/components/feature/setting/SettingPasswordChange";
 import SettingProfileChange from "@/components/feature/setting/SettingProfileChange";
+import Button from "@/components/common/Button";
 
 const SettingPage = () => {
   // 스위치 상태
@@ -54,6 +55,15 @@ const SettingPage = () => {
                 onChange={(e) => setIsEmailEnabled(e.target.checked)}
               />
             </div>
+          </div>
+        </div>
+
+        {/* 회원탈퇴 */}
+        <div className="mt-[40px] border-t border-[#e1e1e1] pt-[50px]">
+          <h2 className={settingTitleStyle}>회원탈퇴</h2>
+          <div className="flex items-center justify-between gap-[16px]">
+            <p>탈퇴하시겠습니까?</p>
+            <Button text="회원탈퇴" backgroundColor="#ff6161" color="#fff" />
           </div>
         </div>
       </div>

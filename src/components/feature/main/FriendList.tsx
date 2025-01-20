@@ -1,3 +1,4 @@
+import { CgSmileSad } from "react-icons/cg";
 import { FaUserCircle, FaUserMinus } from "react-icons/fa";
 
 interface FriendListProps {
@@ -15,8 +16,8 @@ const hover =
 
 const FriendList = ({ friends }: FriendListProps) => {
   return (
-    <div>
-      {friends.map((friend) => {
+    <>
+      {friends && friends.length > 0 ? friends.map((friend) => {
         return (
           <div
             className={`flex items-center mb-4 justify-between p-2 border-b border-gray-300 ${hover}`}
@@ -39,8 +40,11 @@ const FriendList = ({ friends }: FriendListProps) => {
             </button>
           </div>
         );
-      })}
-    </div>
+      }) : <div className="flex flex-col items-center justify-center gap-[8px] w-full h-full">
+        <CgSmileSad className="w-[60px] h-[60px]" />
+        <p className="text-center">추가된 친구가 없습니다.<br />친구를 추가해 주세요.</p>
+        </div>}
+    </>
   );
 };
 

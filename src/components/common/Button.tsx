@@ -5,6 +5,8 @@ export interface ButtonProps {
   height?: string;
   disabled?: boolean;
   className?: string;
+  backgroundColor?: string;
+  color?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -17,13 +19,15 @@ const Button = ({
   className = `h-10 px-3 text-[14px] font-semibold whitespace-nowrap	rounded-sm ${
     disabled ? "bg-[#a6a6a6] text-[#d6d6d6]" : "bg-[#e7e7e7] text-[#333]"
   }`,
+  backgroundColor,
+  color,
   onClick,
 }: ButtonProps) => {
   return (
     <button
       type={type}
       className={className}
-      style={{ width, height }}
+      style={{ width, height, backgroundColor, color }}
       disabled={disabled}
       onClick={onClick}
     >

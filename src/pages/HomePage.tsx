@@ -18,7 +18,7 @@ const HomePage = () => {
     setUserList((prev) => !prev);
   };
 
-  const handleUserSearch = () => {
+  const handleUserSearchClick = () => {
     if (inputRef.current) {
       const value = inputRef.current.value;
       console.log("입력값:", value);
@@ -27,7 +27,7 @@ const HomePage = () => {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === "Enter") {
-      handleUserSearch();
+      handleUserSearchClick();
     }
   };
 
@@ -62,7 +62,7 @@ const HomePage = () => {
             <div className="flex gap-[16px]">
               <span className="relative">
                 <input type="text" className="w-full h-[40px] px-2 bg-[#505050] rounded-lg" placeholder="사용자 검색" ref={inputRef} onKeyDown={handleKeyDown} />
-                <button type="button" onClick={handleUserSearch}>
+                <button type="button" onClick={handleUserSearchClick}>
                   <FaSearch className="absolute right-[12px] top-[50%] translate-y-[-50%]" />
                 </button>
               </span>
