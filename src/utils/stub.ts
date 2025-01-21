@@ -1,3 +1,26 @@
+// Notifications.tsx에서 사용중.
+export const notifications = [
+  {
+    id: 1,
+    name: "관리자",
+    createdAt: "2025-01-21",
+    lastChat: "새로운 알림이 도착했습니다.",
+  },
+  {
+    id: 2,
+    name: "홍길동",
+    createdAt: "2025-01-20",
+    lastChat: "새로운 채팅방에 초대되었습니다.",
+  },
+  {
+    id: 3,
+    name: "관리자",
+    createdAt: "2025-01-19",
+    lastChat: "서비스 점검 예정 안내.",
+  },
+];
+
+// ChatPage.tsx And HomePage.tsx에서 사용중.
 export const chatListData = [
   {
     id: 1,
@@ -31,6 +54,7 @@ export const chatListData = [
   },
 ];
 
+// messagesStore.ts에서 사용중.
 export const chatData = [
   {
     messageType: "CHAT",

@@ -42,7 +42,7 @@ export default Sidebar;
 
 const styles = {
   sidebar: "hidden h-full flex-col rounded-lg bg-[#505050] text-white md:flex",
-  content: "flex flex-grow flex-col items-center",
+  content: "flex flex-grow flex-col items-center w-[100px]",
   userProfileWrapper: "flex w-full flex-col items-center",
   userProfileContainer: "mb-6",
   userProfileImage: "mt-4 h-16 w-16 rounded-full object-cover",

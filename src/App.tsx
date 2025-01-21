@@ -9,6 +9,7 @@ import SignupPage from "./pages/SignupPage";
 import SettingPage from "./pages/SettingPage";
 import FindPasswordPage from "./pages/FindPasswordPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
+import NotificationsPage from "./pages/Notifications";
 
 const App = () => {
   return (
@@ -27,6 +28,14 @@ const App = () => {
           element={
             <Layout>
               <ChatPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/notifications"
+          element={
+            <Layout>
+              <NotificationsPage />
             </Layout>
           }
         />
