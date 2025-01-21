@@ -1,35 +1,26 @@
 import axios, { AxiosInstance } from "axios";
 import { API_CONFIG } from "@/utils/constans";
 
-/** 공통 설정을 포함한 Axios 인스턴스 생성 */
-const createAxiosInstance = (isAuthRequired: boolean): AxiosInstance => {
-  const instance = axios.create({
-    baseURL: API_CONFIG.BASE_URL,
-    timeout: 3000,
-    headers: { "Content-Type": "application/json" },
-  });
+export const axiosInstance: AxiosInstance = axios.create({
+  baseURL: "",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
-  // 인증이 필요할때 Authorization 헤더 추가
-  if (isAuthRequired) {
-    instance.interceptors.request.use((config) => {
-      const token = localStorage.getItem("accessToken");
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    });
+console.log("나중에 써야됨", API_CONFIG.BASE_URL);
+
+// 공통 에러 처리 인터셉터
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      console.warn("세션 만료 또는 인증 실패");
+      // 로그인 페이지로 이동 등 추가 로직
+    }
+    return Promise.reject(error);
   }
-
-  return instance;
-};
-
-/** 인증용 Axios 인스턴스 */
-const authInstance = createAxiosInstance(true);
-
-/** 공개용 Axios 인스턴스 */
-const publicInstance = createAxiosInstance(false);
-
-export const axiosInstance = { authInstance, publicInstance };
+);
 
 /**
  * API 호출을 처리하고 에러를 핸들링하는 비동기 함수
