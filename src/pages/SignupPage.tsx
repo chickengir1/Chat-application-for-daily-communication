@@ -113,10 +113,10 @@ const SignUpPage = () => {
   //   }
 
   //   clearErrors();
-  //   alert(`가입을 축하드립니다. ${nickname}님`);
+  //   console.log(`가입을 축하드립니다. ${nickname}님`);
   //   navigate("/login");
   // };
-  
+
   const handleFormSubmit = async (data: SignupFormValues) => {
     const { email, nickname, password, passwordConfirmation } = data;
 
@@ -138,7 +138,9 @@ const SignUpPage = () => {
 
     // 비밀번호 확인
     if (password !== passwordConfirmation) {
-      setError("passwordConfirmation", { message: "비밀번호가 일치하지 않습니다." });
+      setError("passwordConfirmation", {
+        message: "비밀번호가 일치하지 않습니다.",
+      });
       setFocus("passwordConfirmation");
       return;
     }
@@ -154,12 +156,12 @@ const SignUpPage = () => {
 
       // 응답 처리
       if (response.status === 200) {
-        alert("회원가입 성공: " + response.data.message);
+        console.log("회원가입 성공: " + response.data.message);
         navigate("/login");
       }
     } catch (error) {
       console.error("회원가입 실패", error);
-      alert("회원가입 중 오류가 발생했습니다.");
+      console.log("회원가입 중 오류가 발생했습니다.");
     }
   };
 
@@ -263,11 +265,7 @@ const SignUpPage = () => {
                 />
               </div>
 
-              <Button
-                type="submit"
-                text="가입하기"
-                disabled={isSubmitting}
-              />
+              <Button type="submit" text="가입하기" disabled={isSubmitting} />
             </form>
           </div>
         </div>

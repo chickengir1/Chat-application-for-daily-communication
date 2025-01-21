@@ -52,7 +52,6 @@ const LoginPage = () => {
             <form
               className={joinFormStyle}
               onSubmit={handleSubmit((data) => {
-                // alert(JSON.stringify(data));
                 console.log(data);
                 navigate("/");
               })}
@@ -83,11 +82,7 @@ const LoginPage = () => {
                 <InputErrorMessage message={errors.password?.message} />
               </div>
 
-              <Button
-                type="submit"
-                text="로그인"
-                disabled={isSubmitting}
-              />
+              <Button type="submit" text="로그인" disabled={isSubmitting} />
             </form>
 
             <div className="mt-[8px] flex justify-end">
@@ -100,20 +95,17 @@ const LoginPage = () => {
               </button>
               <button
                 type="button"
-                className="relative pl-[9px] ml-[8px]
-                          after:content-[''] after:absolute after:left-[0px]
-                          after:top-[50%] after:-translate-y-1/2 after:w-[1px]
-                          after:h-[10px] after:bg-[#e1e1e1] text-[11px] text-[#fff]"
+                className="relative ml-[8px] pl-[9px] text-[11px] text-[#fff] after:absolute after:left-[0px] after:top-[50%] after:h-[10px] after:w-[1px] after:-translate-y-1/2 after:bg-[#e1e1e1] after:content-['']"
                 onClick={handleSignupClick}
               >
                 회원가입
               </button>
             </div>
 
-            <div className="pt-[24px] mt-[20px] border-t-[1px] border-[#e1e1e1]">
+            <div className="mt-[20px] border-t-[1px] border-[#e1e1e1] pt-[24px]">
               <button
                 type="button"
-                className="flex items-center justify-center gap-[4px] w-full h-[40px] text-[14px] font-bold bg-[#fff] rounded-[4px]"
+                className="flex h-[40px] w-full items-center justify-center gap-[4px] rounded-[4px] bg-[#fff] text-[14px] font-bold"
               >
                 <img
                   src="assets/images/google_logo.svg"

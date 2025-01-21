@@ -39,11 +39,11 @@ const SettingPasswordChange = () => {
   const handlePasswordChange = (data: SettingPasswordChangeFormValues) => {
     // 현재 비밀번호와 새 비밀번호가 동일한지 확인
     if (data.currentPassword === data.password) {
-      alert("현재 비밀번호와 새 비밀번호는 같을 수 없습니다.");
-      return;  // 동일한 경우에는 제출을 방지합니다.
+      console.log("현재 비밀번호와 새 비밀번호는 같을 수 없습니다.");
+      return; // 동일한 경우에는 제출을 방지합니다.
     }
 
-    alert("비밀번호가 성공적으로 변경되었습니다.");
+    console.log("비밀번호가 성공적으로 변경되었습니다.");
     // 비밀번호 변경 로직 처리
     console.log(data);
   };
@@ -51,9 +51,7 @@ const SettingPasswordChange = () => {
   return (
     <div className="mt-[40px] border-t border-[#e1e1e1] pt-[50px]">
       <h2 className={settingTitleStyle}>비밀번호 변경</h2>
-      <form
-        onSubmit={handleSubmit(handlePasswordChange)}
-      >
+      <form onSubmit={handleSubmit(handlePasswordChange)}>
         <div className={settingBoxStyle}>
           {/* 현재 비밀번호 */}
           <div className="relative">
@@ -120,7 +118,7 @@ const SettingPasswordChange = () => {
           className={settingButtonStyle}
           disabled={isSubmitting}
         >
-          변경사항 저장
+          {isSubmitting ? "요청중..." : "변경사항 저장"}
         </button>
       </form>
     </div>

@@ -52,7 +52,7 @@ const SettingProfileChange = () => {
     const isNicknameDuplicate = await checkNicknameDuplicate(nickname);
     if (isNicknameDuplicate) {
       // setError("nickname", { message: "이미 사용 중인 닉네임입니다." });
-      alert('이미 사용 중인 닉네임입니다.')
+      console.log("이미 사용 중인 닉네임입니다.");
       setFocus("nickname");
       return;
     }
@@ -64,13 +64,13 @@ const SettingProfileChange = () => {
     const isStatusMessageChanged = statusMessage !== initialStatusMessage;
 
     if (isNicknameChanged && isStatusMessageChanged) {
-      alert("닉네임과 상태 메시지가 모두 변경되었습니다.");
+      console.log("닉네임과 상태 메시지가 모두 변경되었습니다.");
     } else if (isNicknameChanged) {
-      alert("닉네임이 변경되었습니다.");
+      console.log("닉네임이 변경되었습니다.");
     } else if (isStatusMessageChanged) {
-      alert("상태 메시지가 변경되었습니다.");
+      console.log("상태 메시지가 변경되었습니다.");
     } else {
-      alert("닉네임과 상태 메시지가 이전과 동일합니다.");
+      console.log("닉네임과 상태 메시지가 이전과 동일합니다.");
     }
   };
 
@@ -118,10 +118,7 @@ const SettingProfileChange = () => {
         </div>
 
         {/* 개인정보변경 */}
-        <form
-          className="w-full"
-          onSubmit={handleSubmit(handleFormSubmit)}
-        >
+        <form className="w-full" onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="mt-[24px] flex flex-col gap-[24px] sm:mt-[0] sm:w-[320px]">
             {/* 이메일 */}
             <span>
@@ -180,7 +177,7 @@ const SettingProfileChange = () => {
             className={settingButtonStyle}
             disabled={isSubmitting}
           >
-            변경사항 저장
+            {isSubmitting ? "요청중..." : "변경사항 저장"}
           </button>
         </form>
       </div>

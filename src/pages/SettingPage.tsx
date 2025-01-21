@@ -14,11 +14,8 @@ const SettingPage = () => {
   const [isEmailEnabled, setIsEmailEnabled] = useState(false);
 
   return (
-    <div
-      className="flex flex-col gap-[20px] h-[calc(100%-64px)] 
-    md:h-[100%] p-2 text-white md:pl-0 md:pr-6 md:py-6"
-    >
-      <div className="w-[100%] h-[100%] p-[28px] bg-[#505050] rounded-[8px] overflow-auto">
+    <div className="flex h-[calc(100%-64px)] flex-col gap-[20px] p-2 text-white md:h-[100%] md:py-6 md:pl-0 md:pr-6">
+      <div className="h-[100%] w-[100%] overflow-auto rounded-[8px] bg-[#505050] p-[28px]">
         {/* 프로필 변경 */}
         <SettingProfileChange />
 
