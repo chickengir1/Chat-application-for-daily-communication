@@ -34,7 +34,6 @@ export const Default: Story = {
         <p className="mb-4 text-gray-700">모달 내용</p>
       </div>
     ),
-    size: "medium",
     overlayClassName:
       "bg-black bg-opacity-50 fixed inset-0 flex items-center justify-center z-50",
     contentClassName: "bg-white rounded-lg p-6 shadow-lg w-96 relative",

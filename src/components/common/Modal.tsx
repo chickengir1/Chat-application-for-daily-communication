@@ -6,6 +6,7 @@ interface ModalProps {
   onClose: () => void;
   contentClassName?: string;
   overlayClassName?: string;
+  modalClassName?: string;
   children: ReactNode;
 }
 
