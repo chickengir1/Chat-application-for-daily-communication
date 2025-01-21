@@ -11,41 +11,59 @@ interface FriendListProps {
   }[];
 }
 
-const hover =
-  "cursor-pointer transition-all duration-200 ease-in-out hover:bg-[#606060] hover:shadow-md hover:rounded-lg";
-
 const FriendList = ({ friends }: FriendListProps) => {
   return (
     <>
-      {friends && friends.length > 0 ? friends.map((friend) => {
-        return (
-          <div
-            className={`flex items-center mb-4 justify-between p-2 border-b border-gray-300 ${hover}`}
-            key={friend.id}
-          >
-            <FaUserCircle className="text-[#ccc] w-10 h-10 mr-3 flex-shrink-0" />
-            <div className="flex items-center space-x-3 flex-1 overflow-hidden">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-[4px]">
-                <span className={`block w-[6px] h-[6px] ${friend.isOnline ? 'bg-[#48cd48]' : 'bg-[#ff6161]'} rounded-full`}></span>
-                <h3 className="font-semibold truncate">{friend.username}</h3>
+      {friends && friends.length > 0 ? (
+        friends.map((friend) => {
+          return (
+            <div className={styles.container} key={friend.id}>
+              <FaUserCircle className={styles.userIcon} />
+              <div className={styles.userInfo}>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-[4px]">
+                    <span
+                      className={styles.onlineStatus(friend.isOnline)}
+                    ></span>
+                    <h3 className={styles.userName}>{friend.username}</h3>
+                  </div>
+                  <p className={styles.statusMessage}>{friend.statusMessage}</p>
                 </div>
-                <p className="text-sm text-gray-300 truncate">
-                  {friend.statusMessage}
-                </p>
               </div>
+              <button type="button" onClick={() => console.log("친구삭제")}>
+                <FaUserMinus className={styles.removeButton} />
+              </button>
             </div>
-            <button type="button" onClick={() => console.log("친구삭제")}>
-              <FaUserMinus className="w-[20px] h-[20px] text-[#ccc] hover:text-[#ff6161]" />
-            </button>
-          </div>
-        );
-      }) : <div className="flex flex-col items-center justify-center gap-[8px] w-full h-full">
-        <CgSmileSad className="w-[60px] h-[60px]" />
-        <p className="text-center">추가된 친구가 없습니다.<br />친구를 추가해 주세요.</p>
-        </div>}
+          );
+        })
+      ) : (
+        <div className={styles.noFriendsContainer}>
+          <CgSmileSad className={styles.noFriendsIcon} />
+          <p className={styles.noFriendsText}>
+            추가된 친구가 없습니다.
+            <br />
+            친구를 추가해 주세요.
+          </p>
+        </div>
+      )}
     </>
   );
 };
 
 export default FriendList;
+
+const styles = {
+  container:
+    "flex items-center mb-4 justify-between p-2 border-b border-gray-300 cursor-pointer transition-all duration-200 ease-in-out hover:bg-[#606060] hover:shadow-md hover:rounded-lg",
+  userIcon: "text-[#ccc] w-10 h-10 mr-3 flex-shrink-0",
+  userInfo: "flex items-center space-x-3 flex-1 overflow-hidden",
+  userName: "font-semibold truncate",
+  statusMessage: "text-sm text-gray-300 truncate",
+  onlineStatus: (isOnline: boolean) =>
+    `block w-[6px] h-[6px] ${isOnline ? "bg-[#48cd48]" : "bg-[#ff6161]"} rounded-full`,
+  removeButton: "w-[20px] h-[20px] text-[#ccc] hover:text-[#ff6161]",
+  noFriendsContainer:
+    "flex flex-col items-center justify-center gap-[8px] w-full h-full",
+  noFriendsIcon: "w-[60px] h-[60px]",
+  noFriendsText: "text-center",
+};
