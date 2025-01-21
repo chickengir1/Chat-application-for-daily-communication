@@ -15,7 +15,7 @@ install_dependencies:
     - npm ci
   artifacts:
     paths:
-      - node_modules/
+      - dist/
   tags:
     - frontend
 
