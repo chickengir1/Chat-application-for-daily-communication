@@ -12,7 +12,7 @@ install_dependencies:
   image: node:lts
   script:
     - echo "의존성 설치 중"
-    - npm ci --include=dev
+    - npm ci
   artifacts:
     paths:
       - node_modules/
