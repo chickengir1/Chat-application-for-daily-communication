@@ -48,4 +48,3 @@ deploy_to_vm:
     - frontend
   only:
     - dev
-# vm 배포 테스트 중
