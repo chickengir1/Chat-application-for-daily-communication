@@ -4,7 +4,8 @@ export const notifications = [
     id: 1,
     name: "관리자",
     createdAt: "2025-01-21",
-    lastChat: "새로운 알림이 도착했습니다.",
+    lastChat:
+      "새로운 알림이 도착했습니다.새로운 알림이 도착했습니다.새로운 알림이 도착했습니다.새로운 알림이 도착했습니다.",
   },
   {
     id: 2,

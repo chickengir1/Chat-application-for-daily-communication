@@ -34,12 +34,13 @@ export default NotificationItem;
 const styles = {
   listItem:
     "flex cursor-pointer items-center justify-between border-b border-gray-50 px-3 py-4 transition-colors hover:rounded-lg hover:bg-[#404040]",
-  avatarContainer: "flex items-center space-x-4",
-  avatarIcon: "text-4xl text-gray-300 sm:text-5xl",
-  textContainer: "flex flex-col",
+  avatarContainer: "flex items-center space-x-4 flex-1 min-w-0",
+  avatarIcon: "text-4xl text-gray-300 sm:text-5xl flex-shrink-0",
+  textContainer: "flex flex-col flex-1 min-w-0",
   nameText: "text-base font-bold text-white sm:text-lg",
-  lastChatText: "text-sm text-gray-200 sm:text-base",
-  rightContainer: "flex items-end space-x-4 space-y-2",
-  createdAtText: "pb-1 text-sm text-gray-400 sm:text-base",
+  lastChatText: "text-sm text-gray-200 sm:text-base truncate max-w-full",
+  rightContainer:
+    "flex flex-col items-end space-y-2 md:space-y-0 md:flex-row md:items-center md:space-x-4",
+  createdAtText: "text-sm text-gray-400 sm:text-base",
   bellIcon: "text-2xl text-gray-300 sm:text-3xl",
 };

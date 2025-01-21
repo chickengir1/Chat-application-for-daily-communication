@@ -52,7 +52,7 @@ const styles = {
     "flex items-center justify-between mb-4 border-b border-gray-500 pb-4",
   header: "text-2xl font-bold",
   searchContainer:
-    "flex h-10 items-center rounded-lg bg-[#505050] px-2 text-white duration-200 ease-in-out hover:bg-[#404040] w-1/2 md:w-1/3",
+    "flex h-12 md:h-14 items-center rounded-lg bg-[#505050] px-2 text-white duration-200 ease-in-out hover:bg-[#404040] w-1/2 md:w-1/3",
   searchIcon: "mx-2 text-gray-300",
   input:
     "w-full rounded-lg bg-transparent px-2 text-white placeholder-gray-400 outline-none",
