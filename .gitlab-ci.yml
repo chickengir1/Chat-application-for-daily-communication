@@ -3,6 +3,11 @@ stages:
   - build
   - deploy
 
+variables:
+  NODE_ENV: production
+  VITE_APP_BASE_URL: $VITE_APP_BASE_URL
+  VITE_GOOGLE_AUTH_URL: $VITE_GOOGLE_AUTH_URL
+
 install_dependencies:
   stage: install
   image: node:lts
@@ -20,6 +25,8 @@ build_project:
   image: node:lts
   script:
     - echo "프로젝트 빌드 중"
+    - echo "VITE_APP_BASE_URL: $VITE_APP_BASE_URL"
+    - echo "VITE_GOOGLE_AUTH_URL: $VITE_GOOGLE_AUTH_URL"
     - npm run build
   artifacts:
     paths:
@@ -40,4 +47,4 @@ deploy_to_vm:
   tags:
     - frontend
   only:
-    - master
+    - dev

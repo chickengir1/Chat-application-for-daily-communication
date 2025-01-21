@@ -1,10 +1,35 @@
-import axios from "axios";
-/** [필독!] axiosInstance 백엔드 배포 완료시 baseURL 설정 필요 */
-export const axiosInstance = axios.create({
-  baseURL: "", // 아직 배포 안됨 나중에 추가
-  timeout: 1000,
-  headers: { "Content-Type": "application/json" },
-});
+import axios, { AxiosInstance } from "axios";
+import { API_CONFIG } from "@/utils/constans";
+
+/** 공통 설정을 포함한 Axios 인스턴스 생성 */
+const createAxiosInstance = (isAuthRequired: boolean): AxiosInstance => {
+  const instance = axios.create({
+    baseURL: API_CONFIG.BASE_URL,
+    timeout: 3000,
+    headers: { "Content-Type": "application/json" },
+  });
+
+  // 인증이 필요할때 Authorization 헤더 추가
+  if (isAuthRequired) {
+    instance.interceptors.request.use((config) => {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
+  }
+
+  return instance;
+};
+
+/** 인증용 Axios 인스턴스 */
+const authInstance = createAxiosInstance(true);
+
+/** 공개용 Axios 인스턴스 */
+const publicInstance = createAxiosInstance(false);
+
+export const axiosInstance = { authInstance, publicInstance };
 
 /**
  * API 호출을 처리하고 에러를 핸들링하는 비동기 함수
