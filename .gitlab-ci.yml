@@ -36,10 +36,11 @@ build_project:
 
 deploy_to_vm:
   stage: deploy
+  image: alpine:latest
   script:
     - echo "배포 중"
     - mkdir -p ~/.ssh
-    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - echo "StrictHostKeyChecking no" > ~/.ssh/config
     - scp -r dist/* kdt@34.47.79.162:/home/kdt/front/
