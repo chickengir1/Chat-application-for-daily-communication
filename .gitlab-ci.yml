@@ -13,9 +13,6 @@ install_dependencies:
   script:
     - echo "의존성 설치 중"
     - npm ci
-  artifacts:
-    paths:
-      - dist/
   tags:
     - frontend
 
@@ -26,7 +23,6 @@ build_project:
     - install_dependencies
   script:
     - echo "프로젝트 빌드 중"
-    - npm ci
     - npm run build
   artifacts:
     paths:
