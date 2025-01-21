@@ -58,6 +58,6 @@ const styles = {
   iconLabel: "mt-1 text-xs",
   logoutWrapper: "flex flex-col items-center",
   logoutButton:
-    "flex w-full flex-col items-center rounded bg-transparent p-3 hover:bg-[#3D3D3D]",
+    "flex w-full flex-col items-center rounded bg-transparent p-3 hover:bg-[#3D3D3D] hover:rounded-lg",
   logoutLabel: "mt-1 text-xs text-gray-400",
 };
