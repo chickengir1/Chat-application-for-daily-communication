@@ -12,7 +12,7 @@ import UnselectedChat from "@/components/feature/chat/UnselectedChat";
 
 const ChatPage = () => {
   const { value: search, onChange: setSearch } = useInput("");
-  const { filteredRooms, filterRooms } = useChatRooms(chatListData);
+  const { filteredRooms, filterRooms } = useChatRooms(chatListData); // 방생성 post 요청으로 생성된 res.data를 이곳에 전달하기
   const { selectedChatId, handleChatClick } = useChatNaviation();
   const { toggleOverlay, renderOverlay } = useOverlay();
 

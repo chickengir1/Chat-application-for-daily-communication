@@ -100,7 +100,7 @@ const styles = {
   inputActive: "opacity-100 scale-100 pointer-events-auto",
   inputHidden: "opacity-0 scale-95 pointer-events-none",
   searchInput:
-    "bg-[#ccc] rounded-md px-2 py-1 text-sm outline-none placeholder-gray-500 text-black",
+    "h-9 rounded-md bg-[#ccc] px-2 py-1 text-sm text-black placeholder-gray-500 outline-none",
 };
 
 export default ChatHeader;

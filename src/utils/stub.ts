@@ -21,6 +21,21 @@ export const notifications = [
   },
 ];
 
+// response로 전달받는 데이터 형식
+// useChatRooms.ts 인터페이스 변경
+// participants 배열 map으로 루프 후 랜더링
+// "roomId": "5cfad388-a232-469c-ac1c-7f28ff8a167f",
+//     "roomName": "user1, user2, user3",
+//     "ownerId": "user1",
+//     "lastMessage": null,
+//     "roomType": "GM",
+//     "participants": [
+//         "user1",
+//         "user2",
+//         "user3"
+//     ],
+//     "createdAt": "2025-01-15T16:36:19.297153"
+
 // ChatPage.tsx And HomePage.tsx에서 사용중.
 export const chatListData = [
   {
