@@ -4,7 +4,6 @@ stages:
   - deploy
 
 variables:
-  NODE_ENV: production
   VITE_APP_BASE_URL: $VITE_APP_BASE_URL
   VITE_GOOGLE_AUTH_URL: $VITE_GOOGLE_AUTH_URL
 
@@ -13,7 +12,7 @@ install_dependencies:
   image: node:lts
   script:
     - echo "의존성 설치 중"
-    - npm ci
+    - npm ci --include=dev
   artifacts:
     paths:
       - node_modules/
@@ -23,6 +22,8 @@ install_dependencies:
 build_project:
   stage: build
   image: node:lts
+  dependencies:
+    - install_dependencies
   script:
     - echo "프로젝트 빌드 중"
     - npm run build
