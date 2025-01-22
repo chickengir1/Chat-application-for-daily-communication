@@ -6,17 +6,7 @@ import {
   emailRequiredMsg,
   passwordPlaceholder,
   passwordRequiredMsg,
-} from "@/components/feature/join/joinRule";
-import {
-  joinConLeftBoxStyle,
-  joinConLeftStyle,
-  joinContentsStyle,
-  joinFormStyle,
-  joinInputStyle,
-  joinLogoStyle,
-  joinTitleStyle,
-  joinWrapperStyle,
-} from "@/components/feature/join/joinStyle";
+} from "@/utils/joinRule";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -43,24 +33,24 @@ const LoginPage = () => {
   };
 
   return (
-    <div className={joinWrapperStyle}>
-      <div className={joinContentsStyle}>
-        <div className={joinConLeftStyle}>
-          <div className={joinConLeftBoxStyle}>
-            <h1 className={joinLogoStyle}>LOGO</h1>
-            <p className={joinTitleStyle}>로그인</p>
+    <div className={styles.pageContainer}>
+      <div className={styles.loginWrapper}>
+        <div className={styles.formWrapper}>
+          <div className={styles.formContent}>
+            <h1 className={styles.logo}>LOGO</h1>
+            <p className={styles.formTitle}>로그인</p>
             <form
-              className={joinFormStyle}
+              className={styles.form}
               onSubmit={handleSubmit((data) => {
                 console.log(data);
                 navigate("/");
               })}
             >
               {/* 이메일 */}
-              <div className="relative">
+              <div className={styles.inputWrapper}>
                 <input
                   type="email"
-                  className={joinInputStyle}
+                  className={styles.inputField}
                   placeholder={emailPlaceholder}
                   {...register("email", {
                     required: emailRequiredMsg,
@@ -70,10 +60,10 @@ const LoginPage = () => {
               </div>
 
               {/* 비밀번호 */}
-              <div className="relative">
+              <div className={styles.inputWrapper}>
                 <input
                   type="password"
-                  className={joinInputStyle}
+                  className={styles.inputField}
                   placeholder={passwordPlaceholder}
                   {...register("password", {
                     required: passwordRequiredMsg,
@@ -85,32 +75,29 @@ const LoginPage = () => {
               <Button type="submit" text="로그인" disabled={isSubmitting} />
             </form>
 
-            <div className="mt-[8px] flex justify-end">
+            <div className={styles.footer}>
               <button
                 type="button"
-                className="text-[11px] text-[#fff]"
+                className={styles.findPasswordButton}
                 onClick={handleFindPasswordClick}
               >
                 비밀번호 찾기
               </button>
               <button
                 type="button"
-                className="relative ml-[8px] pl-[9px] text-[11px] text-[#fff] after:absolute after:left-[0px] after:top-[50%] after:h-[10px] after:w-[1px] after:-translate-y-1/2 after:bg-[#e1e1e1] after:content-['']"
+                className={styles.signupButton}
                 onClick={handleSignupClick}
               >
                 회원가입
               </button>
             </div>
 
-            <div className="mt-[20px] border-t-[1px] border-[#e1e1e1] pt-[24px]">
-              <button
-                type="button"
-                className="flex h-[40px] w-full items-center justify-center gap-[4px] rounded-[4px] bg-[#fff] text-[14px] font-bold"
-              >
+            <div className={styles.googleLoginWrapper}>
+              <button type="button" className={styles.googleLoginButton}>
                 <img
                   src="assets/images/google_logo.svg"
                   alt="구글 로고"
-                  className="w-[20px]"
+                  className={styles.googleLogo}
                 />
                 <span>구글 로그인</span>
               </button>
@@ -124,3 +111,25 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+const styles = {
+  pageContainer:
+    "flex h-[100vh] min-w-[320px] items-center justify-center px-[3%]",
+  loginWrapper:
+    "flex h-[80vh] w-[100%] max-w-[1024px] rounded-[16px] bg-[#505050] p-[20px]",
+  formWrapper: "flex w-full items-center justify-center sm:w-[50%]",
+  formContent: "w-full max-w-[320px] px-[16px]",
+  logo: "text-center text-[32px] font-extrabold text-[#fff]",
+  formTitle: "mt-[48px] text-[18px] font-bold text-[#fff] sm:mt-[80px]",
+  form: "mt-[16px] flex flex-col gap-[24px]",
+  inputWrapper: "relative",
+  inputField: "h-[40px] w-[100%] rounded border p-2 text-sm text-[#333]",
+  footer: "mt-[8px] flex justify-end",
+  findPasswordButton: "text-[11px] text-[#fff]",
+  signupButton:
+    "relative ml-[8px] pl-[9px] text-[11px] text-[#fff] after:absolute after:left-[0px] after:top-[50%] after:h-[10px] after:w-[1px] after:-translate-y-1/2 after:bg-[#e1e1e1] after:content-['']",
+  googleLoginWrapper: "mt-[20px] border-t-[1px] border-[#e1e1e1] pt-[24px]",
+  googleLoginButton:
+    "flex h-[40px] w-full items-center justify-center gap-[4px] rounded-[4px] bg-[#fff] text-[14px] font-bold",
+  googleLogo: "w-[20px]",
+};

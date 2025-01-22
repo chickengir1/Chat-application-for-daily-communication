@@ -74,17 +74,15 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="flex h-[calc(100%-72px)] flex-col gap-[20px] p-2 text-white md:h-[100%] md:py-6 md:pl-0 md:pr-6">
-        <div className="flex flex-col gap-[20px] sm:flex-row">
+      <div className={styles.pageContainer}>
+        <div className={styles.contentWrapper}>
           {/* 친구 목록 */}
           <div
-            className={`sm:w-[50%] ${
-              friendList ? "h-[30vh]" : "h-[64px]"
-            } overflow-hidden rounded-lg bg-[#505050] transition-all duration-300 ease-in-out sm:h-[50vh]`}
+            className={`${styles.listContainer} ${friendList ? "h-[30vh]" : "h-[64px]"}`}
           >
-            <div className="flex h-[64px] items-center justify-between bg-[#404040] px-4">
-              <h2 className="font-bold sm:text-[18px]">친구 목록</h2>
-              <div className="flex gap-[16px]">
+            <div className={styles.listHeader}>
+              <h2 className={styles.listTitle}>친구 목록</h2>
+              <div className={styles.headerButtons}>
                 <Button
                   text="채팅하기"
                   onClick={() => {
@@ -96,26 +94,22 @@ const HomePage = () => {
                 </button>
               </div>
             </div>
-            <div className="h-[calc(100%-64px)] overflow-auto p-4">
+            <div className={styles.listBody}>
               <FriendList friends={friendListData} />
             </div>
           </div>
 
           {/* 사용자 목록 */}
           <div
-            className={`sm:w-[50%] ${
-              userList ? "h-[30vh]" : "h-[64px]"
-            } overflow-hidden rounded-lg bg-[#505050] transition-all duration-300 ease-in-out sm:h-[50vh]`}
+            className={`${styles.listContainer} ${userList ? "h-[30vh]" : "h-[64px]"}`}
           >
-            <div className="flex h-[64px] items-center justify-between gap-[8px] bg-[#404040] px-4">
-              <h2 className="whitespace-nowrap font-bold sm:text-[18px]">
-                사용자 목록
-              </h2>
-              <div className="flex gap-[16px]">
-                <span className="relative">
+            <div className={styles.listHeader}>
+              <h2 className={styles.listTitle}>사용자 목록</h2>
+              <div className={styles.headerButtons}>
+                <span className={styles.searchInputWrapper}>
                   <input
                     type="text"
-                    className="h-[40px] w-full rounded-lg bg-[#505050] px-2"
+                    className={styles.searchInput}
                     placeholder="사용자 검색"
                     value={searchTerm}
                     onChange={handleInputChange}
@@ -126,18 +120,16 @@ const HomePage = () => {
                 </button>
               </div>
             </div>
-            <div className="h-[calc(100%-64px)] overflow-auto p-4">
+            <div className={styles.listBody}>
               <UserList users={userListData} />
             </div>
           </div>
         </div>
 
         {/* 최근 대화 */}
-        <div className="h-[100%] overflow-hidden rounded-lg bg-[#505050]">
-          <h2 className="flex h-[64px] items-center justify-between bg-[#404040] px-4 font-bold sm:text-[18px]">
-            최근 대화
-          </h2>
-          <div className="h-[calc(100%-64px)] overflow-auto">
+        <div className={styles.chatContainer}>
+          <h2 className={styles.chatHeader}>최근 대화</h2>
+          <div className={styles.chatBody}>
             <ChatList chats={chatListData} />
           </div>
         </div>
@@ -153,3 +145,22 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+const styles = {
+  pageContainer:
+    "flex h-[calc(100%-72px)] flex-col gap-[20px] p-2 text-white md:h-[100%] md:py-6 md:pl-0 md:pr-6",
+  contentWrapper: "flex flex-col gap-[20px] sm:flex-row",
+  listContainer:
+    "sm:w-[50%] overflow-hidden rounded-lg bg-[#505050] transition-all duration-300 ease-in-out sm:h-[50vh]",
+  listHeader:
+    "flex gap-[8px] h-[64px] items-center justify-between bg-[#404040] px-4",
+  listTitle: "font-bold sm:text-[18px] whitespace-nowrap",
+  headerButtons: "flex gap-[16px]",
+  listBody: "h-[calc(100%-64px)] overflow-auto p-4",
+  searchInputWrapper: "relative",
+  searchInput: "h-[40px] w-full rounded-lg bg-[#505050] px-2",
+  chatContainer: "h-[100%] overflow-hidden rounded-lg bg-[#505050]",
+  chatHeader:
+    "flex h-[64px] items-center justify-between bg-[#404040] px-4 font-bold sm:text-[18px]",
+  chatBody: "h-[calc(100%-64px)] overflow-auto",
+};

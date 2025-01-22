@@ -78,28 +78,26 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="absolute left-[0] top-[0] flex h-full w-full items-center justify-center bg-black bg-opacity-50 px-[20px]">
-      <div className="w-full max-w-[512px] rounded-[16px] bg-[#fff]">
-        <h3 className="px-[24px] text-[18px] font-bold leading-[64px]">
-          채팅방 생성
-        </h3>
-        <div className="flex-1 border-b border-t p-[24px]">
-          <ul className="flex flex-col gap-[32px]">
+    <div className={modalWrapper}>
+      <div className={modalContainer}>
+        <h3 className={header}>채팅방 생성</h3>
+        <div className={formContainer}>
+          <ul className={list}>
             {/* 채팅방 이름 */}
             <li>
-              <p className="mb-[4px] font-semibold">채팅방 이름</p>
+              <p className={label}>채팅방 이름</p>
               <input
                 type="text"
-                className="h-[40px] w-full rounded-lg border border-[#e1e1e1] px-[12px]"
+                className={input}
                 onChange={(e) => setRoomName(e.target.value)}
               />
             </li>
 
             {/* 채팅 종류 */}
             <li>
-              <p className="mb-[4px] font-semibold">채팅 종류</p>
-              <div className="flex gap-[28px]">
-                <span className="flex items-center gap-[8px]">
+              <p className={label}>채팅 종류</p>
+              <div className={radioGroup}>
+                <span className={radioItem}>
                   <input
                     type="radio"
                     id="roomType1"
@@ -110,7 +108,7 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
                   />
                   <label htmlFor="roomType1">1:1 채팅</label>
                 </span>
-                <span className="flex items-center gap-[8px]">
+                <span className={radioItem}>
                   <input
                     type="radio"
                     id="roomType2"
@@ -126,9 +124,9 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
 
             {/* 채팅할 친구 */}
             <li>
-              <p className="mb-[4px] font-semibold">채팅할 친구</p>
+              <p className={label}>채팅할 친구</p>
               <select
-                className="h-[40px] w-full rounded-lg border border-[#e1e1e1] px-[12px]"
+                className={input}
                 onChange={handleSelectChange}
                 value={selectedFriend.length === 0 ? "" : selectedFriend[0]}
               >
@@ -139,12 +137,9 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
                   return <option key={friend.id}>{friend.username}</option>;
                 })}
               </select>
-              <ul className="mt-[8px] flex gap-[4px]">
+              <ul className={selectedFriends}>
                 {selectedFriend.map((friend) => (
-                  <li
-                    key={friend}
-                    className="flex items-center gap-[8px] rounded-full bg-[#505050] px-[8px] text-sm leading-[28px] text-white"
-                  >
+                  <li key={friend} className={selectedFriendItem}>
                     {friend}
                     <button onClick={() => handleRemoveFriend(friend)}>
                       <IoClose />
@@ -155,11 +150,9 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
             </li>
           </ul>
           {/* 에러 메시지 출력 */}
-          {error && (
-            <p className="mt-[4px] text-[12px] text-[#ff6161]">{error}</p>
-          )}{" "}
+          {error && <p className={errorText}>{error}</p>}
         </div>
-        <div className="flex h-[64px] items-center justify-center gap-[8px] px-[24px]">
+        <div className={buttonContainer}>
           <Button text="생성하기" onClick={handleSubmit} />
           <Button text="닫기" onClick={onClose} />
         </div>
@@ -167,5 +160,22 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
     </div>
   );
 };
+
+// 테일윈드 스타일을 JavaScript 객체로 추출
+const modalWrapper =
+  "absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 px-5";
+const modalContainer = "w-full max-w-lg rounded-xl bg-white";
+const header = "flex items-center px-6 h-[64px] text-lg font-bold leading-16";
+const formContainer = "flex-1 border-b border-t p-6";
+const list = "flex flex-col gap-8";
+const label = "mb-1 font-semibold";
+const input = "h-10 w-full rounded-lg border border-gray-300 px-3";
+const radioGroup = "flex gap-7";
+const radioItem = "flex items-center gap-2";
+const selectedFriends = "mt-2 flex gap-1";
+const selectedFriendItem =
+  "flex items-center gap-2 rounded-full bg-gray-600 px-3 text-sm leading-7 text-white";
+const errorText = "mt-1 text-xs text-red-500";
+const buttonContainer = "flex h-16 items-center justify-center gap-2 px-6";
 
 export default CreateChatModal;
