@@ -4,11 +4,12 @@ import useInput from "@/hooks/common/useInput";
 import { useEffect } from "react";
 import useChatRooms from "@/hooks/feature/chat/useChatRooms";
 import NotificationItem from "@/components/feature/notifications/NotificationItem";
-import { notifications } from "@/utils/stub";
+import { useRoomList } from "@/hooks/api/useRoomList";
 
 const NotificationsPage = () => {
   const { value: search, onChange: setSearch } = useInput("");
-  const { filteredRooms, filterRooms } = useChatRooms(notifications);
+  const { rooms } = useRoomList();
+  const { filteredRooms, filterRooms } = useChatRooms(rooms);
 
   useEffect(() => {
     filterRooms(search);
@@ -30,11 +31,12 @@ const NotificationsPage = () => {
       </div>
       <div className={styles.notificationListContainer}>
         <ul className={styles.notificationList}>
+          {/*나중에 NotificationItem 바꿔야됨*/}
           {filteredRooms.map((notify) => (
             <NotificationItem
-              key={notify.id}
-              name={notify.name}
-              lastChat={notify.lastChat}
+              key={notify.roomId}
+              name={notify.ownerId}
+              lastChat={notify.lastMessage}
               createdAt={notify.createdAt}
             />
           ))}

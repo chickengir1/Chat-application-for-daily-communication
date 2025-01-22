@@ -4,7 +4,9 @@ import ChatList from "@/components/feature/chat/ChatList";
 import CreateChatModal from "@/components/feature/main/CreateChatModal";
 import FriendList from "@/components/feature/main/FriendList";
 import UserList from "@/components/feature/main/UserList";
-import { chatListData, friendListData, userListData } from "@/utils/stub";
+import { useRoomList } from "@/hooks/api/useRoomList";
+import useChatRooms from "@/hooks/feature/chat/useChatRooms";
+import { friendListData, userListData } from "@/utils/stub";
 import { useEffect, useRef, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
@@ -22,6 +24,8 @@ const HomePage = () => {
   const [debouncedValue, setDebouncedValue] = useState<string>(""); // 디바운싱된 값
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null); // 타이머 관리
   const [createChatModal, setCreateChatModal] = useState(false);
+  const { rooms } = useRoomList();
+  const { filteredRooms } = useChatRooms(rooms);
 
   // 입력값 변경 핸들러
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,7 +134,7 @@ const HomePage = () => {
         <div className={styles.chatContainer}>
           <h2 className={styles.chatHeader}>최근 대화</h2>
           <div className={styles.chatBody}>
-            <ChatList chats={chatListData} />
+            <ChatList chats={filteredRooms} />
           </div>
         </div>
       </div>
