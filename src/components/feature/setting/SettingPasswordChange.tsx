@@ -1,10 +1,3 @@
-import {
-  settingBoxStyle,
-  settingButtonStyle,
-  settingInputStyle,
-  settingSubTitleStyle,
-  settingTitleStyle,
-} from "./settingStyle";
 import { useForm } from "react-hook-form";
 import {
   passwordConfirmationPlaceholder,
@@ -17,7 +10,7 @@ import {
   passwordRegex,
   passwordRegexErrorMsg,
   passwordRequiredMsg,
-} from "../join/joinRule";
+} from "@/utils/joinRule";
 import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
 
 interface SettingPasswordChangeFormValues {
@@ -49,16 +42,16 @@ const SettingPasswordChange = () => {
   };
 
   return (
-    <div className="mt-[40px] border-t border-[#e1e1e1] pt-[50px]">
-      <h2 className={settingTitleStyle}>비밀번호 변경</h2>
+    <div className={styles.container}>
+      <h2 className={styles.title}>비밀번호 변경</h2>
       <form onSubmit={handleSubmit(handlePasswordChange)}>
-        <div className={settingBoxStyle}>
+        <div className={styles.formWrapper}>
           {/* 현재 비밀번호 */}
-          <div className="relative">
-            <p className={settingSubTitleStyle}>현재 비밀번호</p>
+          <div className={styles.inputWrapper}>
+            <p className={styles.inputLabel}>현재 비밀번호</p>
             <input
               type="password"
-              className={settingInputStyle}
+              className={styles.input}
               placeholder="현재 비밀번호를 입력하세요."
               {...register("currentPassword", {
                 required: passwordRequiredMsg,
@@ -68,11 +61,11 @@ const SettingPasswordChange = () => {
           </div>
 
           {/* 새 비밀번호 */}
-          <div className="relative">
-            <p className={settingSubTitleStyle}>새 비밀번호</p>
+          <div className={styles.inputWrapper}>
+            <p className={styles.inputLabel}>새 비밀번호</p>
             <input
               type="password"
-              className={settingInputStyle}
+              className={styles.input}
               placeholder={passwordPlaceholder}
               {...register("password", {
                 required: passwordRequiredMsg,
@@ -94,11 +87,11 @@ const SettingPasswordChange = () => {
           </div>
 
           {/* 새 비밀번호 확인 */}
-          <div className="relative">
-            <p className={settingSubTitleStyle}>새 비밀번호 확인</p>
+          <div className={styles.inputWrapper}>
+            <p className={styles.inputLabel}>새 비밀번호 확인</p>
             <input
               type="password"
-              className={settingInputStyle}
+              className={styles.input}
               placeholder={passwordConfirmationPlaceholder}
               {...register("passwordConfirmation", {
                 required: passwordConfirmationRequiredMsg,
@@ -115,7 +108,7 @@ const SettingPasswordChange = () => {
         </div>
         <button
           type="submit"
-          className={settingButtonStyle}
+          className={styles.submitButton}
           disabled={isSubmitting}
         >
           {isSubmitting ? "요청중..." : "변경사항 저장"}
@@ -126,3 +119,15 @@ const SettingPasswordChange = () => {
 };
 
 export default SettingPasswordChange;
+
+const styles = {
+  container: "mt-[40px] border-t border-[#e1e1e1] pt-[50px]",
+  title: "mb-[28px] text-[18px] font-bold sm:text-[22px]",
+  formWrapper:
+    "mt-[16px] flex w-[100%] flex-col gap-[24px] sm:mt-[0px] sm:max-w-[320px]",
+  inputWrapper: "relative",
+  inputLabel: "mb-[4px] font-bold",
+  input: "h-[40px] w-[100%] rounded border p-2 text-sm text-[#333]",
+  submitButton:
+    "ml-auto mt-[24px] block h-10 w-[100%] whitespace-nowrap rounded-sm bg-[#e7e7e7] px-3 text-[14px] font-semibold text-[#333] disabled:cursor-not-allowed disabled:bg-[#a6a6a6] disabled:text-[#d6d6d6] sm:w-[auto]",
+};

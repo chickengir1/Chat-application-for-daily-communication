@@ -11,8 +11,9 @@ export const nicknameMinLengthValue = 2;
 export const nicknameMinLengthMsg = `닉네임은 최소 ${nicknameMinLengthValue}자리 이상이어야 합니다.`;
 export const nicknameMaxLengthValue = 8;
 export const nicknameMaxLengthMsg = `닉네임은 최대 ${nicknameMaxLengthValue}자리 이하이어야 합니다.`;
-export const nicknameRegex = /^[a-zA-Z가-힣]{2,8}$/;
-export const nicknameRegexErrorMsg = "유효하지 않은 닉네임 형식입니다.";
+export const nicknameRegex = /^[a-zA-Z0-9가-힣]{2,8}$/;
+export const nicknameRegexErrorMsg =
+  "닉네임은 한글, 영어, 숫자 2~8글자만 사용 가능합니다.";
 
 // 비밀번호
 export const passwordPlaceholder = "비밀번호를 입력하세요.";
