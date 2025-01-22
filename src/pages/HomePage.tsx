@@ -24,7 +24,7 @@ const HomePage = () => {
   const [debouncedValue, setDebouncedValue] = useState<string>(""); // 디바운싱된 값
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null); // 타이머 관리
   const [createChatModal, setCreateChatModal] = useState(false);
-  const { rooms } = useRoomList();
+  const { rooms } = useRoomList(); // 나중에 ,isLoading, error,refetch 추가 해서 써주세요
   const { filteredRooms } = useChatRooms(rooms);
 
   // 입력값 변경 핸들러
