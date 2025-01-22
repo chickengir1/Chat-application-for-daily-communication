@@ -15,9 +15,9 @@ export const useNavigation = () => {
 };
 
 export const useChatNaviation = () => {
-  const [selectedChatId, setSelectedChatId] = useState<number>(0);
+  const [selectedChatId, setSelectedChatId] = useState<string>("");
 
-  const handleChatClick = (id: number) => {
+  const handleChatClick = (id: string) => {
     setSelectedChatId(id);
   };
   return { selectedChatId, handleChatClick };

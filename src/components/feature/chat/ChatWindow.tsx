@@ -7,13 +7,12 @@ import { roomStore } from "@/stores/roomStore";
 import Modal from "@/components/common/Modal";
 
 const ChatWindow = () => {
-  const { title, subtitle } = roomStore();
+  const { title, subtitle, participants: people } = roomStore();
   const { filteredMessages } = messageStore();
   const [isModalOpen, setModalOpen] = useState(false);
+  const participants = people.map((person: string) => person);
 
-  const participants = title.split(", ").map((name) => name.trim());
-
-  const currentUserId = 1; // 유저 스토어에서 가져와야하는 정보
+  const currentUserId = 1; // 유저 스토어에서 가져와야 함
 
   return (
     <div className="mb-16 flex h-full w-full flex-col overflow-hidden rounded-lg bg-[#505050] md:mb-0">

@@ -4,13 +4,16 @@ import EmptyChatList from "./EmptyChatList";
 
 interface ChatListProps {
   chats: {
-    id: number;
-    name: string;
-    lastChat: string;
+    roomId: string;
+    roomName: string;
+    ownerId: string;
+    lastMessage: string;
+    roomType: string;
+    participants: string[];
     createdAt: string;
   }[];
-  onChatClick?: (id: number) => void;
-  selectedChatId?: number;
+  onChatClick?: (id: string) => void;
+  selectedChatId?: string;
 }
 
 const ChatList = ({ chats, onChatClick, selectedChatId }: ChatListProps) => {
@@ -24,17 +27,17 @@ const ChatList = ({ chats, onChatClick, selectedChatId }: ChatListProps) => {
     <div className="p-4">
       {chats.map((chat) => (
         <div
-          key={chat.id}
+          key={chat.roomId}
           className={`${styles.chatRoom} ${
-            chat.id === selectedChatId ? styles.selected : styles.hover
+            chat.roomId === selectedChatId ? styles.selected : styles.hover
           }`}
-          onClick={handleChatClicked(chat.id)}
+          onClick={handleChatClicked(chat.roomId)}
         >
           <FaUserCircle className={styles.icon} />
           <div className={styles.chatInfo}>
             <div className={styles.chatText}>
-              <h3 className={styles.chatName}>{chat.name}</h3>
-              <p className={styles.chatLastMessage}>{chat.lastChat}</p>
+              <h3 className={styles.chatName}>{chat.roomName}</h3>
+              <p className={styles.chatLastMessage}>{chat.lastMessage}</p>
             </div>
           </div>
           <span className={styles.chatTime}>{formatTime(chat.createdAt)}</span>

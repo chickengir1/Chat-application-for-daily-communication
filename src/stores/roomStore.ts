@@ -1,16 +1,23 @@
 import { create } from "zustand";
 
 interface RoomState {
-  chatId: number | null;
+  chatId: string;
   title: string;
   subtitle: string;
-  setRoom: (chatId: number, title: string, subtitle: string) => void;
+  participants: string[];
+  setRoom: (
+    chatId: string,
+    title: string,
+    subtitle: string,
+    participants: string[]
+  ) => void;
 }
 
 export const roomStore = create<RoomState>((set) => ({
-  chatId: null,
+  chatId: "",
   title: "",
   subtitle: "",
-  setRoom: (chatId, title, subtitle) =>
-    set(() => ({ chatId, title, subtitle })),
+  participants: [],
+  setRoom: (chatId, title, subtitle, participants) =>
+    set(() => ({ chatId, title, subtitle, participants })),
 }));

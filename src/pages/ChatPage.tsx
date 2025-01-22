@@ -5,14 +5,15 @@ import ChatWindow from "@/components/feature/chat/ChatWindow";
 import ChatList from "@/components/feature/chat/ChatList";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import useChatRooms from "@/hooks/feature/chat/useChatRooms";
-import { chatListData } from "@/utils/stub";
 import { useChatNaviation } from "@/hooks/common/useNavigation";
 import { useOverlay } from "@/hooks/common/useOverlay";
 import UnselectedChat from "@/components/feature/chat/UnselectedChat";
+import { useRoomList } from "@/hooks/api/useRoomList";
 
 const ChatPage = () => {
   const { value: search, onChange: setSearch } = useInput("");
-  const { filteredRooms, filterRooms } = useChatRooms(chatListData); // 방생성 post 요청으로 생성된 res.data를 이곳에 전달하기
+  const { rooms } = useRoomList();
+  const { filteredRooms, filterRooms } = useChatRooms(rooms);
   const { selectedChatId, handleChatClick } = useChatNaviation();
   const { toggleOverlay, renderOverlay } = useOverlay();
 
