@@ -35,6 +35,7 @@ export const useRoomList = () => {
 
   const fetchRooms = async () => {
     setIsLoading(true);
+    setError("");
     const data = await fetchRoomList(setError);
     if (data) setRooms(data);
     setIsLoading(false);

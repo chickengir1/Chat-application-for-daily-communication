@@ -1,16 +1,19 @@
 import { FaBell } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 
 interface NotificationItemProps {
   name: string;
   lastChat: string;
   createdAt: string;
+  onDelete?: () => void;
 }
 
 const NotificationItem = ({
   name,
   lastChat,
   createdAt,
+  onDelete,
 }: NotificationItemProps) => {
   return (
     <li className={styles.listItem}>
@@ -22,8 +25,15 @@ const NotificationItem = ({
         </div>
       </div>
       <div className={styles.rightContainer}>
+        <div className={styles.iconContainer}>
+          <FaBell className={styles.bellIcon} />
+          {onDelete && (
+            <button className={styles.deleteButton} onClick={onDelete}>
+              <FaTrash />
+            </button>
+          )}
+        </div>
         <p className={styles.createdAtText}>{createdAt}</p>
-        <FaBell className={styles.bellIcon} />
       </div>
     </li>
   );
@@ -40,7 +50,9 @@ const styles = {
   nameText: "text-base font-bold text-white sm:text-lg",
   lastChatText: "text-sm text-gray-200 sm:text-base truncate max-w-full",
   rightContainer:
-    "flex flex-col items-end space-y-2 md:space-y-0 md:flex-row md:items-center md:space-x-4",
+    "flex flex-col items-end space-y-2 md:space-y-0 md:items-center md:space-x-4",
   createdAtText: "text-sm text-gray-400 sm:text-base",
+  iconContainer: "flex w-full items-center justify-end space-x-4",
   bellIcon: "text-2xl text-gray-300 sm:text-3xl",
+  deleteButton: "text-2xl text-red-500 hover:text-red-700",
 };

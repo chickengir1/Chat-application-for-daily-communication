@@ -15,6 +15,10 @@ const NotificationsPage = () => {
     filterRooms(search);
   }, [search, filterRooms]);
 
+  const onNotifyDelete = (roomId: string) => {
+    console.log(`삭제 버튼 클릭 ${roomId}`);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.headerContainer}>
@@ -38,6 +42,7 @@ const NotificationsPage = () => {
               name={notify.ownerId}
               lastChat={notify.lastMessage}
               createdAt={notify.createdAt}
+              onDelete={() => onNotifyDelete(notify.roomId)}
             />
           ))}
         </ul>
@@ -51,14 +56,15 @@ export default NotificationsPage;
 const styles = {
   container: "flex h-screen flex-col p-2 pb-20 md:p-6 md:pb-6 md:pl-0 md:pr-6",
   headerContainer:
-    "flex items-center justify-between mb-4 border-b border-gray-500 pb-4",
-  header: "text-2xl font-bold",
+    "flex items-center justify-between mb-4 border-b border-gray-600 pb-4",
+  header:
+    "text-2xl font-bold text-black flex items-center space-x-2 sm:text-3xl drop-shadow-lg",
   searchContainer:
-    "flex h-12 md:h-14 items-center rounded-lg bg-[#505050] px-2 text-white duration-200 ease-in-out hover:bg-[#404040] w-1/2 md:w-1/3",
+    "flex h-12 md:h-14 items-center rounded-lg bg-[#505050] px-2 text-black duration-200 ease-in-out hover:bg-[#404040] w-1/2 md:w-1/3",
   searchIcon: "mx-2 text-gray-300",
   input:
-    "w-full rounded-lg bg-transparent px-2 text-white placeholder-gray-400 outline-none",
+    "w-full rounded-lg bg-transparent px-2 text-black placeholder-gray-400 outline-none",
   notificationListContainer:
-    "flex flex-col w-full h-full space-y-4 rounded-lg bg-[#505050] p-4 text-white",
+    "flex flex-col w-full h-full space-y-4 rounded-lg bg-[#505050] p-4 text-black shadow-2xl",
   notificationList: "space-y-4",
 };

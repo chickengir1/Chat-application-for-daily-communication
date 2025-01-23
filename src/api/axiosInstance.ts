@@ -6,6 +6,7 @@ export const axiosInstance: AxiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // 테스트 좀 해보고 삭제 예정
 });
 
 // 세션 만료시 쓸거임
