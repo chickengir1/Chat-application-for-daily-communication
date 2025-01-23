@@ -6,7 +6,9 @@ const useWebSocket = (baseUrl: string) => {
 
   const connect = (roomId: string) => {
     if (wsCache[roomId]) {
-      console.warn(`이미 연결된 WebSocket roomId=${roomId}`);
+      // 이 콘솔은 서버와 연결을 보장하는게 아닌 요청을 보냈다는 사실을 확인하기 위한 것입니다.
+      // 소켓 인스턴스가 생성되면 결과와 상관없이 이미 캐싱이 진행중이라는 사실만을 알려주는 것입니다.
+      console.warn(`이미 연결된 WebSocket이 있습니다. roomId=${roomId}`);
       return wsCache[roomId];
     }
 
@@ -14,7 +16,7 @@ const useWebSocket = (baseUrl: string) => {
     const socket = new WebSocket(url);
 
     console.log(`WebSocket 연결 중... ${url}`);
-    wsCache[roomId] = socket;
+    wsCache[roomId] = socket; // 캐시에 저장
 
     socket.onopen = () => {
       // [필독] 디버깅용임 실제 연결이 완료되거나 프로덕트 레벨이되면 사용하지 않는 코드임.
