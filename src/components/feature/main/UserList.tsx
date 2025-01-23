@@ -3,10 +3,10 @@ import { FaUserCircle, FaUserPlus } from "react-icons/fa";
 
 interface UserListProps {
   users: {
-    id: number;
+    userId: number;
+    nickname: string;
+    email: string;
     profileImg: string;
-    username: string;
-    statusMessage: string;
   }[];
 }
 
@@ -16,12 +16,12 @@ const UserList = ({ users }: UserListProps) => {
       {users && users.length > 0 ? (
         users.map((user) => {
           return (
-            <div className={styles.userItem} key={user.id}>
+            <div className={styles.userItem} key={user.userId}>
               <FaUserCircle className={styles.userIcon} />
               <div className={styles.userInfo}>
                 <div className={styles.userText}>
-                  <h3 className={styles.username}>{user.username}</h3>
-                  <p className={styles.statusMessage}>{user.statusMessage}</p>
+                  <h3 className={styles.username}>{user.nickname}</h3>
+                  {/* <p className={styles.statusMessage}>{user.statusMessage}</p> */}
                 </div>
               </div>
               <button

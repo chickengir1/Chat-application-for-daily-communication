@@ -84,13 +84,14 @@ const SignUpPage = () => {
       return;
     }
 
-    const requestData = {
+    const userData = {
       nickname: data.nickname,
       email: data.email,
       password: data.password,
       password_confirmation: data.passwordConfirmation,
     };
-    console.log(requestData);
+
+    console.log(userData);
     alert("가입하기 완료");
   };
 

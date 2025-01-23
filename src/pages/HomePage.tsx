@@ -1,4 +1,5 @@
-import { fetchData } from "@/api/apiExamples";
+// import { fetchData } from "@/api/apiExamples";
+import { axiosInstance } from "@/api/axiosInstance";
 import Button from "@/components/common/Button";
 import ChatList from "@/components/feature/chat/ChatList";
 import CreateChatModal from "@/components/feature/main/CreateChatModal";
@@ -6,15 +7,16 @@ import FriendList from "@/components/feature/main/FriendList";
 import UserList from "@/components/feature/main/UserList";
 import { useRoomList } from "@/hooks/api/useRoomList";
 import useChatRooms from "@/hooks/feature/chat/useChatRooms";
-import { friendListData, userListData } from "@/utils/stub";
+import { friendListData } from "@/utils/stub";
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 interface User {
-  id: number;
+  userId: number;
+  nickname: string;
+  email: string;
   profileImg: string;
-  username: string;
-  statusMessage: string;
 }
 
 const HomePage = () => {
@@ -22,6 +24,8 @@ const HomePage = () => {
   const [userList, setUserList] = useState(false);
   const [searchTerm, setSearchTerm] = useState<string>(""); // 사용자 입력값
   const [debouncedValue, setDebouncedValue] = useState<string>(""); // 디바운싱된 값
+  const [searchedUsers, setSearchedUsers] = useState<User[]>([]); // 검색된 사용자 목록
+  const [error, setError] = useState<string | null>(null); // 에러 메시지 관리
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null); // 타이머 관리
   const [createChatModal, setCreateChatModal] = useState(false);
   const { rooms } = useRoomList(); // 나중에 ,isLoading, error,refetch 추가 해서 써주세요
@@ -43,38 +47,40 @@ const HomePage = () => {
     }, 1000);
   };
 
-  // 디바운싱된 값으로 작업 (예: API 호출)
+  // 사용자 검색 -> 디바운싱된 값으로 API 호출
   useEffect(() => {
-    if (debouncedValue) {
-      console.log("디바운싱된 검색어:", debouncedValue);
-      // 여기에 API 호출 로직 추가
-    }
-  }, [debouncedValue]);
+    console.log("Debounced Value:", debouncedValue);
+    console.log("컴파일 에러 방지", error); // 컴파일 에러 방지용
 
-  const toggleFriendList = () => {
-    setFriendList((prev) => !prev);
-  };
+    const fetchUsers = async () => {
+      if (!debouncedValue) {
+        setSearchedUsers([]); // 검색어가 없으면 초기화
+        return;
+      }
 
-  const toggleUserList = () => {
-    setUserList((prev) => !prev);
-  };
+      try {
+        const response = await axiosInstance.get(
+          `/api/users/search?nickname=${debouncedValue}&page=0&size=10`
+        );
 
-  const [users, setUsers] = useState<User[] | null>(null);
-  // const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const getUsers = async () => {
-      const response = await fetchData<User[]>("/api/users/search");
-      if (response) {
-        setUsers(response);
-      } else {
-        // setError("사용자 목록을 가져오는 데 실패했습니다.");
+        setSearchedUsers(response.data.content); // 검색된 사용자 목록 업데이트
+        setError(null); // 에러 초기화
+      } catch (err) {
+        if (err instanceof Error) {
+          // Error 타입으로 체크
+          console.error("API 호출 에러:", err.message);
+          setError("사용자 검색 중 에러가 발생했습니다.");
+        } else {
+          console.error("알 수 없는 에러:", err);
+          setError("알 수 없는 에러가 발생했습니다.");
+        }
       }
     };
 
-    getUsers();
-  }, []);
-  console.log(users);
+    fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // 디펜던시 워닝때문에 추가
+  }, [debouncedValue]);
 
   return (
     <>
@@ -93,7 +99,12 @@ const HomePage = () => {
                     setCreateChatModal(true);
                   }}
                 />
-                <button className="sm:hidden" onClick={toggleFriendList}>
+                <button
+                  className="sm:hidden"
+                  onClick={() => {
+                    setFriendList(!friendList);
+                  }}
+                >
                   {friendList ? <FaAngleUp /> : <FaAngleDown />}
                 </button>
               </div>
@@ -119,13 +130,18 @@ const HomePage = () => {
                     onChange={handleInputChange}
                   />
                 </span>
-                <button className="sm:hidden" onClick={toggleUserList}>
+                <button
+                  className="sm:hidden"
+                  onClick={() => {
+                    setUserList(!userList);
+                  }}
+                >
                   {userList ? <FaAngleUp /> : <FaAngleDown />}
                 </button>
               </div>
             </div>
             <div className={styles.listBody}>
-              <UserList users={userListData} />
+              <UserList users={searchedUsers} />
             </div>
           </div>
         </div>

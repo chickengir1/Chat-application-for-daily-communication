@@ -1,5 +1,7 @@
 import Button from "@/components/common/Button";
-import { useState } from "react";
+import { useChatParticipants } from "@/hooks/feature/chat/useChatParticipants";
+import { useCreateChatRoom } from "@/hooks/feature/chat/useCreateChatRoom";
+import { friendListData } from "@/utils/stub";
 import { IoClose } from "react-icons/io5";
 
 interface ChatModalProps {
@@ -7,78 +9,36 @@ interface ChatModalProps {
   onClose: () => void;
 }
 
-const friendListData = [
-  {
-    id: 1,
-    username: "친구1",
-  },
-  {
-    id: 2,
-    username: "친구2",
-  },
-  {
-    id: 3,
-    username: "친구3",
-  },
-];
-
 const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
-  const [roomName, setRoomName] = useState("");
-  const [roomType, setRoomType] = useState("1:1");
-  const [selectedFriend, SetSelectedFriend] = useState<string[]>([]); // 초기 상태를 배열로 설정
-  const [error, setError] = useState("");
+  const {
+    roomName,
+    setRoomName,
+    roomType,
+    selectedFriend,
+    handleRoomTypeChange,
+    handleRemoveFriend,
+    handleSelectChange,
+  } = useChatParticipants();
+  const { error, handleCreateChatRoom } = useCreateChatRoom();
 
-  // 채팅 종류 선택 시 selectedFriend 리셋
-  const handleRoomTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRoomType(e.target.value);
-    SetSelectedFriend([]); // 채팅 종류 변경 시 친구 목록 초기화
-  };
-
-  // 친구 선택
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-
-    if (roomType === "1:1") {
-      SetSelectedFriend([value]); // 1:1 채팅일 때는 배열로 친구 하나만 선택
-    } else {
-      // 그룹 채팅일 때는 여러 명을 선택할 수 있음
-      if (!value || selectedFriend.includes(value)) return;
-      SetSelectedFriend((prev) => [...prev, value]);
-    }
-  };
-
-  // 선택된 채팅할 친구 삭제
-  const handleRemoveFriend = (friend: string) => {
-    SetSelectedFriend((prev) => prev.filter((f) => f !== friend));
-  };
-
-  // 생성하기 버튼 클릭 시 처리
-  const handleSubmit = () => {
-    if (!roomName) {
-      setError("채팅방 이름을 입력해주세요."); // 채팅방 이름이 비어 있으면 에러 메시지 설정
-      return;
-    }
-
-    if (selectedFriend.length === 0) {
-      setError("친구를 선택해주세요."); // 친구를 선택하지 않았으면 에러 메시지 설정
-      return;
-    }
-
-    const chatData = {
+  const handleSubmit = async () => {
+    const result = await handleCreateChatRoom(
       roomName,
       roomType,
-      participants: selectedFriend,
-    };
-    console.log(chatData);
+      selectedFriend
+    );
 
-    // 에러 메시지 초기화
-    setError("");
+    if (result) {
+      console.log("채팅방 생성 성공!", result);
+      onClose();
+    }
   };
 
   if (!isOpen) return null;
 
   return (
     <div className={modalWrapper}>
+      <div className={modalDim} onClick={onClose}></div>
       <div className={modalContainer}>
         <h3 className={header}>채팅방 생성</h3>
         <div className={formContainer}>
@@ -102,8 +62,8 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
                     type="radio"
                     id="roomType1"
                     name="roomType"
-                    value="1:1"
-                    checked={roomType === "1:1"}
+                    value="DM"
+                    checked={roomType === "DM"}
                     onChange={handleRoomTypeChange}
                   />
                   <label htmlFor="roomType1">1:1 채팅</label>
@@ -113,8 +73,8 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
                     type="radio"
                     id="roomType2"
                     name="roomType"
-                    value="그룹"
-                    checked={roomType === "그룹"}
+                    value="GM"
+                    checked={roomType === "GM"}
                     onChange={handleRoomTypeChange}
                   />
                   <label htmlFor="roomType2">그룹 채팅</label>
@@ -163,8 +123,9 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
 
 // 테일윈드 스타일을 JavaScript 객체로 추출
 const modalWrapper =
-  "absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 px-5";
-const modalContainer = "w-full max-w-lg rounded-xl bg-white";
+  "absolute left-0 top-0 flex h-full w-full items-center justify-center px-5";
+const modalDim = "absolute left-0 top-0 h-full w-full bg-black bg-opacity-50";
+const modalContainer = "relative w-full max-w-lg rounded-xl bg-white z-1";
 const header = "flex items-center px-6 h-[64px] text-lg font-bold leading-16";
 const formContainer = "flex-1 border-b border-t p-6";
 const list = "flex flex-col gap-8";
