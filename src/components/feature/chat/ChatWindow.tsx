@@ -23,6 +23,7 @@ const ChatWindow = ({ roomId }: ChatWindowProps) => {
     connect(roomId);
 
     return () => {};
+    // depndency warning 제거용
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
 
