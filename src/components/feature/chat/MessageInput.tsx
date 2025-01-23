@@ -1,19 +1,20 @@
-import useChat from "@/hooks/feature/chat/useSendMessage";
 import Input from "@/components/common/Input";
 import { FaPaperclip, FaSmile, FaPaperPlane } from "react-icons/fa";
+import useSendMessage from "@/hooks/feature/chat/useSendMessage";
 
-const wsApiUrl = "ws://localhost:8080"; // 웹소켓 api 주소
+const wsBaseUrl = "ws://34.47.79.162:8080";
 
-const MessageInput = () => {
-  const { value, onChange, onKeyDown, handleSendMessage } = useChat({
-    wsUrl: wsApiUrl,
+const MessageInput = ({ roomId }: { roomId: string }) => {
+  const { value, onChange, onKeyDown, handleSendMessage } = useSendMessage({
+    baseUrl: wsBaseUrl,
+    roomId,
   });
 
   return (
     <div className={styles.container}>
       <label className={styles.label}>
         <FaPaperclip size={20} />
-        <Input type="file" className={styles.hiddenInput} />
+        <Input type="file" onChange={onChange} className={styles.hiddenInput} />
       </label>
       <button className={styles.iconButton}>
         <FaSmile size={20} />
@@ -25,7 +26,6 @@ const MessageInput = () => {
         placeholder="Type a message..."
         className={styles.textInput}
       />
-
       <button onClick={handleSendMessage} className={styles.sendButton}>
         <FaPaperPlane size={20} />
       </button>

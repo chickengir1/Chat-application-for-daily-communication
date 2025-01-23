@@ -21,6 +21,19 @@ const ChatPage = () => {
     filterRooms(search);
   }, [search, filterRooms]);
 
+  // 임시 데이터
+  const tempChats = [
+    {
+      roomId: "This_is_Room_Id",
+      roomName: "테스트용데이터",
+      ownerId: "존 도",
+      lastMessage: "마지막메세지입니다.",
+      roomType: "GM",
+      participants: ["존 도", "일론머스크"],
+      createdAt: new Date().toISOString(),
+    },
+  ];
+
   const mobileChatListContent = (
     <>
       <button className={mobileStyles.closeButton} onClick={toggleOverlay}>
@@ -49,8 +62,9 @@ const ChatPage = () => {
         </div>
         <div className={styles.chatList}>
           <h2 className={styles.chatListHeader}>Chat Rooms</h2>
+          {/*임시데이터 넣어놨음 filteredRooms로 수정해야함*/}
           <ChatList
-            chats={filteredRooms}
+            chats={tempChats}
             onChatClick={handleChatClick}
             selectedChatId={selectedChatId}
           />
@@ -61,7 +75,11 @@ const ChatPage = () => {
           <FaBars />
         </button>
         {renderOverlay(mobileChatListContent)}
-        {selectedChatId ? <ChatWindow /> : <UnselectedChat />}
+        {selectedChatId ? (
+          <ChatWindow roomId={selectedChatId} />
+        ) : (
+          <UnselectedChat />
+        )}
       </div>
     </div>
   );

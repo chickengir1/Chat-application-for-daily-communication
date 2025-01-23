@@ -1,39 +1,3 @@
-// messagesStore.ts에서 사용중.
-export const chatData = [
-  {
-    messageType: "CHAT",
-    sender: "일론머스크",
-    userId: 2,
-    message: "Hey There!",
-    createdAt: "2025-01-01 10:00:00",
-    roomid: 1,
-  },
-  {
-    messageType: "CHAT",
-    sender: "me",
-    userId: 1,
-    message: "안녕하세요",
-    createdAt: "2025-01-01 10:01:00",
-    roomid: 1,
-  },
-  {
-    messageType: "CHAT",
-    sender: "me",
-    userId: 1,
-    message: "텍스트에요",
-    createdAt: "2025-01-01 10:02:00",
-    roomid: 1,
-  },
-  {
-    messageType: "CHAT",
-    sender: "일론머스크",
-    userId: 2,
-    message: "반갑습니다",
-    createdAt: "2025-01-01 10:05:00",
-    roomid: 1,
-  },
-];
-
 export const friendListData = [
   // {
   //   id: 1,

@@ -1,41 +1,61 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import ChatBubble from "./ChatBubble";
 import { messageStore } from "@/stores/messageStore";
 import { roomStore } from "@/stores/roomStore";
 import Modal from "@/components/common/Modal";
+import useWebSocket from "@/hooks/feature/useWebSocket";
 
-const ChatWindow = () => {
+interface ChatWindowProps {
+  roomId: string;
+}
+const wsBaseUrl = "ws://34.47.79.162:8080";
+
+const ChatWindow = ({ roomId }: ChatWindowProps) => {
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const { title, subtitle, participants: people } = roomStore();
-  const { filteredMessages } = messageStore();
-  const [isModalOpen, setModalOpen] = useState(false);
+  const { filteredMessages, filterMessages } = messageStore();
+  const { connect, disconnect } = useWebSocket(wsBaseUrl);
+
+  useEffect(() => {
+    filterMessages(roomId);
+    connect(roomId);
+
+    return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomId]);
+
+  const handleModalState = (state: boolean) => () => {
+    setModalOpen(state);
+  };
+
   const participants = people.map((person: string) => person);
 
-  const currentUserId = 1; // 유저 스토어에서 가져와야 함
+  const currentUserId = "존 도"; // 유저 스토어에서 가져와야함
 
   return (
     <div className="mb-16 flex h-full w-full flex-col overflow-hidden rounded-lg bg-[#505050] md:mb-0">
       <ChatHeader
         title={title}
         subtitle={subtitle}
-        onOptionsClick={() => setModalOpen(true)}
+        onOptionsClick={handleModalState(true)}
       />
       <div className="flex-1 overflow-y-auto p-4 scrollbar-none">
         {filteredMessages.map((message) => (
           <ChatBubble
             key={`${message.roomid} - ${message.createdAt}`}
-            sender={message.sender}
+            sender={message.nickname}
             message={message.message}
             timestamp={message.createdAt}
-            isCurrentUser={message.userId === currentUserId}
+            isCurrentUser={message.nickname === currentUserId}
           />
         ))}
       </div>
-      <MessageInput />
+      <MessageInput roomId={roomId} />
       <Modal
         isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={handleModalState(false)}
         overlayClassName={modalStyles.overlayClassName}
         contentClassName={modalStyles.contentClassName}
       >
@@ -50,7 +70,7 @@ const ChatWindow = () => {
             ))}
           </div>
           <button
-            onClick={() => console.log("채팅방 나가기 테스트")}
+            onClick={() => disconnect(roomId)}
             className={modalStyles.leaveButton}
           >
             채팅방 나가기
