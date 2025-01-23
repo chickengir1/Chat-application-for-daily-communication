@@ -8,7 +8,6 @@ import UserList from "@/components/feature/main/UserList";
 import { useRoomList } from "@/hooks/api/useRoomList";
 import useChatRooms from "@/hooks/feature/chat/useChatRooms";
 import { friendListData } from "@/utils/stub";
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
@@ -78,8 +77,8 @@ const HomePage = () => {
     };
 
     fetchUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     // 디펜던시 워닝때문에 추가
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue]);
 
   return (
