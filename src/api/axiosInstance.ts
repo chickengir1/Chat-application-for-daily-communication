@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 
 // 테스트용 헤더
@@ -43,10 +44,20 @@ axiosInstance.interceptors.response.use(
  * @param {(error: Error) => void} [onError] - 에러 발생 시 실행할 콜백 함수 (선택 사항)
  * @returns {Promise<T | null>} 정상 처리가 되었을 경우 해당 결과값, 에러가 발생한 경우 null 리턴
  */
-export const handleApiCall = async <T>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function handleApiCall<T>(apiCall: Promise<T>): Promise<T | null>;
+
+// Overload 2: onError가 제공된 경우
+export function handleApiCall<T, E = any>(
   apiCall: Promise<T>,
-  onError?: (error: Error) => void
-): Promise<T | null> => {
+  onError: (error: Error) => E
+): Promise<T | E>;
+
+// Implementation
+export async function handleApiCall<T, E = any>(
+  apiCall: Promise<T>,
+  onError?: (error: Error) => E
+): Promise<T | E | null> {
   try {
     return await apiCall;
   } catch (error: unknown) {
@@ -55,7 +66,10 @@ export const handleApiCall = async <T>(
     console.error(customError.message);
     console.error("에러 원인", customError.cause);
 
-    if (onError) onError(customError);
+    if (onError) {
+      return onError(customError);
+    }
+
     return null;
   }
-};
+}
