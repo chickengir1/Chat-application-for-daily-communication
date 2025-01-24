@@ -32,5 +32,4 @@ deploy_to_vm:
   tags:
     - frontend
   only:
-    - dev
-    # 런타임 상황 확인 후 삭제 예정
+    - master

@@ -12,9 +12,13 @@ export const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => response.data,
   (error) => {
-    if (error.response?.status === 401) {
+    // 원래는 401일때 처리하는게 맞음
+    // 하지만 토큰 관련 테스트 작업으로 인해 400으로 바꿔도 무방
+    // 작업 완료 후 401과 403으로 변경 요망
+    if (error.response?.status === 401 || error.response?.status === 403) {
       console.warn("세션 만료 또는 인증 실패");
-      // 로그인 페이지로 이동 등 추가 로직하거나 확장 시켜야함
+
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }
