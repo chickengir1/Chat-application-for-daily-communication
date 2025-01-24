@@ -3,7 +3,6 @@ stages:
   - deploy
 
 variables:
-  VITE_APP_BASE_URL: $VITE_APP_BASE_URL
   VITE_GOOGLE_AUTH_URL: $VITE_GOOGLE_AUTH_URL
 
 build_project:

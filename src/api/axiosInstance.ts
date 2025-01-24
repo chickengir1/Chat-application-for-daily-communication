@@ -1,8 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { API_CONFIG } from "@/utils/constans";
 
 export const axiosInstance: AxiosInstance = axios.create({
-  baseURL: API_CONFIG.BASE_URL,
+  baseURL: "http://34.47.79.162/",
   headers: {
     "Content-Type": "application/json",
   },
