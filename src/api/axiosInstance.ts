@@ -45,7 +45,7 @@ axiosInstance.interceptors.response.use(
  * @returns {Promise<T | null>} 정상 처리가 되었을 경우 해당 결과값, 에러가 발생한 경우 null 리턴
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function handleApiCall<T>(apiCall: Promise<T>): Promise<T | null>;
+export function handleApiCall<T>(apiCall: Promise<T>): Promise<T>;
 
 // Overload 2: onError가 제공된 경우
 export function handleApiCall<T, E = any>(
