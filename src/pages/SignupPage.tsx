@@ -29,8 +29,8 @@ import {
 } from "@/utils/joinRule";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSignup } from "@/hooks/api/useSignup";
 
-const dummyEmails = ["test@example.com", "user@domain.com"];
 const correctCertification = "111111";
 const dummyNicknames = ["testuser", "admin"];
 
@@ -46,6 +46,8 @@ const SignUpPage = () => {
   const [emailStatus, setEmailStatus] = useState(false); // 이메일 상태
   const [certificationStatus, setCertificationStatus] = useState(false); // 인증번호 상태
   const [nicknameStatus, setNicknameStatus] = useState(false); // 닉네임 상태
+
+  const { emailExists } = useSignup();
 
   const {
     register,
@@ -95,7 +97,7 @@ const SignUpPage = () => {
     alert("가입하기 완료");
   };
 
-  const checkEmailDuplication = () => {
+  const checkEmailDuplication = async () => {
     const email = watch("email");
 
     if (!email) {
@@ -116,7 +118,7 @@ const SignUpPage = () => {
       return;
     }
 
-    if (dummyEmails.includes(email)) {
+    if (await emailExists(email)) {
       setError("email", {
         type: "manual",
         message: "이미 사용 중인 이메일입니다.",
