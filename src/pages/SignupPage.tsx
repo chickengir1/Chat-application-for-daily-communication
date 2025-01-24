@@ -32,7 +32,6 @@ import { useForm } from "react-hook-form";
 import { useSignup } from "@/hooks/api/useSignup";
 
 const correctCertification = "111111";
-const dummyNicknames = ["testuser", "admin"];
 
 interface SignupFormValues {
   email: string;
@@ -47,7 +46,7 @@ const SignUpPage = () => {
   const [certificationStatus, setCertificationStatus] = useState(false); // 인증번호 상태
   const [nicknameStatus, setNicknameStatus] = useState(false); // 닉네임 상태
 
-  const { emailExists } = useSignup();
+  const { emailExists, nicknameExists } = useSignup();
 
   const {
     register,
@@ -176,7 +175,7 @@ const SignUpPage = () => {
     setCertificationStatus(false);
   };
 
-  const checkNicknameDuplication = () => {
+  const checkNicknameDuplication = async () => {
     const nickname = watch("nickname");
 
     if (!nickname) {
@@ -197,7 +196,7 @@ const SignUpPage = () => {
       return;
     }
 
-    if (dummyNicknames.includes(nickname)) {
+    if (await nicknameExists(nickname)) {
       setError("nickname", {
         type: "manual",
         message: "이미 사용 중인 닉네임입니다.",

@@ -4,6 +4,10 @@ interface ValidateEmailResponse {
   result: boolean;
 }
 
+interface ValidateNicknameResponse {
+  result: boolean;
+}
+
 export const useSignup = () => {
   const emailExists = async (email: string) => {
     const { result } = await handleApiCall<
@@ -16,5 +20,16 @@ export const useSignup = () => {
     return result;
   };
 
-  return { emailExists };
+  const nicknameExists = async (nickname: string) => {
+    const { result } = await handleApiCall<
+      ValidateNicknameResponse,
+      ValidateNicknameResponse
+    >(axiosInstance.get(`/api/user/check/nickname/${nickname}`), () => ({
+      result: true,
+    }));
+
+    return result;
+  };
+
+  return { emailExists, nicknameExists };
 };
