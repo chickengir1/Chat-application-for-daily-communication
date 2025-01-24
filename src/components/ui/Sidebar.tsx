@@ -2,11 +2,25 @@ import { useNavigation } from "@/hooks/common/useNavigation";
 import { FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import { icons } from "@/utils/iconField";
 import { renderIcons } from "@/utils/navigationUtils";
+import { useSignOut } from "@/hooks/api/useSignOut";
+import { useAuth } from "@/hooks/api/useAuth";
 
 //**사이드바 컴포넌트 */
 const Sidebar = () => {
-  const { activeIndex, handleNavigation } = useNavigation();
+  const navigate = useNavigation();
+  const { activeIndex, handleNavigation } = navigate;
   const userProfileImage: string | null = "";
+
+  const { signOut } = useSignOut();
+  const { isSignedIn } = useAuth();
+
+  console.log(`isSignedIn in Sidebar: ${isSignedIn}`);
+
+  const handleLogout = async () => {
+    if (await signOut()) {
+      //
+    }
+  };
 
   return (
     <div className={styles.sidebar}>
@@ -28,12 +42,14 @@ const Sidebar = () => {
           {renderIcons(icons, "vertical", activeIndex, handleNavigation)}
         </div>
       </div>
-      <div className={styles.logoutWrapper}>
-        <button className={styles.logoutButton}>
-          <FaSignOutAlt size={24} />
-          <span className={styles.logoutLabel}>Logout</span>
-        </button>
-      </div>
+      {isSignedIn && (
+        <div className={styles.logoutWrapper}>
+          <button className={styles.logoutButton} onClick={handleLogout}>
+            <FaSignOutAlt size={24} />
+            <span className={styles.logoutLabel}>Logout</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 };

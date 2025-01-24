@@ -1,7 +1,7 @@
 import Button from "@/components/common/Button";
 import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
 import JoinRightContent from "@/components/feature/join/JoinRightContent";
-import { useSignIn } from "@/hooks/api/useSignin";
+import { useSignIn } from "@/hooks/api/useSignIn";
 import {
   emailPlaceholder,
   emailRequiredMsg,

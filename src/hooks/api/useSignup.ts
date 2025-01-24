@@ -36,7 +36,7 @@ interface SignUpResponse {
   message: string;
 }
 
-export const useSignup = () => {
+export const useSignUp = () => {
   const emailExists = async (email: string) => {
     const { result } = await handleApiCall<
       ValidateEmailResponse,
@@ -79,7 +79,7 @@ export const useSignup = () => {
     return result;
   };
 
-  const signup = async (dto: SignUpRequest) => {
+  const signUp = async (dto: SignUpRequest) => {
     const { message } = await handleApiCall<SignUpResponse>(
       axiosInstance.post("/api/register", dto)
     );
@@ -93,6 +93,6 @@ export const useSignup = () => {
     nicknameExists,
     sendVerificationCodeToEmail,
     verifyEmail,
-    signup,
+    signUp,
   };
 };

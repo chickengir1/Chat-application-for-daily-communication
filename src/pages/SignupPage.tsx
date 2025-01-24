@@ -29,7 +29,7 @@ import {
 } from "@/utils/joinRule";
 import { ClipboardEventHandler, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSignup } from "@/hooks/api/useSignup";
+import { useSignUp } from "@/hooks/api/useSignUp";
 import { useNavigate } from "react-router-dom";
 
 interface SignupFormValues {
@@ -52,8 +52,8 @@ const SignUpPage = () => {
     nicknameExists,
     sendVerificationCodeToEmail,
     verifyEmail,
-    signup,
-  } = useSignup();
+    signUp,
+  } = useSignUp();
 
   const {
     register,
@@ -126,7 +126,7 @@ const SignUpPage = () => {
       confirmPassword: data.passwordConfirmation,
     };
 
-    if (await signup(userData)) {
+    if (await signUp(userData)) {
       alert("가입하기 완료");
       navigate("/login");
     }
