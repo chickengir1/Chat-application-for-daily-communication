@@ -19,7 +19,7 @@ export const useSignOut = () => {
       })
     );
 
-    if (message === "Logout Success") {
+    if (message === "로그아웃 완료") {
       setAccessToken("");
       setRefreshToken("");
       return true;
