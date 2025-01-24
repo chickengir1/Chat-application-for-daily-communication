@@ -27,16 +27,14 @@ import {
   passwordRegexErrorMsg,
   passwordRequiredMsg,
 } from "@/utils/joinRule";
-import { useState } from "react";
+import { ClipboardEventHandler, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-
-const dummyEmails = ["test@example.com", "user@domain.com"];
-const correctCertification = "111111";
-const dummyNicknames = ["testuser", "admin"];
+import { useSignup } from "@/hooks/api/useSignup";
+import { useNavigate } from "react-router-dom";
 
 interface SignupFormValues {
   email: string;
-  certification: string;
+  verifyCode: string;
   nickname: string;
   password: string;
   passwordConfirmation: string;
@@ -44,8 +42,18 @@ interface SignupFormValues {
 
 const SignUpPage = () => {
   const [emailStatus, setEmailStatus] = useState(false); // 이메일 상태
-  const [certificationStatus, setCertificationStatus] = useState(false); // 인증번호 상태
+  const [verifyCodeStatus, setVerifyCodeStatus] = useState(false); // 인증번호 상태
   const [nicknameStatus, setNicknameStatus] = useState(false); // 닉네임 상태
+
+  const navigate = useNavigate();
+
+  const {
+    emailExists,
+    nicknameExists,
+    sendVerificationCodeToEmail,
+    verifyEmail,
+    signup,
+  } = useSignup();
 
   const {
     register,
@@ -56,8 +64,35 @@ const SignUpPage = () => {
     clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<SignupFormValues>({
+    defaultValues: {
+      email: "",
+      verifyCode: "",
+      nickname: "",
+      password: "",
+      passwordConfirmation: "",
+    },
     mode: "onSubmit",
   });
+
+  const { email, verifyCode, password, passwordConfirmation } = watch();
+  const isFormDisabled = useMemo(() => {
+    return (
+      isSubmitting ||
+      !emailStatus ||
+      !nicknameStatus ||
+      !verifyCodeStatus ||
+      !password ||
+      !passwordConfirmation ||
+      password !== passwordConfirmation
+    );
+  }, [
+    isSubmitting,
+    emailStatus,
+    nicknameStatus,
+    verifyCodeStatus,
+    password,
+    passwordConfirmation,
+  ]);
 
   const onSubmit = async (data: SignupFormValues) => {
     if (!emailStatus) {
@@ -68,8 +103,8 @@ const SignUpPage = () => {
       return;
     }
 
-    if (!certificationStatus) {
-      setError("certification", {
+    if (!verifyCodeStatus) {
+      setError("verifyCode", {
         type: "manual",
         message: "인증번호를 확인해주세요.",
       });
@@ -88,14 +123,16 @@ const SignUpPage = () => {
       nickname: data.nickname,
       email: data.email,
       password: data.password,
-      password_confirmation: data.passwordConfirmation,
+      confirmPassword: data.passwordConfirmation,
     };
 
-    console.log(userData);
-    alert("가입하기 완료");
+    if (await signup(userData)) {
+      alert("가입하기 완료");
+      navigate("/login");
+    }
   };
 
-  const checkEmailDuplication = () => {
+  const checkEmailDuplication = async () => {
     const email = watch("email");
 
     if (!email) {
@@ -116,7 +153,7 @@ const SignUpPage = () => {
       return;
     }
 
-    if (dummyEmails.includes(email)) {
+    if (await emailExists(email)) {
       setError("email", {
         type: "manual",
         message: "이미 사용 중인 이메일입니다.",
@@ -136,45 +173,52 @@ const SignUpPage = () => {
   const handleEmailChange = () => {
     clearErrors("email");
     setEmailStatus(false);
-    setValue("certification", "");
-    setCertificationStatus(false);
-    clearErrors("certification");
+    setValue("verifyCode", "");
+    setVerifyCodeStatus(false);
+    clearErrors("verifyCode");
   };
 
-  const checkCertification = () => {
-    const certification = watch("certification");
+  const handleSendVerificationCodeToEmail = () => {
+    sendVerificationCodeToEmail({ email });
+  };
 
-    if (!certification) {
-      setError("certification", {
+  const handleVerifyCode = async () => {
+    if (!verifyCode) {
+      setError("verifyCode", {
         type: "manual",
         message: certificationRequireMsg,
       });
-      setCertificationStatus(false);
+      setVerifyCodeStatus(false);
       return;
     }
 
-    if (certification === correctCertification) {
-      clearErrors("certification");
-      setCertificationStatus(true);
-      setError("certification", {
+    if (await verifyEmail({ email, verifyCode })) {
+      clearErrors("verifyCode");
+      setVerifyCodeStatus(true);
+      setError("verifyCode", {
         type: "manual",
         message: "인증되었습니다.",
       });
     } else {
-      setError("certification", {
+      setError("verifyCode", {
         type: "manual",
         message: "유효하지 않은 인증번호입니다.",
       });
-      setCertificationStatus(false);
+      setVerifyCodeStatus(false);
     }
   };
 
-  const handleCertificationChange = () => {
-    clearErrors("certification");
-    setCertificationStatus(false);
+  const handleVerifyCodeChangeByClipboard: ClipboardEventHandler<
+    HTMLInputElement
+  > = (e) => {
+    const paste = e.clipboardData.getData("text");
+
+    clearErrors("verifyCode");
+    setValue("verifyCode", paste);
+    setVerifyCodeStatus(false);
   };
 
-  const checkNicknameDuplication = () => {
+  const checkNicknameDuplication = async () => {
     const nickname = watch("nickname");
 
     if (!nickname) {
@@ -195,7 +239,7 @@ const SignUpPage = () => {
       return;
     }
 
-    if (dummyNicknames.includes(nickname)) {
+    if (await nicknameExists(nickname)) {
       setError("nickname", {
         type: "manual",
         message: "이미 사용 중인 닉네임입니다.",
@@ -267,18 +311,28 @@ const SignUpPage = () => {
                       className={styles.inputField}
                       placeholder={certificationPlaceholder}
                       maxLength={6}
-                      {...register("certification", {
+                      {...register("verifyCode", {
                         required: certificationRequireMsg,
                       })}
-                      onChange={handleCertificationChange}
+                      onPaste={handleVerifyCodeChangeByClipboard}
                       autoComplete="off"
+                      disabled={verifyCodeStatus}
                     />
-                    <Button text="인증하기" onClick={checkCertification} />
+                    <Button
+                      type="button"
+                      text="인증하기"
+                      onClick={handleVerifyCode}
+                    />
+                    <Button
+                      type="button"
+                      text="인증요청"
+                      onClick={handleSendVerificationCodeToEmail}
+                    />
                   </span>
                   <InputErrorMessage
-                    message={errors.certification?.message}
+                    message={errors.verifyCode?.message}
                     color={
-                      errors.certification?.message === "인증되었습니다."
+                      errors.verifyCode?.message === "인증되었습니다."
                         ? "#48cd48"
                         : "#ff6161"
                     }
@@ -369,7 +423,7 @@ const SignUpPage = () => {
                 />
               </div>
 
-              <Button type="submit" text="가입하기" disabled={isSubmitting} />
+              <Button type="submit" text="가입하기" disabled={isFormDisabled} />
             </form>
           </div>
         </div>
