@@ -1,11 +1,22 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 
+// 테스트용 헤더
+/** 
+    headers: {
+    "Content-Type": "application/json",
+    Authorization:
+      "Bearer   },
+ */
+
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: "http://34.47.79.162/",
   headers: {
     "Content-Type": "application/json",
+    // dev용 토큰
+    Authorization:
+      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIxMDAxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM3NzAxNDU0LCJleHAiOjE3Mzc3MDUwNTR9.Z2N4Hp8rATGMTv5BjiYVra1b5yNCnENnjgEOEcjKFKEvyyiQ-0wBgyvPspuXYmbgTFb3uizbWveHfJKTfAia9Q",
   },
-  withCredentials: true, // 테스트 좀 해보고 삭제 예정
+  withCredentials: true,
 });
 
 // 세션 만료시 쓸거임

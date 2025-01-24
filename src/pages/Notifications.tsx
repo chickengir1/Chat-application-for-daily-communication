@@ -1,23 +1,44 @@
+import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import Input from "@/components/common/Input";
 import useInput from "@/hooks/common/useInput";
-import { useEffect } from "react";
-import useChatRooms from "@/hooks/feature/chat/useChatRooms";
 import NotificationItem from "@/components/feature/notifications/NotificationItem";
-import { useRoomList } from "@/hooks/api/useRoomList";
+import useNotificationAlert from "@/hooks/api/useNotificationAlert";
+
+interface Notification {
+  id: number;
+  sender: string;
+  message: string;
+  createdAt: string;
+  read: boolean;
+}
 
 const NotificationsPage = () => {
   const { value: search, onChange: setSearch } = useInput("");
-  const { rooms } = useRoomList();
-  const { filteredRooms, filterRooms } = useChatRooms(rooms);
+  const [page, setPage] = useState(0);
+  const { notifications, refetch } = useNotificationAlert(page, 10);
 
   useEffect(() => {
-    filterRooms(search);
-  }, [search, filterRooms]);
+    refetch();
+  }, [page, refetch]);
 
-  const onNotifyDelete = (roomId: string) => {
-    console.log(`삭제 버튼 클릭 ${roomId}`);
+  // 나중에 유틸 레이어나 훅 레이어로 뺄거임
+  const changePage = (direction: "prev" | "next") => () => {
+    setPage((prevPage) => {
+      const newPage =
+        direction === "next" ? prevPage + 1 : Math.max(prevPage - 1, 0);
+      return newPage;
+    });
   };
+
+  // [로직 구현 필요] 나중에 유틸 레이어나 훅 레이어로 뺄거임
+  const onNotifyDelete = (id: number) => () => {
+    console.log(`알림 ${id} 삭제`);
+  };
+
+  const notificationList = notifications.filter((notify) =>
+    notify.message.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className={styles.container}>
@@ -35,17 +56,37 @@ const NotificationsPage = () => {
       </div>
       <div className={styles.notificationListContainer}>
         <ul className={styles.notificationList}>
-          {/*나중에 NotificationItem 바꿔야됨*/}
-          {filteredRooms.map((notify) => (
-            <NotificationItem
-              key={notify.roomId}
-              name={notify.ownerId}
-              lastChat={notify.lastMessage}
-              createdAt={notify.createdAt}
-              onDelete={() => onNotifyDelete(notify.roomId)}
-            />
-          ))}
+          {notificationList.length === 0 ? (
+            <h1 className={styles.noNotificationText}>알림이 없습니다.</h1>
+          ) : (
+            notificationList.map((notify: Notification) => (
+              <NotificationItem
+                key={notify.id}
+                id={notify.id}
+                name={notify.sender}
+                message={notify.message}
+                createdAt={notify.createdAt}
+                read={notify.read}
+                onDelete={onNotifyDelete(notify.id)}
+              />
+            ))
+          )}
         </ul>
+        <div className={styles.paginationButtons}>
+          <button
+            className={`${styles.pageButton} ${
+              page === 0 ? styles.disable : ""
+            }`}
+            onClick={changePage("prev")}
+            disabled={page === 0}
+          >
+            이전 페이지
+          </button>
+          <div className={styles.pageNumber}>{page + 1}</div>
+          <button className={styles.pageButton} onClick={changePage("next")}>
+            다음 페이지
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -65,6 +106,14 @@ const styles = {
   input:
     "w-full rounded-lg bg-transparent px-2 text-black placeholder-gray-400 outline-none",
   notificationListContainer:
-    "flex flex-col w-full h-full space-y-4 rounded-lg bg-[#505050] p-4 text-black shadow-2xl",
+    "relative flex flex-col w-full h-full space-y-4 rounded-lg bg-[#505050] p-4 text-black",
   notificationList: "space-y-4",
+  paginationButtons:
+    "absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4",
+  pageButton:
+    "bg-[#303030] text-white px-3 py-1 text-sm rounded hover:bg-[#202020] transition-colors duration-200",
+  disable: "cursor-not-allowed opacity-50",
+  pageNumber: "flex items-center justify-center text-lg text-white",
+  noNotificationText:
+    "flex items-center justify-center text-gray-300 text-xl p-4",
 };

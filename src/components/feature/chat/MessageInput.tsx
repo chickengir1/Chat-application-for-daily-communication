@@ -25,6 +25,7 @@ const MessageInput = ({ roomId }: { roomId: string }) => {
         onKeyDown={onKeyDown}
         placeholder="Type a message..."
         className={styles.textInput}
+        maxLength={100}
       />
       <button onClick={handleSendMessage} className={styles.sendButton}>
         <FaPaperPlane size={20} />

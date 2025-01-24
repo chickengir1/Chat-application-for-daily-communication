@@ -33,7 +33,7 @@ const ChatWindow = ({ roomId }: ChatWindowProps) => {
 
   const participants = people.map((person: string) => person);
 
-  const currentUserId = "존 도"; // 유저 스토어에서 가져와야함
+  const currentUserId = "tester1001"; // 유저 스토어에서 가져와야함
 
   return (
     <div className="mb-16 flex h-full w-full flex-col overflow-hidden rounded-lg bg-[#505050] md:mb-0">
@@ -46,10 +46,10 @@ const ChatWindow = ({ roomId }: ChatWindowProps) => {
         {filteredMessages.map((message) => (
           <ChatBubble
             key={`${message.roomid} - ${message.createdAt}`}
-            sender={message.nickname}
+            sender={message.sender}
             message={message.message}
             timestamp={message.createdAt}
-            isCurrentUser={message.nickname === currentUserId}
+            isCurrentUser={message.sender === currentUserId}
           />
         ))}
       </div>

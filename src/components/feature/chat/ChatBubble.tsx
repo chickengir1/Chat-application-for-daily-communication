@@ -1,29 +1,37 @@
+interface ChatBubbleProps {
+  sender?: string | null;
+  message: string;
+  timestamp?: string;
+  isCurrentUser: boolean;
+}
+
 const ChatBubble = ({
   sender,
   message,
   timestamp,
   isCurrentUser,
-}: {
-  sender: string;
-  message: string;
-  timestamp: string;
-  isCurrentUser: boolean;
-}): JSX.Element => {
+}: ChatBubbleProps) => {
+  const chatAlign = isCurrentUser ? styles.alignEnd : styles.alignStart;
+  const alignStyle = sender ? chatAlign : styles.alignCenter;
   const bubbleStyle = isCurrentUser ? styles.bubbleMe : styles.bubbleOther;
-  const alignStyle = isCurrentUser ? styles.alignEnd : styles.alignStart;
-  const textAlign = isCurrentUser ? styles.textRight : styles.textLeft;
+  const textAlignment = isCurrentUser ? styles.textRight : styles.textLeft;
 
-  const renderTimestamp = () =>
-    timestamp && (
-      <span className={`${styles.timestamp} ${textAlign}`}>{timestamp}</span>
+  if (!sender) {
+    return (
+      <div className={senderStyle.alert}>
+        <div className={senderStyle.borderLien}>{message}</div>
+      </div>
     );
+  }
 
   return (
     <div className={`flex ${alignStyle} my-2`}>
       <div className={styles.container}>
-        {!isCurrentUser && <span className={styles.sender}>{sender}</span>}
+        <span className={`${styles.sender} ${textAlignment}`}>{sender}</span>
         <div className={`${styles.bubble} ${bubbleStyle}`}>{message}</div>
-        {renderTimestamp()}
+        <span className={`${styles.timestamp} ${textAlignment}`}>
+          {timestamp ? new Date(timestamp).toLocaleString("ko-KR") : ""}
+        </span>
       </div>
     </div>
   );
@@ -40,7 +48,13 @@ const styles = {
   bubbleOther: "bg-[#3D3D3D] text-[#FFFFFF]",
   alignEnd: "justify-end",
   alignStart: "justify-start",
+  alignCenter: "justify-center",
   textRight: "text-right",
   textLeft: "text-left",
-  timestamp: "text-xs text-gray-400",
+  timestamp: "text-xs text-gray-50",
+};
+
+const senderStyle = {
+  alert: "my-2 flex justify-center",
+  borderLien: "rounded border px-4 py-2 text-sm text-gray-50 shadow-sm",
 };

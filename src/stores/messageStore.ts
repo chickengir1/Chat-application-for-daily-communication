@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 export interface Message {
   messageType: string;
-  nickname: string;
+  sender: string;
   message: string;
   createdAt: string;
   roomid: string;
@@ -27,8 +27,16 @@ export const messageStore = create<MessageState>((set) => ({
     })),
 
   addMessage: (message: Message) =>
-    set((state) => ({
-      messages: [...state.messages, message],
-      filteredMessages: [...state.filteredMessages, message],
-    })),
+    set((state) => {
+      const isValidMessage = message.message.trim().length > 0;
+
+      if (!isValidMessage) {
+        return state;
+      }
+
+      return {
+        messages: [...state.messages, message],
+        filteredMessages: [...state.filteredMessages, message],
+      };
+    }),
 }));

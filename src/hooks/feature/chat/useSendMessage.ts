@@ -23,7 +23,7 @@ const useSendMessage = ({ baseUrl, roomId }: UseChatProps) => {
     // [필독] 디버깅용임 실제 전송되는 메세지 로그임 프로덕트에선 삭제.
     console.warn("디버깅용 전송된 메세지 로그", messagePayload);
 
-    sendMessage(JSON.stringify(messagePayload), roomId);
+    sendMessage(roomId, JSON.stringify(messagePayload));
     reset();
   };
 
