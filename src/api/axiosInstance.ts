@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { authStore } from "@/stores/authStore";
 
 // 테스트용 헤더
 /** 
@@ -11,14 +12,24 @@ import axios, { AxiosInstance, AxiosResponse } from "axios";
 
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: "http://34.47.79.162/",
-  headers: {
-    "Content-Type": "application/json",
-    // dev용 토큰
-    Authorization:
-      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIxMDAxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM3NzAxNDU0LCJleHAiOjE3Mzc3MDUwNTR9.Z2N4Hp8rATGMTv5BjiYVra1b5yNCnENnjgEOEcjKFKEvyyiQ-0wBgyvPspuXYmbgTFb3uizbWveHfJKTfAia9Q",
-  },
+  headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
+
+axiosInstance.interceptors.request.use(
+  function (config) {
+    const { accessToken } = authStore.getState();
+
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
 
 // 세션 만료시 쓸거임
 axiosInstance.interceptors.response.use(

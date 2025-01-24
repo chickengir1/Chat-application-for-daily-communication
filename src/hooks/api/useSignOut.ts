@@ -6,17 +6,11 @@ interface SignOutResponse {
 }
 
 export const useSignOut = () => {
-  const { accessToken, setAccessToken, setRefreshToken } = authStore(
-    (state) => state
-  );
+  const { setAccessToken, setRefreshToken } = authStore((state) => state);
 
   const signOut = async () => {
     const { message } = await handleApiCall<SignOutResponse>(
-      axiosInstance.post("/api/logout", null, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      axiosInstance.post("/api/logout", null)
     );
 
     if (message === "로그아웃 완료") {
