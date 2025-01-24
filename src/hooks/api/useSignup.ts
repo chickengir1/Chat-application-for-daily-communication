@@ -25,6 +25,17 @@ interface VerifyEmailResponse {
   result: boolean;
 }
 
+interface SignUpRequest {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  nickname: string;
+}
+
+interface SignUpResponse {
+  message: string;
+}
+
 export const useSignup = () => {
   const emailExists = async (email: string) => {
     const { result } = await handleApiCall<
@@ -68,10 +79,20 @@ export const useSignup = () => {
     return result;
   };
 
+  const signup = async (dto: SignUpRequest) => {
+    const { message } = await handleApiCall<SignUpResponse>(
+      axiosInstance.post("/api/register", dto)
+    );
+
+    // TODO: 나중에 message가 아닌 다른 값을 사용해서 비교하도록 수정해야함
+    return message === "register success!";
+  };
+
   return {
     emailExists,
     nicknameExists,
     sendVerificationCodeToEmail,
     verifyEmail,
+    signup,
   };
 };

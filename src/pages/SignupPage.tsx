@@ -27,9 +27,10 @@ import {
   passwordRegexErrorMsg,
   passwordRequiredMsg,
 } from "@/utils/joinRule";
-import { ClipboardEventHandler, useState } from "react";
+import { ClipboardEventHandler, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSignup } from "@/hooks/api/useSignup";
+import { useNavigate } from "react-router-dom";
 
 interface SignupFormValues {
   email: string;
@@ -44,11 +45,14 @@ const SignUpPage = () => {
   const [verifyCodeStatus, setVerifyCodeStatus] = useState(false); // 인증번호 상태
   const [nicknameStatus, setNicknameStatus] = useState(false); // 닉네임 상태
 
+  const navigate = useNavigate();
+
   const {
     emailExists,
     nicknameExists,
     sendVerificationCodeToEmail,
     verifyEmail,
+    signup,
   } = useSignup();
 
   const {
@@ -70,7 +74,25 @@ const SignUpPage = () => {
     mode: "onSubmit",
   });
 
-  const { email, verifyCode } = watch();
+  const { email, verifyCode, password, passwordConfirmation } = watch();
+  const isFormDisabled = useMemo(() => {
+    return (
+      isSubmitting ||
+      !emailStatus ||
+      !nicknameStatus ||
+      !verifyCodeStatus ||
+      !password ||
+      !passwordConfirmation ||
+      password !== passwordConfirmation
+    );
+  }, [
+    isSubmitting,
+    emailStatus,
+    nicknameStatus,
+    verifyCodeStatus,
+    password,
+    passwordConfirmation,
+  ]);
 
   const onSubmit = async (data: SignupFormValues) => {
     if (!emailStatus) {
@@ -101,11 +123,13 @@ const SignUpPage = () => {
       nickname: data.nickname,
       email: data.email,
       password: data.password,
-      password_confirmation: data.passwordConfirmation,
+      confirmPassword: data.passwordConfirmation,
     };
 
-    console.log(userData);
-    alert("가입하기 완료");
+    if (await signup(userData)) {
+      alert("가입하기 완료");
+      navigate("/login");
+    }
   };
 
   const checkEmailDuplication = async () => {
@@ -399,16 +423,7 @@ const SignUpPage = () => {
                 />
               </div>
 
-              <Button
-                type="submit"
-                text="가입하기"
-                disabled={
-                  isSubmitting ||
-                  !emailStatus ||
-                  !nicknameStatus ||
-                  !verifyCodeStatus
-                }
-              />
+              <Button type="submit" text="가입하기" disabled={isFormDisabled} />
             </form>
           </div>
         </div>
