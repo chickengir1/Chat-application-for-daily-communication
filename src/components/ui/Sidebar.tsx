@@ -2,11 +2,21 @@ import { useNavigation } from "@/hooks/common/useNavigation";
 import { FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import { icons } from "@/utils/iconField";
 import { renderIcons } from "@/utils/navigationUtils";
+import { useSignOut } from "@/hooks/api/useSignOut";
 
 //**사이드바 컴포넌트 */
 const Sidebar = () => {
-  const { activeIndex, handleNavigation } = useNavigation();
+  const navigate = useNavigation();
+  const { activeIndex, handleNavigation } = navigate;
   const userProfileImage: string | null = "";
+
+  const { signOut } = useSignOut();
+
+  const handleLogout = async () => {
+    if (await signOut()) {
+      //
+    }
+  };
 
   return (
     <div className={styles.sidebar}>
@@ -29,7 +39,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={styles.logoutWrapper}>
-        <button className={styles.logoutButton}>
+        <button className={styles.logoutButton} onClick={handleLogout}>
           <FaSignOutAlt size={24} />
           <span className={styles.logoutLabel}>Logout</span>
         </button>
