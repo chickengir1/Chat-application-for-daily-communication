@@ -1,13 +1,14 @@
 import Button from "@/components/common/Button";
 import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
 import JoinRightContent from "@/components/feature/join/JoinRightContent";
+import { useSignIn } from "@/hooks/api/useSignin";
 import {
   emailPlaceholder,
   emailRequiredMsg,
   passwordPlaceholder,
   passwordRequiredMsg,
 } from "@/utils/joinRule";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 interface LoginFormValues {
@@ -17,19 +18,39 @@ interface LoginFormValues {
 
 const LoginPage = () => {
   const {
+    watch,
     register,
-    handleSubmit,
+    handleSubmit: onSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
     mode: "onSubmit",
   });
 
+  const { email, password } = watch();
+
+  const { signIn } = useSignIn();
+
   const navigate = useNavigate();
+
   const handleFindPasswordClick = () => {
     navigate("/findpassword");
   };
+
   const handleSignupClick = () => {
     navigate("/signup");
+  };
+
+  const handleSubmit: SubmitHandler<LoginFormValues> = async (data) => {
+    if (await signIn(data)) {
+      navigate("/", { replace: true });
+    } else {
+      // TODO: 나중에 로그인 실패 부분 좀 더 고도화해서 처리할 것
+      alert("로그인에 실패했습니다. 다시 시도해 주세요.");
+    }
   };
 
   return (
@@ -39,13 +60,7 @@ const LoginPage = () => {
           <div className={styles.formContent}>
             <h1 className={styles.logo}>LOGO</h1>
             <p className={styles.formTitle}>로그인</p>
-            <form
-              className={styles.form}
-              onSubmit={handleSubmit((data) => {
-                console.log(data);
-                navigate("/");
-              })}
-            >
+            <form className={styles.form} onSubmit={onSubmit(handleSubmit)}>
               {/* 이메일 */}
               <div className={styles.inputWrapper}>
                 <input
@@ -72,7 +87,11 @@ const LoginPage = () => {
                 <InputErrorMessage message={errors.password?.message} />
               </div>
 
-              <Button type="submit" text="로그인" disabled={isSubmitting} />
+              <Button
+                type="submit"
+                text="로그인"
+                disabled={isSubmitting || !email || !password}
+              />
             </form>
 
             <div className={styles.footer}>
