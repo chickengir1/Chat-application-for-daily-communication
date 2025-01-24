@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import { useAuth } from "@/hooks/api/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -17,17 +17,19 @@ const UNPROTECTED_ROUTES = ["/login", "/signup", "/findpassword"];
 
 export default function AuthProvider({ children }: AuthProviderProps) {
   const { isSignedIn } = useAuth();
-
+  // debugger;
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname.toLowerCase();
 
-  if (PROTECTED_ROUTES.includes(path) && !UNPROTECTED_ROUTES.includes(path)) {
-    if (!isSignedIn) {
-      navigate("/login", { replace: true });
-      return;
+  useEffect(() => {
+    if (PROTECTED_ROUTES.includes(path) && !UNPROTECTED_ROUTES.includes(path)) {
+      if (!isSignedIn) {
+        navigate("/login", { replace: true });
+        return;
+      }
     }
-  }
+  }, [location]);
 
   return <>{children}</>;
 }
