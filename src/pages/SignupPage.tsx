@@ -29,7 +29,7 @@ import {
 } from "@/utils/joinRule";
 import { ClipboardEventHandler, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSignUp } from "@/hooks/api/useSignUp";
+import { useUser } from "@/hooks/api/useUser";
 import { useNavigate } from "react-router-dom";
 
 interface SignupFormValues {
@@ -53,7 +53,7 @@ const SignUpPage = () => {
     sendVerificationCodeToEmail,
     verifyEmail,
     signUp,
-  } = useSignUp();
+  } = useUser();
 
   const {
     register,
