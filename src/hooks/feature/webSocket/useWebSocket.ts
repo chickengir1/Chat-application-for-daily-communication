@@ -9,6 +9,7 @@ const useWebSocket = (roomId: string) => {
   }
 
   const { connect, disconnect, sendMessage } = context;
+  // 일단 만들어두긴 했는데 재연결 로직이 있어서 실제로 쓰일지는 모르겠어요
   const isConnected = webSocketStore((state) => state.isConnected[roomId]);
   const { disconnectAll } = webSocketStore();
 
