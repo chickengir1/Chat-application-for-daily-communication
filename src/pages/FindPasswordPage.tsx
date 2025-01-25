@@ -1,6 +1,7 @@
 import Button from "@/components/common/Button";
 import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
 import JoinRightContent from "@/components/feature/join/JoinRightContent";
+import { useFindPassword } from "@/hooks/api/useFindpassword";
 import {
   certificationMinLengthMsg,
   certificationMinLengthValue,
@@ -10,24 +11,55 @@ import {
   emailRegexErrorMsg,
   emailRequiredMsg,
 } from "@/utils/joinRule";
-import { useForm } from "react-hook-form";
+import { ClipboardEventHandler } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 interface FindPasswordFormValue {
   email: string;
-  certification_number: string;
+  verificationCode: string;
 }
 
 const FindPasswordPage = () => {
   const {
+    watch,
+    setValue,
     register,
-    handleSubmit,
+    handleSubmit: onSubmit,
     formState: { isSubmitting, errors },
   } = useForm<FindPasswordFormValue>({
+    defaultValues: {
+      email: "",
+      verificationCode: "",
+    },
     mode: "onSubmit",
   });
 
+  const { sendVerificationCodeToFindPassword } = useFindPassword();
+
   const navigate = useNavigate();
+
+  const { email, verificationCode } = watch();
+
+  const handleVerifyCodeChangeByClipboard: ClipboardEventHandler<
+    HTMLInputElement
+  > = (e) => {
+    const paste = e.clipboardData.getData("text");
+
+    setValue("verificationCode", paste);
+  };
+
+  const handleSubmit: SubmitHandler<FindPasswordFormValue> = async (data) => {
+    if (
+      await sendVerificationCodeToFindPassword({
+        verificationCode: data.verificationCode,
+      })
+    ) {
+      navigate("/changepassword");
+    } else {
+      alert("코드를 다시 입력해주세요.");
+    }
+  };
 
   return (
     <div className={styles.pageContainer}>
@@ -36,13 +68,7 @@ const FindPasswordPage = () => {
           <div className={styles.formWrapper}>
             <h1 className={styles.logo}>LOGO</h1>
             <p className={styles.pageTitle}>비밀번호 찾기</p>
-            <form
-              className={styles.form}
-              onSubmit={handleSubmit((data) => {
-                console.log(data);
-                navigate("/changepassword");
-              })}
-            >
+            <form className={styles.form} onSubmit={onSubmit(handleSubmit)}>
               {/* 이메일 */}
               <div className={styles.inputWrapper}>
                 <input
@@ -68,23 +94,22 @@ const FindPasswordPage = () => {
                   className={styles.inputField}
                   placeholder={certificationPlaceholder}
                   maxLength={6}
-                  {...register("certification_number", {
+                  {...register("verificationCode", {
                     required: certificationRequireMsg,
                     minLength: {
                       value: certificationMinLengthValue,
                       message: certificationMinLengthMsg,
                     },
                   })}
+                  onPaste={handleVerifyCodeChangeByClipboard}
                 />
-                <InputErrorMessage
-                  message={errors.certification_number?.message}
-                />
+                <InputErrorMessage message={errors.verificationCode?.message} />
               </div>
               <Button
                 type="submit"
                 text="비밀번호 찾기"
                 width="100%"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !email || !verificationCode}
               />
             </form>
           </div>
