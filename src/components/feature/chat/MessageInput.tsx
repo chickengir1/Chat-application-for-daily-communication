@@ -2,11 +2,8 @@ import Input from "@/components/common/Input";
 import { FaPaperclip, FaSmile, FaPaperPlane } from "react-icons/fa";
 import useSendMessage from "@/hooks/feature/chat/useSendMessage";
 
-const wsBaseUrl = "ws://34.47.79.162:8080";
-
 const MessageInput = ({ roomId }: { roomId: string }) => {
   const { value, onChange, onKeyDown, handleSendMessage } = useSendMessage({
-    baseUrl: wsBaseUrl,
     roomId,
   });
 
