@@ -5,35 +5,33 @@ import ChatBubble from "./ChatBubble";
 import { messageStore } from "@/stores/messageStore";
 import { roomStore } from "@/stores/roomStore";
 import Modal from "@/components/common/Modal";
-import useWebSocket from "@/hooks/feature/useWebSocket";
+import useWebSocket from "@/hooks/feature/webSocket/useWebSocket";
 
 interface ChatWindowProps {
   roomId: string;
 }
-const wsBaseUrl = "ws://34.47.79.162:8080";
 
 const ChatWindow = ({ roomId }: ChatWindowProps) => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const { title, subtitle, participants: people } = roomStore();
   const { filteredMessages, filterMessages } = messageStore();
-  const { connect, disconnect } = useWebSocket(wsBaseUrl);
+  const { disconnect } = useWebSocket(roomId);
 
   useEffect(() => {
     filterMessages(roomId);
-    connect(roomId);
-
-    return () => {};
-    // depndency warning 제거용
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId]);
+  }, [roomId, filterMessages]);
 
   const handleModalState = (state: boolean) => () => {
     setModalOpen(state);
   };
 
-  const participants = people.map((person: string) => person);
+  const handleLeaveRoom = () => {
+    disconnect();
+    // 추가적인 채팅방 나가기 로직 만들어야함
+  };
 
-  const currentUserId = "tester1001"; // 유저 스토어에서 가져와야함
+  const participants = people.map((person: string) => person);
+  const currentUserId = "tester1001";
 
   return (
     <div className="mb-16 flex h-full w-full flex-col overflow-hidden rounded-lg bg-[#505050] md:mb-0">
@@ -70,10 +68,7 @@ const ChatWindow = ({ roomId }: ChatWindowProps) => {
               </div>
             ))}
           </div>
-          <button
-            onClick={() => disconnect(roomId)}
-            className={modalStyles.leaveButton}
-          >
+          <button onClick={handleLeaveRoom} className={modalStyles.leaveButton}>
             채팅방 나가기
           </button>
         </div>

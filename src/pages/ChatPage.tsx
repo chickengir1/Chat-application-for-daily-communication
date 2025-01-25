@@ -49,7 +49,6 @@ const ChatPage = () => {
         </div>
         <div className={styles.chatList}>
           <h2 className={styles.chatListHeader}>Chat Rooms</h2>
-          {/*임시데이터 넣어놨음 filteredRooms로 수정해야함*/}
           <ChatList
             chats={filteredRooms}
             onChatClick={handleChatClick}

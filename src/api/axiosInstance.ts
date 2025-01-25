@@ -6,13 +6,14 @@ import { authStore } from "@/stores/authStore";
 /** 
     headers: {
     "Content-Type": "application/json",
-    Authorization:
-      "Bearer   },
+    Authorization: `Bearer `},
  */
-
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: "http://34.47.79.162/",
-  headers: { "Content-Type": "application/json" },
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIxMDAxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM3NzkyNjAwLCJleHAiOjE3Mzc3OTYyMDB9.FW2216KK4kn5qLD3qcXrAmB27AF9fAZ-y1F8mi7S6ax7RK6Q2e2PHCBTpJ5YBy8MbhR4KlQFb32tCG15SiXRIg`,
+  },
   withCredentials: true,
 });
 
@@ -55,7 +56,6 @@ axiosInstance.interceptors.response.use(
  * @param {(error: Error) => void} [onError] - 에러 발생 시 실행할 콜백 함수 (선택 사항)
  * @returns {Promise<T | null>} 정상 처리가 되었을 경우 해당 결과값, 에러가 발생한 경우 null 리턴
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function handleApiCall<T>(apiCall: Promise<T>): Promise<T>;
 
 // Overload 2: onError가 제공된 경우
