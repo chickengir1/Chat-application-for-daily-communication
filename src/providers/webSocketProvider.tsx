@@ -2,6 +2,7 @@ import { createContext, ReactNode } from "react";
 import { Message, messageStore } from "@/stores/messageStore";
 import { webSocketStore } from "@/stores/webSocketStore";
 import { WS_CONFIG } from "@/stores/webSocketStore";
+import { authStore } from "@/stores/authStore";
 
 interface WebSocketProviderProps {
   children: ReactNode;
@@ -9,6 +10,7 @@ interface WebSocketProviderProps {
 
 export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   const { addMessage } = messageStore.getState();
+  const { accessToken } = authStore.getState();
   const { getSocket, setSocket, setConnected, leaveToRoom } = webSocketStore();
 
   // 웹소켓 에러 처리 및 상태 업데이트를 위한 공통 핸들러
@@ -21,7 +23,7 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     handleMessage: (event: MessageEvent) => {
       try {
         const parsedData: Message = JSON.parse(event.data);
-        addMessage(parsedData);
+        addMessage(roomId, [parsedData]);
       } catch (error) {
         console.error("메시지 파싱 에러", error);
       }
@@ -44,7 +46,7 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     const existingSocket = getSocket(roomId);
     if (existingSocket) return existingSocket;
 
-    const url = `${WS_CONFIG.BASE_URL}${WS_CONFIG.PATH}/${roomId}?token=`;
+    const url = `${WS_CONFIG.BASE_URL}${WS_CONFIG.PATH}/${roomId}?token=${accessToken}`;
     const socket = new WebSocket(url);
 
     // 연결 성공 시 상태 업데이트

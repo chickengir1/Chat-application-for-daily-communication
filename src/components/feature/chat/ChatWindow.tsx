@@ -6,6 +6,7 @@ import { messageStore } from "@/stores/messageStore";
 import { roomStore } from "@/stores/roomStore";
 import Modal from "@/components/common/Modal";
 import useWebSocket from "@/hooks/feature/webSocket/useWebSocket";
+import { loadMessagesFromDB } from "@/utils/IndexedDB";
 
 interface ChatWindowProps {
   roomId: string;
@@ -18,7 +19,12 @@ const ChatWindow = ({ roomId }: ChatWindowProps) => {
   const { disconnect } = useWebSocket(roomId);
 
   useEffect(() => {
-    filterMessages(roomId);
+    const fetchMessages = async () => {
+      const messages = await loadMessagesFromDB(roomId);
+      messageStore.getState().messages[roomId] = messages;
+      filterMessages(roomId);
+    };
+    fetchMessages();
   }, [roomId, filterMessages]);
 
   const handleModalState = (state: boolean) => () => {
@@ -31,7 +37,8 @@ const ChatWindow = ({ roomId }: ChatWindowProps) => {
   };
 
   const participants = people.map((person: string) => person);
-  const currentUserId = "tester1001";
+
+  const currentUserId = "tester1001"; // 임시 유저 아이디 유저 스토어 구성 못하면 망함
 
   return (
     <div className="mb-16 flex h-full w-full flex-col overflow-hidden rounded-lg bg-[#505050] md:mb-0">
@@ -41,9 +48,9 @@ const ChatWindow = ({ roomId }: ChatWindowProps) => {
         onOptionsClick={handleModalState(true)}
       />
       <div className="flex-1 overflow-y-auto p-4 scrollbar-none">
-        {filteredMessages.map((message) => (
+        {filteredMessages.map((message, index) => (
           <ChatBubble
-            key={`${message.roomid} - ${message.createdAt}`}
+            key={index}
             sender={message.sender}
             message={message.message}
             timestamp={message.createdAt}

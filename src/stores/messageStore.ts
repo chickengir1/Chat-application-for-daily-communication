@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { saveMessagesToDB, loadMessagesFromDB } from "@/utils/IndexedDB";
 
 export interface Message {
   messageType: string;
@@ -11,32 +12,39 @@ export interface Message {
 }
 
 interface MessageState {
-  messages: Message[];
+  messages: Record<string, Message[]>;
   filteredMessages: Message[];
+  addMessage: (roomId: string, messages: Message[]) => void;
   filterMessages: (roomId: string) => void;
-  addMessage: (message: Message) => void;
+  loadMessages: (roomId: string) => Promise<void>;
 }
 
 export const messageStore = create<MessageState>((set) => ({
-  messages: [],
+  messages: {},
   filteredMessages: [],
 
-  filterMessages: (roomId: string) =>
+  addMessage: async (roomId, messages) => {
+    await saveMessagesToDB(roomId, messages);
     set((state) => ({
-      filteredMessages: state.messages.filter((msg) => msg.roomid === roomId),
+      messages: {
+        ...state.messages,
+        [roomId]: [...(state.messages[roomId] || []), ...messages],
+      },
+    }));
+  },
+
+  filterMessages: (roomId) =>
+    set((state) => ({
+      filteredMessages: state.messages[roomId] || [],
     })),
 
-  addMessage: (message: Message) =>
-    set((state) => {
-      const isValidMessage = message.message.trim().length > 0;
-
-      if (!isValidMessage) {
-        return state;
-      }
-
-      return {
-        messages: [...state.messages, message],
-        filteredMessages: [...state.filteredMessages, message],
-      };
-    }),
+  loadMessages: async (roomId) => {
+    const messages = await loadMessagesFromDB(roomId);
+    set((state) => ({
+      messages: {
+        ...state.messages,
+        [roomId]: messages,
+      },
+    }));
+  },
 }));

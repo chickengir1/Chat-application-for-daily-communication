@@ -1,29 +1,87 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { WebSocketContext } from "@/providers/webSocketProvider";
 import { webSocketStore } from "@/stores/webSocketStore";
+import { Message } from "@/stores/messageStore";
+import { saveMessagesToDB } from "@/utils/IndexedDB";
 
-const useWebSocket = (roomId: string) => {
+interface RoomMessages {
+  roomId: string;
+  messages: Message[];
+}
+
+const transformMessages = (message: Message): Message => {
+  return {
+    ...message,
+    originFileUrl: message.originFileUrl || "",
+    thumbnailUrl: message.thumbnailUrl || "",
+  };
+};
+
+const useWebSocketUtils = (roomId: string) => {
   const context = useContext(WebSocketContext);
   if (!context) {
     throw new Error("useWebSocket은 WebSocketProvider내에서 사용해야함.");
   }
 
   const { connect, disconnect, sendMessage } = context;
-  // 일단 만들어두긴 했는데 재연결 로직이 있어서 실제로 쓰일지는 모르겠어요
-  const isConnected = webSocketStore((state) => state.isConnected[roomId]);
-  const { disconnectAll } = webSocketStore();
-
-  useEffect(() => {
-    connect(roomId);
-    // 컴포넌트가 언마운트되어도 연결 유지
-    // 채팅방 전환 시에도 기존 연결이 유지되어야 하므로 cleanup 함수에서 disconnect하지 않음
-  }, [roomId, connect]);
 
   return {
-    isConnected,
-    sendMessage: (data: string) => sendMessage(roomId, data),
+    connect: () => connect(roomId),
     disconnect: () => disconnect(roomId),
-    disconnectAll,
+    sendMessage: (data: string) => sendMessage(roomId, data),
+  };
+};
+
+const useWebSocket = (roomId: string) => {
+  const [roomMessages, setRoomMessages] = useState<RoomMessages[]>([]);
+  const { connect, disconnect, sendMessage } = useWebSocketUtils(roomId);
+
+  const updateRoomMessages = useCallback((message: Message) => {
+    setRoomMessages((prev) => {
+      const roomIndex = prev.findIndex(
+        (room) => room.roomId === message.roomid
+      );
+
+      if (roomIndex === -1) {
+        const newRoom = {
+          roomId: message.roomid,
+          messages: [message],
+        };
+        return [...prev, newRoom];
+      }
+      const updatedRooms = [...prev];
+      updatedRooms[roomIndex].messages.push(message);
+      return updatedRooms;
+    });
+  }, []);
+
+  const handleMessage = useCallback(
+    async (event: MessageEvent) => {
+      const receivedMessage: Message = JSON.parse(event.data);
+      const transformedMessage = transformMessages(receivedMessage);
+
+      await saveMessagesToDB(roomId, [transformedMessage]);
+
+      updateRoomMessages(transformedMessage);
+    },
+    [roomId, updateRoomMessages]
+  );
+
+  useEffect(() => {
+    connect();
+    const socket = webSocketStore.getState().getSocket(roomId);
+    if (!socket) return;
+
+    socket.addEventListener("message", handleMessage);
+
+    // 컴포넌트 언마운트 시 채팅방 연결 유지
+    return () => {};
+  }, [roomId, connect, handleMessage]);
+
+  return {
+    sendMessage,
+    disconnect,
+    roomMessages,
   };
 };
 

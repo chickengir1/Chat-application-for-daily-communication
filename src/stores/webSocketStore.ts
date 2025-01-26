@@ -13,7 +13,6 @@ interface WebSocketStore {
   setSocket: (roomId: string, socket: WebSocket) => void;
   leaveToRoom: (roomId: string) => void;
   setConnected: (roomId: string, status: boolean) => void;
-  disconnectAll: () => void;
 }
 
 const closeSocket = (socket: WebSocket) => {
@@ -49,13 +48,5 @@ export const webSocketStore = create<WebSocketStore>((set, get) => ({
     const newIsConnected = { ...get().isConnected };
     newIsConnected[roomId] = status; // 연결 상태 설정
     set({ isConnected: newIsConnected });
-  },
-
-  disconnectAll: () => {
-    const { sockets } = get();
-    for (const socket of Object.values(sockets)) {
-      closeSocket(socket); // 모든 소켓 닫기
-    }
-    set({ sockets: {}, isConnected: {} });
   },
 }));
