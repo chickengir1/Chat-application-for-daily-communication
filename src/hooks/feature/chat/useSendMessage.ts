@@ -8,10 +8,10 @@ interface UseChatProps {
 /** 메시지 전송용 커스텀 훅 */
 const useSendMessage = ({ roomId }: UseChatProps) => {
   const { value, onChange, onKeyDown, reset } = useInput("");
-  const { sendMessage, isConnected } = useWebSocket(roomId);
+  const { sendMessage } = useWebSocket(roomId);
 
   const handleSendMessage = () => {
-    if (!value.trim() || !isConnected) return;
+    if (!value.trim()) return;
 
     const messagePayload = {
       messageType: "CHAT",
@@ -31,7 +31,6 @@ const useSendMessage = ({ roomId }: UseChatProps) => {
     onChange,
     onKeyDown: onKeyDown(handleSendMessage),
     handleSendMessage,
-    isConnected,
   };
 };
 
