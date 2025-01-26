@@ -1,17 +1,16 @@
 import { createContext, ReactNode } from "react";
-import { Message, messageStore } from "@/stores/messageStore";
-import { webSocketStore } from "@/stores/webSocketStore";
-import { WS_CONFIG } from "@/stores/webSocketStore";
+import { chatStore, Message, WS_CONFIG } from "@/stores/chatStore";
 import { authStore } from "@/stores/authStore";
+import { saveMessagesToDB } from "@/utils/IndexedDB";
 
 interface WebSocketProviderProps {
   children: ReactNode;
 }
 
 export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
-  const { addMessage } = messageStore.getState();
+  const { addMessage, getSocket, setSocket, setConnected, leaveToRoom } =
+    chatStore.getState();
   const { accessToken } = authStore.getState();
-  const { getSocket, setSocket, setConnected, leaveToRoom } = webSocketStore();
 
   // 웹소켓 에러 처리 및 상태 업데이트를 위한 공통 핸들러
   const handleSocketError = (roomId: string, error: Event) => {
@@ -20,10 +19,22 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   };
 
   const createSocketHandlers = (roomId: string) => ({
-    handleMessage: (event: MessageEvent) => {
+    handleMessage: async (event: MessageEvent) => {
       try {
         const parsedData: Message = JSON.parse(event.data);
-        addMessage(roomId, [parsedData]);
+        // TODO: 메시지 내용만 SHA-256으로 해시화
+        // 1. message 필드만 해시화 (ID는 현재 방식 유지)
+        // 2. 메시지 무결성 검증을 위해 원본 메시지와 해시값 함께 저장 (구현 가능하면 좋긴함 근데 어려울듯)
+        // 3. 추후 메시지 복호화 시 해시값 비교하여 변조 여부 확인 (이것도 구현 가능하면 좋긴함;;)
+        const transformedMessage = {
+          ...parsedData,
+          id: createMessageId(roomId),
+          originFileUrl: parsedData.originFileUrl || "",
+          thumbnailUrl: parsedData.thumbnailUrl || "",
+        };
+
+        await saveMessagesToDB(roomId, [transformedMessage]);
+        addMessage(roomId, [transformedMessage]);
       } catch (error) {
         console.error("메시지 파싱 에러", error);
       }
@@ -36,7 +47,6 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
       leaveToRoom(roomId);
       setConnected(roomId, false);
       // 자동 재연결 시도
-      // 채팅방 이동 시에도 연결 유지를 위한 reconnect 로직 추가
       setTimeout(() => connect(roomId), WS_CONFIG.RECONNECT_TIMEOUT);
     },
   });
@@ -92,15 +102,22 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   );
 };
 
-// WebSocketProvider에서 제공하는 값의 타입
 export interface WebSocketProviderValue {
   connect: (roomId: string) => WebSocket;
   sendMessage: (roomId: string, data: string) => void;
   disconnect: (roomId: string) => void;
 }
 
-// Context 생성용
 // eslint-disable-next-line react-refresh/only-export-components
 export const WebSocketContext = createContext<WebSocketProviderValue | null>(
   null
 );
+
+const createMessageId = (() => {
+  const counters: Record<string, number> = {};
+
+  return (roomId: string) => {
+    counters[roomId] = (counters[roomId] || 0) + 1;
+    return `${roomId}-${Date.now()}-${counters[roomId]}`;
+  };
+})();

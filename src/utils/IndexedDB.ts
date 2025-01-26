@@ -1,5 +1,6 @@
-import { Message } from "@/stores/messageStore";
+import { Message } from "@/stores/chatStore";
 import { openDB, type IDBPDatabase } from "idb";
+import { MAX_MESSAGE_COUNT } from "./Constans";
 
 const DB_NAME = "chat-room";
 const Store_NAME = "messages";
@@ -24,9 +25,12 @@ export const saveMessagesToDB = async (roomId: string, messages: Message[]) => {
       roomId,
       messages: [],
     };
+
     const updatedMessages = {
       ...existingData,
-      messages: [...existingData.messages, ...messages],
+      messages: [...existingData.messages, ...messages].slice(
+        -MAX_MESSAGE_COUNT
+      ),
     };
 
     await store.put(updatedMessages);
@@ -47,8 +51,4 @@ export const loadMessagesFromDB = async (
     console.error("메시지 로드 중 오류 발생", error);
     return [];
   }
-};
-
-export const useMessageDB = () => {
-  return { saveMessagesToDB, loadMessagesFromDB };
 };
