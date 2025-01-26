@@ -8,19 +8,23 @@ import { authStore } from "@/stores/authStore";
     "Content-Type": "application/json",
     Authorization: `Bearer `},
  */
+
+//dev 용 엑세스 토큰
+// eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIxMDAxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM3NzkyNjAwLCJleHAiOjE3Mzc3OTYyMDB9.FW2216KK4kn5qLD3qcXrAmB27AF9fAZ-y1F8mi7S6ax7RK6Q2e2PHCBTpJ5YBy8MbhR4KlQFb32tCG15SiXRIg
+
+const { accessToken } = authStore.getState();
+
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: "http://34.47.79.162/",
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIxMDAxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM3NzkyNjAwLCJleHAiOjE3Mzc3OTYyMDB9.FW2216KK4kn5qLD3qcXrAmB27AF9fAZ-y1F8mi7S6ax7RK6Q2e2PHCBTpJ5YBy8MbhR4KlQFb32tCG15SiXRIg`,
+    Authorization: `Bearer ${accessToken}`,
   },
   withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
   function (config) {
-    const { accessToken } = authStore.getState();
-
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }

@@ -44,14 +44,14 @@ const Sidebar = () => {
           {renderIcons(icons, "vertical", activeIndex, handleNavigation)}
         </div>
       </div>
-      {
+      {isSignedIn && (
         <div className={styles.logoutWrapper}>
           <button className={styles.logoutButton} onClick={handleLogout}>
             <FaSignOutAlt size={24} />
             <span className={styles.logoutLabel}>Logout</span>
           </button>
         </div>
-      }
+      )}
     </div>
   );
 };
