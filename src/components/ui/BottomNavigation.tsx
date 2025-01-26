@@ -1,5 +1,5 @@
 import { useNavigation } from "@/hooks/common/useNavigation";
-import { icons } from "@/utils/iconField";
+import { icons } from "@/utils/Constans";
 import { renderIcons } from "@/utils/navigationUtils";
 
 const BottomNavigation = () => {
