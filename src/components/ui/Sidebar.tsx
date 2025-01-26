@@ -4,14 +4,12 @@ import { icons } from "@/utils/iconField";
 import { renderIcons } from "@/utils/navigationUtils";
 import { useUser } from "@/hooks/api/useUser";
 import { useAuth } from "@/hooks/api/useAuth";
-import { webSocketStore } from "@/stores/webSocketStore";
 
 //**사이드바 컴포넌트 */
 const Sidebar = () => {
   const navigate = useNavigation();
   const { activeIndex, handleNavigation } = navigate;
   const userProfileImage: string | null = "";
-  const { leaveToRoom } = webSocketStore();
 
   const { signOut } = useUser();
   const { isSignedIn } = useAuth();
@@ -19,9 +17,7 @@ const Sidebar = () => {
   console.log(`isSignedIn in Sidebar: ${isSignedIn}`);
 
   const handleLogout = async () => {
-    if (await signOut()) {
-      leaveToRoom("all");
-    }
+    if (await signOut()) return;
   };
 
   return (

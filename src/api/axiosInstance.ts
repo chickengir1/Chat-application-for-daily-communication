@@ -2,16 +2,6 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { authStore } from "@/stores/authStore";
 
-// 테스트용 헤더
-/** 
-    headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer `},
- */
-
-//dev 용 엑세스 토큰
-// eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIxMDAxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM3NzkyNjAwLCJleHAiOjE3Mzc3OTYyMDB9.FW2216KK4kn5qLD3qcXrAmB27AF9fAZ-y1F8mi7S6ax7RK6Q2e2PHCBTpJ5YBy8MbhR4KlQFb32tCG15SiXRIg
-
 const { accessToken } = authStore.getState();
 
 export const axiosInstance: AxiosInstance = axios.create({
