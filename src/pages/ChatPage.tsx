@@ -4,7 +4,7 @@ import useInput from "@/hooks/common/useInput";
 import ChatWindow from "@/components/feature/chat/ChatWindow";
 import ChatList from "@/components/feature/chat/ChatList";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
-import useChatRooms from "@/hooks/feature/chat/useChatRooms";
+import useChatRooms from "@/hooks/feature/chat/RoomLists/useChatRooms";
 import { useChatNaviation } from "@/hooks/common/useNavigation";
 import { useOverlay } from "@/hooks/common/useOverlay";
 import UnselectedChat from "@/components/feature/chat/UnselectedChat";
