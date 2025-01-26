@@ -8,7 +8,6 @@ import SettingPage from "./pages/SettingPage";
 import FindPasswordPage from "./pages/FindPasswordPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import NotificationsPage from "./pages/Notifications";
-
 import AuthProvider from "./providers/AuthProvider";
 
 const App = () => {
