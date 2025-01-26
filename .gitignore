@@ -28,3 +28,4 @@ dist-ssr
 *todoList.doc
 
 .env
+.cursorignore
