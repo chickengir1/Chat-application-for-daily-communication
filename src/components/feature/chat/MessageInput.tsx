@@ -1,11 +1,10 @@
 import Input from "@/components/common/Input";
+import useMessageInput from "@/hooks/feature/chat/message/useMessageInput";
 import { FaPaperclip, FaSmile, FaPaperPlane } from "react-icons/fa";
-import useSendMessage from "@/hooks/feature/chat/useSendMessage";
 
 const MessageInput = ({ roomId }: { roomId: string }) => {
-  const { value, onChange, onKeyDown, handleSendMessage } = useSendMessage({
-    roomId,
-  });
+  const { value, onChange, onKeyDown, handleSendMessage } =
+    useMessageInput(roomId);
 
   return (
     <div className={styles.container}>

@@ -1,39 +1,26 @@
-import { useEffect, useState } from "react";
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import ChatBubble from "./ChatBubble";
-import { messageStore } from "@/stores/messageStore";
 import { roomStore } from "@/stores/roomStore";
 import Modal from "@/components/common/Modal";
 import useWebSocket from "@/hooks/feature/webSocket/useWebSocket";
-import { loadMessagesFromDB } from "@/utils/IndexedDB";
+import useChatMessages from "@/hooks/feature/chat/message/useChatMessages";
+import useModalState from "@/hooks/common/useModalState";
 
 interface ChatWindowProps {
   roomId: string;
 }
 
 const ChatWindow = ({ roomId }: ChatWindowProps) => {
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const { title, subtitle, participants: people } = roomStore();
-  const { filteredMessages, filterMessages } = messageStore();
   const { disconnect } = useWebSocket(roomId);
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      const messages = await loadMessagesFromDB(roomId);
-      messageStore.getState().messages[roomId] = messages;
-      filterMessages(roomId);
-    };
-    fetchMessages();
-  }, [roomId, filterMessages]);
-
-  const handleModalState = (state: boolean) => () => {
-    setModalOpen(state);
-  };
+  const { filteredMessages } = useChatMessages(roomId);
+  const { isModalOpen, handleModalState } = useModalState();
 
   const handleLeaveRoom = () => {
     disconnect();
     // 추가적인 채팅방 나가기 로직 만들어야함
+    // 얜 그냥 http 요청 보내야함
   };
 
   const participants = people.map((person: string) => person);
@@ -48,9 +35,9 @@ const ChatWindow = ({ roomId }: ChatWindowProps) => {
         onOptionsClick={handleModalState(true)}
       />
       <div className="flex-1 overflow-y-auto p-4 scrollbar-none">
-        {filteredMessages.map((message, index) => (
+        {filteredMessages.map((message) => (
           <ChatBubble
-            key={index}
+            key={message.id}
             sender={message.sender}
             message={message.message}
             timestamp={message.createdAt}

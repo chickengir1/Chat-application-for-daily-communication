@@ -6,7 +6,7 @@ import CreateChatModal from "@/components/feature/main/CreateChatModal";
 import FriendList from "@/components/feature/main/FriendList";
 import UserList from "@/components/feature/main/UserList";
 import { useRoomList } from "@/hooks/api/useRoomList";
-import useChatRooms from "@/hooks/feature/chat/useChatRooms";
+import useChatRooms from "@/hooks/feature/chat/RoomLists/useChatRooms";
 import { friendListData } from "@/utils/stub";
 import { useEffect, useRef, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";

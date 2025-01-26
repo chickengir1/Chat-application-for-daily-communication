@@ -1,6 +1,6 @@
 import { FaUserCircle } from "react-icons/fa";
-import useChatHandlers from "@/hooks/feature/chat/useChatHandlers";
 import EmptyChatList from "./EmptyChatList";
+import useChatHandlers from "@/hooks/feature/chat/RoomLists/useChatHandlers";
 
 interface ChatListProps {
   chats: {
