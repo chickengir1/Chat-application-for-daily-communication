@@ -77,9 +77,7 @@ const HomePage = () => {
                 </button>
               </div>
             </div>
-            <div className={styles.listBody}>
-              <FriendList friends={friendListData} />
-            </div>
+            <FriendList friends={friendListData} />
           </div>
 
           {/* 사용자 목록 */}
@@ -108,9 +106,7 @@ const HomePage = () => {
                 </button>
               </div>
             </div>
-            <div className={styles.listBody}>
-              <UserList users={searchedUsers} />
-            </div>
+            <UserList users={searchedUsers} />
           </div>
         </div>
 
@@ -144,7 +140,6 @@ const styles = {
     "flex gap-[8px] h-[64px] items-center justify-between bg-[#404040] px-4",
   listTitle: "font-bold sm:text-[18px] whitespace-nowrap",
   headerButtons: "flex gap-[16px]",
-  listBody: "h-[calc(100%-64px)] overflow-auto p-4",
   searchInputWrapper: "relative",
   searchInput: "h-[40px] w-full rounded-lg bg-[#505050] px-2",
   chatContainer: "h-[100%] overflow-hidden rounded-lg bg-[#505050]",

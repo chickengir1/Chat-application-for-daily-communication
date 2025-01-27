@@ -8,11 +8,11 @@ interface UserListProps {
 
 const UserList = ({ users }: UserListProps) => {
   return (
-    <>
+    <ul className={styles.listBody}>
       {users && users.length > 0 ? (
         users.map((user) => {
           return (
-            <div className={styles.userItem} key={user.userId}>
+            <li className={styles.userItem} key={user.userId}>
               <FaUserCircle className={styles.userIcon} />
               <div className={styles.userInfo}>
                 <div className={styles.userText}>
@@ -27,16 +27,16 @@ const UserList = ({ users }: UserListProps) => {
               >
                 <FaUserPlus />
               </button>
-            </div>
+            </li>
           );
         })
       ) : (
-        <div className={styles.noUserContainer}>
+        <li className={styles.noUserContainer}>
           <CgSmileSad className={styles.noUserIcon} />
           <p className={styles.noUserText}>검색된 사용자가 없습니다.</p>
-        </div>
+        </li>
       )}
-    </>
+    </ul>
   );
 };
 
@@ -55,4 +55,5 @@ const styles = {
     "flex flex-col items-center justify-center gap-[8px] w-full h-full",
   noUserIcon: "w-[60px] h-[60px]",
   noUserText: "text-center",
+  listBody: "h-[calc(100%-64px)] overflow-auto p-4",
 };
