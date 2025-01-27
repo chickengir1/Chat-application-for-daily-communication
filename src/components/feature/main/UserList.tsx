@@ -1,22 +1,34 @@
+import type { User } from "@/hooks/api/useUser";
+import { useInfiniteScroll } from "@/hooks/api/useInfiniteScroll";
+import { useRef } from "react";
 import { CgSmileSad } from "react-icons/cg";
 import { FaUserCircle, FaUserPlus } from "react-icons/fa";
 
 interface UserListProps {
-  users: {
-    userId: number;
-    nickname: string;
-    email: string;
-    profileImg: string;
-  }[];
+  users: User[];
+  onScroll?: () => void;
 }
 
-const UserList = ({ users }: UserListProps) => {
+const UserList = ({ users, onScroll }: UserListProps) => {
+  const ulRef = useRef<HTMLUListElement>(null);
+  const liRef = useRef<HTMLLIElement>(null);
+
+  useInfiniteScroll({
+    root: ulRef,
+    element: liRef,
+    onScroll,
+  });
+
   return (
-    <>
+    <ul ref={ulRef} className={styles.listBody}>
       {users && users.length > 0 ? (
-        users.map((user) => {
+        users.map((user, i) => {
           return (
-            <div className={styles.userItem} key={user.userId}>
+            <li
+              ref={i === users.length - 1 ? liRef : undefined}
+              className={styles.userItem}
+              key={user.userId}
+            >
               <FaUserCircle className={styles.userIcon} />
               <div className={styles.userInfo}>
                 <div className={styles.userText}>
@@ -31,16 +43,16 @@ const UserList = ({ users }: UserListProps) => {
               >
                 <FaUserPlus />
               </button>
-            </div>
+            </li>
           );
         })
       ) : (
-        <div className={styles.noUserContainer}>
+        <li className={styles.noUserContainer}>
           <CgSmileSad className={styles.noUserIcon} />
           <p className={styles.noUserText}>검색된 사용자가 없습니다.</p>
-        </div>
+        </li>
       )}
-    </>
+    </ul>
   );
 };
 
@@ -59,4 +71,5 @@ const styles = {
     "flex flex-col items-center justify-center gap-[8px] w-full h-full",
   noUserIcon: "w-[60px] h-[60px]",
   noUserText: "text-center",
+  listBody: "h-[calc(100%-64px)] overflow-auto p-4",
 };

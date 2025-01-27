@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { CgSmileSad } from "react-icons/cg";
 import { FaUserCircle, FaUserMinus } from "react-icons/fa";
 
@@ -12,12 +13,32 @@ interface FriendListProps {
 }
 
 const FriendList = ({ friends }: FriendListProps) => {
+  const ulRef = useRef<HTMLUListElement>(null);
+  const liRef = useRef<HTMLLIElement>(null);
+
+  // useInfiniteScroll(
+  //   {
+  //     root: ulRef,
+  //     element: liRef,
+  //     onScroll: () => {
+  //       console.log("온다!");
+  //     },
+  //   },
+  //   [friends]
+  // );
+
   return (
-    <>
+    <ul ref={ulRef} className={styles.listBody}>
       {friends && friends.length > 0 ? (
-        friends.map((friend) => {
+        friends.map((friend, i) => {
+          const isLast = i === friends.length - 1;
+
           return (
-            <div className={styles.container} key={friend.id}>
+            <li
+              ref={isLast ? liRef : undefined}
+              className={styles.container}
+              key={friend.id}
+            >
               <FaUserCircle className={styles.userIcon} />
               <div className={styles.userInfo}>
                 <div className="min-w-0 flex-1">
@@ -33,20 +54,20 @@ const FriendList = ({ friends }: FriendListProps) => {
               <button type="button" onClick={() => console.log("친구삭제")}>
                 <FaUserMinus className={styles.removeButton} />
               </button>
-            </div>
+            </li>
           );
         })
       ) : (
-        <div className={styles.noFriendsContainer}>
+        <li className={styles.noFriendsContainer}>
           <CgSmileSad className={styles.noFriendsIcon} />
           <p className={styles.noFriendsText}>
             추가된 친구가 없습니다.
             <br />
             친구를 추가해 주세요.
           </p>
-        </div>
+        </li>
       )}
-    </>
+    </ul>
   );
 };
 
@@ -66,4 +87,5 @@ const styles = {
     "flex flex-col items-center justify-center gap-[8px] w-full h-full",
   noFriendsIcon: "w-[60px] h-[60px]",
   noFriendsText: "text-center",
+  listBody: "h-[calc(100%-64px)] overflow-auto p-4",
 };

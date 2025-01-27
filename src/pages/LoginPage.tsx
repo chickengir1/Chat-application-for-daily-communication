@@ -1,7 +1,7 @@
 import Button from "@/components/common/Button";
 import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
 import JoinRightContent from "@/components/feature/join/JoinRightContent";
-import { useUser } from "@/hooks/api/useUser";
+import { useAuth } from "@/hooks/api/useAuth";
 import {
   emailPlaceholder,
   emailRequiredMsg,
@@ -32,7 +32,7 @@ const LoginPage = () => {
 
   const { email, password } = watch();
 
-  const { signIn } = useUser();
+  const { signIn } = useAuth();
 
   const navigate = useNavigate();
 
