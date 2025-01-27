@@ -1,4 +1,3 @@
-import { useInfiniteScroll } from "@/hooks/api/useInfiniteScroll";
 import { useRef } from "react";
 import { CgSmileSad } from "react-icons/cg";
 import { FaUserCircle, FaUserMinus } from "react-icons/fa";

@@ -1,9 +1,8 @@
+import { useAuth } from "@/hooks/api/useAuth";
 import { useNavigation } from "@/hooks/common/useNavigation";
-import { FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import { icons } from "@/utils/Constans";
 import { renderIcons } from "@/utils/navigationUtils";
-import { useUser } from "@/hooks/api/useUser";
-import { useAuth } from "@/hooks/api/useAuth";
+import { FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 
 //**사이드바 컴포넌트 */
 const Sidebar = () => {
@@ -11,8 +10,7 @@ const Sidebar = () => {
   const { activeIndex, handleNavigation } = navigate;
   const userProfileImage: string | null = "";
 
-  const { signOut } = useUser();
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, signOut } = useAuth();
 
   console.log(`isSignedIn in Sidebar: ${isSignedIn}`);
 
