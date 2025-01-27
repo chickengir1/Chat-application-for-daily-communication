@@ -1,5 +1,5 @@
 import { createContext, ReactNode } from "react";
-import { chatStore, Message, WS_CONFIG } from "@/stores/chatStore";
+import { chatStore, WS_CONFIG } from "@/stores/chatStore";
 import { authStore } from "@/stores/authStore";
 import { saveMessagesToDB } from "@/utils/IndexedDB";
 
@@ -72,16 +72,27 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   const createSocketHandlers = (roomId: string) => ({
     handleMessage: async (event: MessageEvent) => {
       try {
-        const parsedData: Message = JSON.parse(event.data);
+        const data = JSON.parse(event.data);
+        if (data.messageType === "UNREAD_COUNT" || data.type === "readby") {
+          return;
+        }
+
         const transformedMessage = {
-          ...parsedData,
+          ...data,
           id: createMessageId(roomId),
-          originFileUrl: parsedData.originFileUrl || "",
-          thumbnailUrl: parsedData.thumbnailUrl || "",
+          originFileUrl: data.originFileUrl || "",
+          thumbnailUrl: data.thumbnailUrl || "",
         };
 
-        await saveMessagesToDB(roomId, [transformedMessage]);
+        // 먼저 프론트 상태 업데이트
         addMessage(roomId, [transformedMessage]);
+
+        // 그 다음 DB 저장
+        try {
+          await saveMessagesToDB(roomId, [transformedMessage]);
+        } catch (error) {
+          console.error("메시지 DB 저장 중 오류:", error);
+        }
       } catch (error) {
         console.error("메시지 파싱 에러", error);
       }

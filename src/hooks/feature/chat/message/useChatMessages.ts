@@ -1,22 +1,13 @@
-import { useEffect } from "react";
-
-import { loadMessagesFromDB } from "@/utils/IndexedDB";
+import { useCallback } from "react";
 import { chatStore } from "@/stores/chatStore";
 
 const useChatMessages = (roomId: string) => {
-  const { filterMessages } = chatStore();
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      const messages = await loadMessagesFromDB(roomId);
-      chatStore.getState().messages[roomId] = messages;
-      filterMessages(roomId);
-    };
-    fetchMessages();
-  }, [roomId, filterMessages]);
+  const messages = chatStore(
+    useCallback((state) => state.messages[roomId] || [], [roomId])
+  );
 
   return {
-    filteredMessages: chatStore().filteredMessages,
+    filteredMessages: messages,
   };
 };
 
