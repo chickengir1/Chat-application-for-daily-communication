@@ -1,15 +1,8 @@
+import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
-import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
 
-import {
-  nicknameMaxLengthMsg,
-  nicknameMaxLengthValue,
-  nicknameMinLengthMsg,
-  nicknameMinLengthValue,
-  nicknamePlaceholder,
-  nicknameRequiredMsg,
-} from "@/utils/joinRule";
+import { nicknamePlaceholder } from "@/utils/joinRule";
 
 interface SettingProfileChangeFormValues {
   nickname: string;
@@ -17,12 +10,14 @@ interface SettingProfileChangeFormValues {
 }
 
 interface SettingProfileChangeProps {
+  email: string;
   profileImg: string;
   nickname: string;
   onChangeProfilePicture: ({ formData }: { formData: FormData }) => void;
 }
 
 const SettingProfileChange: FC<SettingProfileChangeProps> = ({
+  email,
   profileImg,
   nickname,
   onChangeProfilePicture,
@@ -32,7 +27,6 @@ const SettingProfileChange: FC<SettingProfileChangeProps> = ({
   const [formData, setFormData] = useState<FormData>(new FormData());
 
   const {
-    register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<SettingProfileChangeFormValues>({
@@ -95,7 +89,7 @@ const SettingProfileChange: FC<SettingProfileChangeProps> = ({
               <input
                 type="email"
                 className={styles.input}
-                value="test123@gmail.com"
+                value={email}
                 disabled={true}
               />
             </span>
@@ -109,17 +103,7 @@ const SettingProfileChange: FC<SettingProfileChangeProps> = ({
                 className={styles.input}
                 placeholder={nicknamePlaceholder}
                 defaultValue={initialNickname}
-                {...register("nickname", {
-                  required: nicknameRequiredMsg,
-                  minLength: {
-                    value: nicknameMinLengthValue,
-                    message: nicknameMinLengthMsg,
-                  },
-                  maxLength: {
-                    value: nicknameMaxLengthValue,
-                    message: nicknameMaxLengthMsg,
-                  },
-                })}
+                value={nickname}
               />
               <InputErrorMessage message={errors.nickname?.message} />
             </span>

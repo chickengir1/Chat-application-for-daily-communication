@@ -1,19 +1,8 @@
 import { axiosInstance, handleApiCall } from "@/api/axiosInstance";
-import { userStore } from "@/stores/userStore";
+import { userStore, UserProfile } from "@/stores/userStore";
 
-interface GetProfileResponse {
-  id: number;
-  nickname: string;
-  email: string;
-  password: string;
-  isFirstLogin: boolean;
-  role: string;
-  profileImg: string;
-  activated: boolean;
-  oauthProvider: string;
-  oauthId: string;
-  oauthToken: string;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface GetProfileResponse extends UserProfile {}
 
 interface ChangeProfilePictureRequest {
   formData: FormData;
@@ -24,10 +13,11 @@ export const useMe = () => {
 
   const getProfile = async () => {
     const result = await handleApiCall<GetProfileResponse>(
-      axiosInstance.get("/api/users")
+      axiosInstance.get("/api/user/")
     );
 
     if (result) {
+      console.log(`result`, result);
       setProfile(result);
     }
     return false;

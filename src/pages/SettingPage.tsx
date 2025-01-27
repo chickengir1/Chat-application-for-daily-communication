@@ -14,15 +14,22 @@ const SettingPage = () => {
   const { getProfile, changeProfilePicture } = useMe();
   const { profile } = userStore();
 
+  console.log(profile);
+
   useEffect(() => {
     getProfile();
   }, []);
+
+  useEffect(() => {
+    console.log("profile in useeffect", profile);
+  }, [profile]);
 
   return (
     <div className={styles.pageContainer}>
       <div className={styles.wrapper}>
         {/* 프로필 변경 */}
         <SettingProfileChange
+          email={profile.email}
           profileImg={profile.profileImg}
           nickname={profile.nickname}
           onChangeProfilePicture={changeProfilePicture}

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface UserProfile {
+export interface UserProfile {
   id: number;
   nickname: string;
   email: string;
@@ -9,9 +9,10 @@ interface UserProfile {
   role: string;
   profileImg: string;
   activated: boolean;
-  oauthProvider: string;
-  oauthId: string;
-  oauthToken: string;
+  oauthProvider: string | null;
+  oauthId: string | null;
+  oauthToken: string | null;
+  friendshipList: null;
 }
 
 interface UserState {
@@ -22,8 +23,8 @@ interface UserState {
 export const userStore = create<UserState>((set) => ({
   profile: {
     id: 0,
-    nickname: "test",
-    email: "test@test.com",
+    nickname: "",
+    email: "",
     password: "",
     isFirstLogin: false,
     role: "",
@@ -32,6 +33,7 @@ export const userStore = create<UserState>((set) => ({
     oauthProvider: "",
     oauthId: "",
     oauthToken: "",
+    friendshipList: null,
   },
   setProfile: (profile: UserProfile) => set(() => ({ profile })),
 }));
