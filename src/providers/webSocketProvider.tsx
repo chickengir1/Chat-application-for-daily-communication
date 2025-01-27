@@ -34,7 +34,7 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
 
     socket.onopen = () => setConnected(roomId, true);
 
-    const handlers = createSocketHandlers(roomId);
+    const handlers = socketHandlers(roomId);
     socket.onmessage = handlers.handleMessage;
     socket.onerror = handlers.handleError;
     socket.onclose = handlers.handleClose;
@@ -68,34 +68,28 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     }
   };
 
+  // 에러 핸들러
+  const handleSocketError = (roomId: string, error: Event) => {
+    console.error("WebSocket 에러", error, { cause: error });
+    setConnected(roomId, false);
+  };
+
   // 이벤트 핸들러
-  const createSocketHandlers = (roomId: string) => ({
+  const socketHandlers = (roomId: string) => ({
     handleMessage: async (event: MessageEvent) => {
-      try {
-        const data = JSON.parse(event.data);
-        if (data.messageType === "UNREAD_COUNT" || data.type === "readby") {
-          return;
-        }
+      const data = JSON.parse(event.data);
 
-        const transformedMessage = {
-          ...data,
-          id: createMessageId(roomId),
-          originFileUrl: data.originFileUrl || "",
-          thumbnailUrl: data.thumbnailUrl || "",
-        };
+      if (["UNREAD_COUNT", "readby"].includes(data.messageType)) return;
 
-        // 먼저 프론트 상태 업데이트
-        addMessage(roomId, [transformedMessage]);
+      const transformedMessage = {
+        ...data,
+        id: createMessageId(roomId),
+        originFileUrl: data.originFileUrl || "",
+        thumbnailUrl: data.thumbnailUrl || "",
+      };
 
-        // 그 다음 DB 저장
-        try {
-          await saveMessagesToDB(roomId, [transformedMessage]);
-        } catch (error) {
-          console.error("메시지 DB 저장 중 오류:", error);
-        }
-      } catch (error) {
-        console.error("메시지 파싱 에러", error);
-      }
+      addMessage(roomId, [transformedMessage]);
+      await saveMessagesToDB(roomId, [transformedMessage]);
     },
     handleError: (error: Event) => handleSocketError(roomId, error),
     handleClose: (e: CloseEvent) => {
@@ -107,12 +101,6 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
       setTimeout(() => connect(roomId), WS_CONFIG.RECONNECT_TIMEOUT);
     },
   });
-
-  // 에러 핸들러
-  const handleSocketError = (roomId: string, error: Event) => {
-    console.error("WebSocket 에러", error, { cause: error });
-    setConnected(roomId, false);
-  };
 
   return (
     <WebSocketContext.Provider value={{ connect, sendMessage, disconnect }}>

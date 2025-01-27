@@ -22,15 +22,6 @@ const useSendMessage = ({ roomId }: UseChatProps) => {
   const handleSendMessage = () => {
     if (!value.trim()) return;
 
-    // 런타임에서 테스트용
-    // const messagePayload = {
-    //   messageType: "CHAT",
-    //   roomId,
-    //   message: value.trim(),
-    //   originFileUrl: "",
-    //   thumbnailUrl: "",
-    // };
-
     const messagePayload = {
       messageType: "CHAT",
       roomId,

@@ -1,9 +1,12 @@
-import { useCallback } from "react";
+import { useStore } from "zustand";
 import { chatStore } from "@/stores/chatStore";
+import { useMemo } from "react";
 
 const useChatMessages = (roomId: string) => {
-  const messages = chatStore(
-    useCallback((state) => state.messages[roomId] || [], [roomId])
+  const store = useStore(chatStore);
+  const messages = useMemo(
+    () => store.messages[roomId] || [],
+    [store.messages, roomId]
   );
 
   return {

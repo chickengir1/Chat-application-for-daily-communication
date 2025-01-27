@@ -1,3 +1,5 @@
+import { formatTime } from "@/hooks/feature/chat/RoomLists/useChatHandlers";
+
 interface ChatBubbleProps {
   sender?: string | null;
   message: string;
@@ -30,7 +32,7 @@ const ChatBubble = ({
         <span className={`${styles.sender} ${textAlignment}`}>{sender}</span>
         <div className={`${styles.bubble} ${bubbleStyle}`}>{message}</div>
         <span className={`${styles.timestamp} ${textAlignment}`}>
-          {timestamp ? new Date(timestamp).toLocaleString("ko-KR") : ""}
+          {timestamp ? formatTime(timestamp) : ""}
         </span>
       </div>
     </div>
