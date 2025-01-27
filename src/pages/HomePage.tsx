@@ -42,12 +42,14 @@ const HomePage = () => {
 
   // 사용자 검색 -> 디바운싱된 값으로 API 호출
   useEffect(() => {
-    setPage(0);
-    searchFriends({ search: debouncedValue, size: 10, page: 0 })
-      .then(({ content }) => {
-        setSearchedUsers(content);
-      })
-      .catch(() => {});
+    if (debouncedValue) {
+      setPage(0);
+      searchFriends({ search: debouncedValue, size: 10, page: 0 })
+        .then(({ content }) => {
+          setSearchedUsers(content);
+        })
+        .catch(() => {});
+    }
   }, [debouncedValue]);
 
   return (
