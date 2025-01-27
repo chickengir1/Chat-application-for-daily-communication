@@ -17,7 +17,8 @@ const Sidebar = () => {
   console.log(`isSignedIn in Sidebar: ${isSignedIn}`);
 
   const handleLogout = async () => {
-    if (await signOut()) return;
+    await signOut();
+    handleNavigation(0, "/login");
   };
 
   return (
