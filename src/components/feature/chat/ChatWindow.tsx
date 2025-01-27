@@ -7,7 +7,6 @@ import useWebSocket from "@/hooks/feature/webSocket/useWebSocket";
 import useChatMessages from "@/hooks/feature/chat/message/useChatMessages";
 import useModalState from "@/hooks/common/useModalState";
 import { WebSocketProvider } from "@/providers/webSocketProvider";
-import type { Message } from "@/stores/chatStore";
 import { useMemo } from "react";
 
 interface ChatWindowProps {
@@ -33,14 +32,13 @@ const ChatWindowContent = ({ roomId }: ChatWindowProps) => {
     // 추가적인 채팅방 나가기 로직 만들어야함
     // 얜 그냥 http 요청 보내야함
   };
-
   const participants = people.map((person: string) => person);
-  const currentUserId = "tester1001"; // 임시 유저 아이디 유저 스토어 구성 못하면 망함
+  const currentUserId = "tester1000"; // 임시 유저 아이디 유저 스토어 구성 못하면 망함
 
   // 메시지 렌더링을 메모이제이션
   const messageElements = useMemo(
     () =>
-      (filteredMessages as Message[]).map((message) => (
+      filteredMessages.map((message) => (
         <ChatBubble
           key={message.id}
           sender={message.sender}
