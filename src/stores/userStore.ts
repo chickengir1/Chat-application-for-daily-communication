@@ -9,7 +9,6 @@ interface UserProfile {
   role: string;
   profileImg: string;
   activated: boolean;
-  statusMessage: string;
   oauthProvider: string;
   oauthId: string;
   oauthToken: string;
@@ -29,7 +28,6 @@ export const userStore = create<UserState>((set) => ({
     isFirstLogin: false,
     role: "",
     profileImg: "/assets/images/default_profile.svg",
-    statusMessage: "",
     activated: false,
     oauthProvider: "",
     oauthId: "",

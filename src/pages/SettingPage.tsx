@@ -11,7 +11,7 @@ const SettingPage = () => {
   const [isPushEnabled, setIsPushEnabled] = useState(false);
   const [isEmailEnabled, setIsEmailEnabled] = useState(false);
 
-  const { getProfile } = useMe();
+  const { getProfile, changeProfilePicture } = useMe();
   const { profile } = userStore();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const SettingPage = () => {
         <SettingProfileChange
           profileImg={profile.profileImg}
           nickname={profile.nickname}
-          statusMessage={profile.statusMessage}
+          onChangeProfilePicture={changeProfilePicture}
         />
 
         {/* 비밀번호 변경 */}

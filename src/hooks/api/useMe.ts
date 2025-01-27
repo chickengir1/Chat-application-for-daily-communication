@@ -13,7 +13,10 @@ interface GetProfileResponse {
   oauthProvider: string;
   oauthId: string;
   oauthToken: string;
-  statusMessage: string;
+}
+
+interface ChangeProfilePictureRequest {
+  formData: FormData;
 }
 
 export const useMe = () => {
@@ -25,11 +28,27 @@ export const useMe = () => {
     );
 
     if (result) {
-      console.log(result);
       setProfile(result);
     }
     return false;
   };
 
-  return { getProfile };
+  const changeProfilePicture = async ({
+    formData,
+  }: ChangeProfilePictureRequest) => {
+    const result = await handleApiCall<GetProfileResponse>(
+      axiosInstance.post("/api/files/upload?category=profile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+    );
+
+    if (result) {
+      setProfile(result);
+    }
+    return false;
+  };
+
+  return { getProfile, changeProfilePicture };
 };
