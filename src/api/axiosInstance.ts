@@ -2,19 +2,18 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { authStore } from "@/stores/authStore";
 
-const { accessToken } = authStore.getState();
-
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: "http://34.47.79.162/",
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${accessToken}`,
   },
+  // 최종 테스트 후 없어도 괜찮다면 삭제
   withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
   function (config) {
+    const { accessToken } = authStore.getState();
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
