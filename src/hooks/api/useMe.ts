@@ -17,7 +17,6 @@ export const useMe = () => {
     );
 
     if (result) {
-      console.log(`result`, result);
       setProfile(result);
     }
     return false;

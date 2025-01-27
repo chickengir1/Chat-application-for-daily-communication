@@ -14,15 +14,9 @@ const SettingPage = () => {
   const { getProfile, changeProfilePicture } = useMe();
   const { profile } = userStore();
 
-  console.log(profile);
-
   useEffect(() => {
     getProfile();
   }, []);
-
-  useEffect(() => {
-    console.log("profile in useeffect", profile);
-  }, [profile]);
 
   return (
     <div className={styles.pageContainer}>
