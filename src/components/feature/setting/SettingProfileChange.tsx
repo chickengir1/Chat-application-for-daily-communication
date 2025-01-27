@@ -1,82 +1,59 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
+import { FC, useState } from "react";
+import { useForm } from "react-hook-form";
 
-import {
-  nicknameMaxLengthMsg,
-  nicknameMaxLengthValue,
-  nicknameMinLengthMsg,
-  nicknameMinLengthValue,
-  nicknamePlaceholder,
-  nicknameRequiredMsg,
-} from "@/utils/joinRule";
-
-const checkNicknameDuplicate = async (nickname: string): Promise<boolean> => {
-  const duplicateNicknames = ["admin", "tester"];
-  return duplicateNicknames.includes(nickname);
-};
+import { nicknamePlaceholder } from "@/utils/joinRule";
 
 interface SettingProfileChangeFormValues {
   nickname: string;
   statusMessage: string;
 }
 
-const SettingProfileChange = () => {
-  const [initialNickname] = useState<string>("닉네임이다요");
-  const [initialStatusMessage] = useState<string>("상태 메시지다요.");
+interface SettingProfileChangeProps {
+  email: string;
+  profileImg: string;
+  nickname: string;
+  onChangeProfilePicture: ({ formData }: { formData: FormData }) => void;
+}
+
+const SettingProfileChange: FC<SettingProfileChangeProps> = ({
+  email,
+  profileImg,
+  nickname,
+  onChangeProfilePicture,
+}) => {
+  const [initialNickname] = useState<string>(nickname);
+  const [previewImg, setPreviewImg] = useState<string>(profileImg);
+  const [formData, setFormData] = useState<FormData>(new FormData());
 
   const {
-    register,
     handleSubmit,
-    clearErrors,
-    setFocus,
     formState: { errors, isSubmitting },
   } = useForm<SettingProfileChangeFormValues>({
     mode: "onChange",
-    defaultValues: {
-      nickname: initialNickname,
-      statusMessage: initialStatusMessage,
-    },
+    defaultValues: { nickname },
   });
 
-  const handleFormSubmit = async (data: SettingProfileChangeFormValues) => {
-    const { nickname, statusMessage } = data;
-
-    // 닉네임 중복 확인
-    const isNicknameDuplicate = await checkNicknameDuplicate(nickname);
-    if (isNicknameDuplicate) {
-      console.log("이미 사용 중인 닉네임입니다.");
-      setFocus("nickname");
+  const handleFormSubmit = async () => {
+    if (!previewImg) {
       return;
     }
 
-    clearErrors();
-
-    // 변경 여부 확인 및 알림
-    const isNicknameChanged = nickname !== initialNickname;
-    const isStatusMessageChanged = statusMessage !== initialStatusMessage;
-
-    if (isNicknameChanged && isStatusMessageChanged) {
-      console.log("닉네임과 상태 메시지가 모두 변경되었습니다.");
-    } else if (isNicknameChanged) {
-      console.log("닉네임이 변경되었습니다.");
-    } else if (isStatusMessageChanged) {
-      console.log("상태 메시지가 변경되었습니다.");
-    } else {
-      console.log("닉네임과 상태 메시지가 이전과 동일합니다.");
-    }
+    onChangeProfilePicture({ formData });
   };
-
-  // 이미지 업로드 상태
-  const defaultImg = "/assets/images/default_profile.svg";
-  const [previewImg, setPreviewImg] = useState<string | undefined>(defaultImg);
 
   // 이미지 업로드 핸들러
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => setPreviewImg(reader.result as string);
+      reader.onload = () => {
+        setPreviewImg(reader.result as string);
+
+        const formData = new FormData();
+        formData.append("file", file);
+        setFormData(formData);
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -112,7 +89,7 @@ const SettingProfileChange = () => {
               <input
                 type="email"
                 className={styles.input}
-                value="test123@gmail.com"
+                value={email}
                 disabled={true}
               />
             </span>
@@ -122,40 +99,13 @@ const SettingProfileChange = () => {
               <p className={styles.inputLabel}>이름</p>
               <input
                 type="text"
+                disabled
                 className={styles.input}
                 placeholder={nicknamePlaceholder}
                 defaultValue={initialNickname}
-                {...register("nickname", {
-                  required: nicknameRequiredMsg,
-                  minLength: {
-                    value: nicknameMinLengthValue,
-                    message: nicknameMinLengthMsg,
-                  },
-                  maxLength: {
-                    value: nicknameMaxLengthValue,
-                    message: nicknameMaxLengthMsg,
-                  },
-                })}
+                value={nickname}
               />
               <InputErrorMessage message={errors.nickname?.message} />
-            </span>
-
-            {/* 상태 메시지 */}
-            <span className="relative">
-              <p className={styles.inputLabel}>상태 메시지</p>
-              <input
-                type="text"
-                className={styles.input}
-                placeholder="상태 메시지를 입력하세요."
-                defaultValue={initialStatusMessage}
-                {...register("statusMessage", {
-                  maxLength: {
-                    value: 30,
-                    message: "상태 메시지는 최대 30자 까지 작성 가능합니다.",
-                  },
-                })}
-              />
-              <InputErrorMessage message={errors.statusMessage?.message} />
             </span>
           </div>
           <button
