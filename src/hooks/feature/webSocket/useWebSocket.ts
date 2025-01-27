@@ -12,6 +12,7 @@ const useWebSocket = (roomId: string) => {
 
   useEffect(() => {
     connect(roomId);
+    loadMessages(roomId);
   }, [roomId, connect, disconnect, loadMessages]);
 
   return {
