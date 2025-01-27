@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import InputErrorMessage from "@/components/feature/input/InputErrorMessage";
 
@@ -21,9 +21,19 @@ interface SettingProfileChangeFormValues {
   statusMessage: string;
 }
 
-const SettingProfileChange = () => {
-  const [initialNickname] = useState<string>("닉네임이다요");
-  const [initialStatusMessage] = useState<string>("상태 메시지다요.");
+interface SettingProfileChangeProps {
+  profileImg: string;
+  nickname: string;
+  statusMessage: string;
+}
+
+const SettingProfileChange: FC<SettingProfileChangeProps> = ({
+  profileImg,
+  nickname,
+  statusMessage,
+}) => {
+  const [initialNickname] = useState<string>(nickname);
+  const [initialStatusMessage] = useState<string>(statusMessage);
 
   const {
     register,
@@ -34,8 +44,8 @@ const SettingProfileChange = () => {
   } = useForm<SettingProfileChangeFormValues>({
     mode: "onChange",
     defaultValues: {
-      nickname: initialNickname,
-      statusMessage: initialStatusMessage,
+      nickname,
+      statusMessage,
     },
   });
 
@@ -68,8 +78,7 @@ const SettingProfileChange = () => {
   };
 
   // 이미지 업로드 상태
-  const defaultImg = "/assets/images/default_profile.svg";
-  const [previewImg, setPreviewImg] = useState<string | undefined>(defaultImg);
+  const [previewImg, setPreviewImg] = useState<string | undefined>(profileImg);
 
   // 이미지 업로드 핸들러
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,19 +1,32 @@
 import ToggleSwitch from "@/components/common/ToggleSwitch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SettingPasswordChange from "@/components/feature/setting/SettingPasswordChange";
 import SettingProfileChange from "@/components/feature/setting/SettingProfileChange";
 import Button from "@/components/common/Button";
+import { useMe } from "@/hooks/api/useMe";
+import { userStore } from "@/stores/userStore";
 
 const SettingPage = () => {
   // 스위치 상태
   const [isPushEnabled, setIsPushEnabled] = useState(false);
   const [isEmailEnabled, setIsEmailEnabled] = useState(false);
 
+  const { getProfile } = useMe();
+  const { profile } = userStore();
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.wrapper}>
         {/* 프로필 변경 */}
-        <SettingProfileChange />
+        <SettingProfileChange
+          profileImg={profile.profileImg}
+          nickname={profile.nickname}
+          statusMessage={profile.statusMessage}
+        />
 
         {/* 비밀번호 변경 */}
         <SettingPasswordChange />
