@@ -4,7 +4,7 @@ import { MAX_MESSAGE_COUNT } from "@/utils/Constans";
 
 export const WS_CONFIG = {
   BASE_URL: "ws://34.47.79.162:8080",
-  PATH: "/api/chat",
+  PATH: "/chat",
   RECONNECT_TIMEOUT: 10000,
 } as const;
 
