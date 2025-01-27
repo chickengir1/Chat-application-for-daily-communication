@@ -1,15 +1,13 @@
 import { PropsWithChildren, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks/api/useAuth";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigation } from "@/hooks/common/useNavigation";
 
 type AuthProviderProps = PropsWithChildren;
 
 // 로그인을 해야하는 경로
 const PROTECTED_ROUTES = [
-  // dev 테스트용으로 임시 주석 처리
-  // 루트(homePage) 경로도 있어야함
-  // "/",
-  // "/chat",
+  "/",
+  "/chat",
   "/notifications",
   "/settings",
   "/changepassword",
@@ -20,18 +18,17 @@ const UNPROTECTED_ROUTES = ["/login", "/signup", "/findpassword"];
 
 export default function AuthProvider({ children }: AuthProviderProps) {
   const { isSignedIn } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { handleNavigation } = useNavigation();
 
   const checkAuthentication = useCallback(() => {
     const path = location.pathname.toLowerCase();
     if (PROTECTED_ROUTES.includes(path) && !UNPROTECTED_ROUTES.includes(path)) {
       if (!isSignedIn) {
-        navigate("/login", { replace: true });
+        handleNavigation(0, "/login");
         return;
       }
     }
-  }, [isSignedIn, location, navigate]);
+  }, [isSignedIn, handleNavigation]);
 
   useEffect(() => {
     checkAuthentication();
