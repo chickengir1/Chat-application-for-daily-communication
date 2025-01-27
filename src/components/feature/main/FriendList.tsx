@@ -1,3 +1,5 @@
+import { useInfiniteScroll } from "@/hooks/api/useInfiniteScroll";
+import { useRef } from "react";
 import { CgSmileSad } from "react-icons/cg";
 import { FaUserCircle, FaUserMinus } from "react-icons/fa";
 
@@ -12,12 +14,32 @@ interface FriendListProps {
 }
 
 const FriendList = ({ friends }: FriendListProps) => {
+  const ulRef = useRef<HTMLUListElement>(null);
+  const liRef = useRef<HTMLLIElement>(null);
+
+  // useInfiniteScroll(
+  //   {
+  //     root: ulRef,
+  //     element: liRef,
+  //     onScroll: () => {
+  //       console.log("온다!");
+  //     },
+  //   },
+  //   [friends]
+  // );
+
   return (
-    <ul className={styles.listBody}>
+    <ul ref={ulRef} className={styles.listBody}>
       {friends && friends.length > 0 ? (
-        friends.map((friend) => {
+        friends.map((friend, i) => {
+          const isLast = i === friends.length - 1;
+
           return (
-            <li className={styles.container} key={friend.id}>
+            <li
+              ref={isLast ? liRef : undefined}
+              className={styles.container}
+              key={friend.id}
+            >
               <FaUserCircle className={styles.userIcon} />
               <div className={styles.userInfo}>
                 <div className="min-w-0 flex-1">

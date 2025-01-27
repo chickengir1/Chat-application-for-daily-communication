@@ -1,4 +1,5 @@
 import { axiosInstance, handleApiCall } from "@/api/axiosInstance";
+import { useState } from "react";
 
 export interface User {
   userId: number;
@@ -7,13 +8,13 @@ export interface User {
   profileImg: string | null;
 }
 
-interface SearchFriendRequest {
+export interface SearchUserRequest {
   search: string;
   page: number;
   size: number;
 }
 
-interface SearchFriendResponse {
+export interface SearchUserResponse {
   content: User[];
   pageable: {
     pageNumber: number;
@@ -24,8 +25,17 @@ interface SearchFriendResponse {
 }
 
 export const useFriends = () => {
-  const searchFriends = async ({ search, page, size }: SearchFriendRequest) => {
-    const { content } = await handleApiCall<SearchFriendResponse>(
+  const [users, setUsers] = useState<User[]>([]);
+  const [page, setPage] = useState(0);
+
+  const [done, setDone] = useState(false);
+
+  const searchUser = async ({ search, page, size }: SearchUserRequest) => {
+    if (done) {
+      return;
+    }
+
+    const { content } = await handleApiCall<SearchUserResponse>(
       axiosInstance.get("/api/users/search", {
         params: {
           nickname: search,
@@ -35,8 +45,20 @@ export const useFriends = () => {
       })
     );
 
-    return { content };
+    if (!content.length) {
+      setDone(true);
+      return;
+    }
+
+    setPage(page);
+    setUsers([...users, ...content]);
   };
 
-  return { searchFriends };
+  const resetUsers = () => {
+    setUsers([]);
+    setDone(false);
+    setPage(0);
+  };
+
+  return { users, page, searchUser, resetUsers };
 };

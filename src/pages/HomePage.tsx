@@ -2,55 +2,19 @@ import Button from "@/components/common/Button";
 import ChatList from "@/components/feature/chat/ChatList";
 import CreateChatModal from "@/components/feature/main/CreateChatModal";
 import FriendList from "@/components/feature/main/FriendList";
-import UserList from "@/components/feature/main/UserList";
-import { useFriends, type User } from "@/hooks/api/useFriends";
+import User from "@/components/feature/main/user/User";
 import { useRoomList } from "@/hooks/api/useRoomList";
 import useChatRooms from "@/hooks/feature/chat/RoomLists/useChatRooms";
 import { friendListData } from "@/utils/stub";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 const HomePage = () => {
   const [friendList, setFriendList] = useState(false);
-  const [userList, setUserList] = useState(false);
-  const [searchTerm, setSearchTerm] = useState<string>(""); // 사용자 입력값
-  const [debouncedValue, setDebouncedValue] = useState<string>(""); // 디바운싱된 값
-  const [searchedUsers, setSearchedUsers] = useState<User[]>([]); // 검색된 사용자 목록
-  const debounceTimeout = useRef<NodeJS.Timeout | null>(null); // 타이머 관리
   const [createChatModal, setCreateChatModal] = useState(false);
 
-  const [page, setPage] = useState(0);
   const { rooms } = useRoomList(); // 나중에 ,isLoading, error,refetch 추가 해서 써주세요
   const { filteredRooms } = useChatRooms(rooms);
-  const { searchFriends } = useFriends();
-
-  // 입력값 변경 핸들러
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSearchTerm(value);
-
-    // 기존 타이머 초기화
-    if (debounceTimeout.current) {
-      clearTimeout(debounceTimeout.current);
-    }
-
-    // 새로운 타이머 설정
-    debounceTimeout.current = setTimeout(() => {
-      setDebouncedValue(value); // 디바운싱된 값 업데이트
-    }, 1000);
-  };
-
-  // 사용자 검색 -> 디바운싱된 값으로 API 호출
-  useEffect(() => {
-    if (debouncedValue) {
-      setPage(0);
-      searchFriends({ search: debouncedValue, size: 10, page: 0 })
-        .then(({ content }) => {
-          setSearchedUsers(content);
-        })
-        .catch(() => {});
-    }
-  }, [debouncedValue]);
 
   return (
     <>
@@ -82,34 +46,7 @@ const HomePage = () => {
             <FriendList friends={friendListData} />
           </div>
 
-          {/* 사용자 목록 */}
-          <div
-            className={`${styles.listContainer} ${userList ? "h-[30vh]" : "h-[64px]"}`}
-          >
-            <div className={styles.listHeader}>
-              <h2 className={styles.listTitle}>사용자 목록</h2>
-              <div className={styles.headerButtons}>
-                <span className={styles.searchInputWrapper}>
-                  <input
-                    type="text"
-                    className={styles.searchInput}
-                    placeholder="사용자 검색"
-                    value={searchTerm}
-                    onChange={handleInputChange}
-                  />
-                </span>
-                <button
-                  className="sm:hidden"
-                  onClick={() => {
-                    setUserList(!userList);
-                  }}
-                >
-                  {userList ? <FaAngleUp /> : <FaAngleDown />}
-                </button>
-              </div>
-            </div>
-            <UserList users={searchedUsers} />
-          </div>
+          <User />
         </div>
 
         {/* 최근 대화 */}

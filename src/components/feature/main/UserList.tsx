@@ -1,18 +1,34 @@
+import type { User } from "@/hooks/api/useFriends";
+import { useInfiniteScroll } from "@/hooks/api/useInfiniteScroll";
+import { useRef } from "react";
 import { CgSmileSad } from "react-icons/cg";
 import { FaUserCircle, FaUserPlus } from "react-icons/fa";
-import type { User } from "@/hooks/api/useFriends";
 
 interface UserListProps {
   users: User[];
+  onScroll?: () => void;
 }
 
-const UserList = ({ users }: UserListProps) => {
+const UserList = ({ users, onScroll }: UserListProps) => {
+  const ulRef = useRef<HTMLUListElement>(null);
+  const liRef = useRef<HTMLLIElement>(null);
+
+  useInfiniteScroll({
+    root: ulRef,
+    element: liRef,
+    onScroll,
+  });
+
   return (
-    <ul className={styles.listBody}>
+    <ul ref={ulRef} className={styles.listBody}>
       {users && users.length > 0 ? (
-        users.map((user) => {
+        users.map((user, i) => {
           return (
-            <li className={styles.userItem} key={user.userId}>
+            <li
+              ref={i === users.length - 1 ? liRef : undefined}
+              className={styles.userItem}
+              key={user.userId}
+            >
               <FaUserCircle className={styles.userIcon} />
               <div className={styles.userInfo}>
                 <div className={styles.userText}>
