@@ -1,4 +1,4 @@
-import { useFriends } from "@/hooks/api/useFriends";
+import { useUser } from "@/hooks/api/useUser";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -9,7 +9,7 @@ import UserHeader from "./UserHeader";
 const User = () => {
   const [search, setSearch] = useState("");
 
-  const { users, page, searchUser, resetUsers } = useFriends();
+  const { users, page, searchUser, resetUsers } = useUser();
 
   useEffect(() => {
     if (search) {

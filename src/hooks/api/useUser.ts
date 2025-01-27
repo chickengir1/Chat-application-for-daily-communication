@@ -24,7 +24,7 @@ export interface SearchUserResponse {
   };
 }
 
-export const useFriends = () => {
+export const useUser = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [page, setPage] = useState(0);
 

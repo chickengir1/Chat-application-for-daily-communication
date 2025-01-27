@@ -1,4 +1,4 @@
-import type { User } from "@/hooks/api/useFriends";
+import type { User } from "@/hooks/api/useUser";
 import { useInfiniteScroll } from "@/hooks/api/useInfiniteScroll";
 import { useRef } from "react";
 import { CgSmileSad } from "react-icons/cg";
