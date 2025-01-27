@@ -1,22 +1,14 @@
-// import { fetchData } from "@/api/apiExamples";
-import { axiosInstance } from "@/api/axiosInstance";
 import Button from "@/components/common/Button";
 import ChatList from "@/components/feature/chat/ChatList";
 import CreateChatModal from "@/components/feature/main/CreateChatModal";
 import FriendList from "@/components/feature/main/FriendList";
 import UserList from "@/components/feature/main/UserList";
+import { useFriends, type User } from "@/hooks/api/useFriends";
 import { useRoomList } from "@/hooks/api/useRoomList";
 import useChatRooms from "@/hooks/feature/chat/RoomLists/useChatRooms";
 import { friendListData } from "@/utils/stub";
 import { useEffect, useRef, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-
-interface User {
-  userId: number;
-  nickname: string;
-  email: string;
-  profileImg: string;
-}
 
 const HomePage = () => {
   const [friendList, setFriendList] = useState(false);
@@ -24,11 +16,13 @@ const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState<string>(""); // 사용자 입력값
   const [debouncedValue, setDebouncedValue] = useState<string>(""); // 디바운싱된 값
   const [searchedUsers, setSearchedUsers] = useState<User[]>([]); // 검색된 사용자 목록
-  const [error, setError] = useState<string | null>(null); // 에러 메시지 관리
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null); // 타이머 관리
   const [createChatModal, setCreateChatModal] = useState(false);
+
+  const [page, setPage] = useState(0);
   const { rooms } = useRoomList(); // 나중에 ,isLoading, error,refetch 추가 해서 써주세요
   const { filteredRooms } = useChatRooms(rooms);
+  const { searchFriends } = useFriends();
 
   // 입력값 변경 핸들러
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,37 +42,12 @@ const HomePage = () => {
 
   // 사용자 검색 -> 디바운싱된 값으로 API 호출
   useEffect(() => {
-    console.log("Debounced Value:", debouncedValue);
-    console.log("컴파일 에러 방지", error); // 컴파일 에러 방지용
-
-    const fetchUsers = async () => {
-      if (!debouncedValue) {
-        setSearchedUsers([]); // 검색어가 없으면 초기화
-        return;
-      }
-
-      try {
-        const response = await axiosInstance.get(
-          `/api/users/search?nickname=${debouncedValue}&page=0&size=10`
-        );
-
-        setSearchedUsers(response.data.content); // 검색된 사용자 목록 업데이트
-        setError(null); // 에러 초기화
-      } catch (err) {
-        if (err instanceof Error) {
-          // Error 타입으로 체크
-          console.error("API 호출 에러:", err.message);
-          setError("사용자 검색 중 에러가 발생했습니다.");
-        } else {
-          console.error("알 수 없는 에러:", err);
-          setError("알 수 없는 에러가 발생했습니다.");
-        }
-      }
-    };
-
-    fetchUsers();
-    // 디펜던시 워닝때문에 추가
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setPage(0);
+    searchFriends({ search: debouncedValue, size: 10, page: 0 })
+      .then(({ content }) => {
+        setSearchedUsers(content);
+      })
+      .catch(() => {});
   }, [debouncedValue]);
 
   return (

@@ -1,13 +1,9 @@
 import { CgSmileSad } from "react-icons/cg";
 import { FaUserCircle, FaUserPlus } from "react-icons/fa";
+import type { User } from "@/hooks/api/useFriends";
 
 interface UserListProps {
-  users: {
-    userId: number;
-    nickname: string;
-    email: string;
-    profileImg: string;
-  }[];
+  users: User[];
 }
 
 const UserList = ({ users }: UserListProps) => {
