@@ -7,7 +7,6 @@ import useWebSocket from "@/hooks/feature/webSocket/useWebSocket";
 import useChatMessages from "@/hooks/feature/chat/message/useChatMessages";
 import useModalState from "@/hooks/common/useModalState";
 import { WebSocketProvider } from "@/providers/webSocketProvider";
-import { useMemo } from "react";
 
 interface ChatWindowProps {
   roomId: string;
@@ -22,33 +21,15 @@ const ChatWindow = ({ roomId }: ChatWindowProps) => {
 };
 
 const ChatWindowContent = ({ roomId }: ChatWindowProps) => {
-  const { title, subtitle, participants: people } = roomStore();
+  const { title, subtitle, participants } = roomStore();
   const { disconnect } = useWebSocket(roomId);
   const { filteredMessages } = useChatMessages(roomId);
   const { isModalOpen, handleModalState } = useModalState();
 
   const handleLeaveRoom = () => {
     disconnect();
-    // 추가적인 채팅방 나가기 로직 만들어야함
-    // 얜 그냥 http 요청 보내야함
   };
-  const participants = people.map((person: string) => person);
-  const currentUserId = "tester1000"; // 임시 유저 아이디 유저 스토어 구성 못하면 망함
-
-  // 메시지 렌더링을 메모이제이션
-  const messageElements = useMemo(
-    () =>
-      filteredMessages.map((message) => (
-        <ChatBubble
-          key={message.id}
-          sender={message.sender}
-          message={message.message}
-          timestamp={message.createdAt}
-          isCurrentUser={message.sender === currentUserId}
-        />
-      )),
-    [filteredMessages, currentUserId]
-  );
+  const currentUserId = "tester1000";
 
   return (
     <div className="mb-16 flex h-full w-full flex-col overflow-hidden rounded-lg bg-[#505050] md:mb-0">
@@ -58,7 +39,15 @@ const ChatWindowContent = ({ roomId }: ChatWindowProps) => {
         onOptionsClick={handleModalState(true)}
       />
       <div className="flex-1 overflow-y-auto p-4 scrollbar-none">
-        {messageElements}
+        {filteredMessages.map((message) => (
+          <ChatBubble
+            key={message.id}
+            sender={message.sender}
+            message={message.message}
+            timestamp={message.createdAt}
+            isCurrentUser={message.sender === currentUserId}
+          />
+        ))}
       </div>
       <MessageInput roomId={roomId} />
       <Modal

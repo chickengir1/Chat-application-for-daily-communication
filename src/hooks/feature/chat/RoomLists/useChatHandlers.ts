@@ -12,7 +12,7 @@ interface Chat {
 }
 
 // 시간 포맷용 유틸 함수
-const formatTime = (createdAt: string): string =>
+export const formatTime = (createdAt: string): string =>
   new Date(createdAt).toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
