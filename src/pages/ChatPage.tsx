@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import Input from "@/components/common/Input";
 import useInput from "@/hooks/common/useInput";
-import ChatWindow from "@/components/feature/chat/ChatWindow";
-import ChatList from "@/components/feature/chat/ChatList";
+import ChatWindow from "@/components/feature/chat/room/ChatWindow";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import useChatRooms from "@/hooks/feature/chat/RoomLists/useChatRooms";
 import { useChatNaviation } from "@/hooks/common/useNavigation";
 import { useOverlay } from "@/hooks/common/useOverlay";
-import UnselectedChat from "@/components/feature/chat/UnselectedChat";
+import UnselectedChat from "@/components/feature/chat/empty/UnselectedChat";
 import { useRoomList } from "@/hooks/api/useRoomList";
+import ChatList from "@/components/feature/chat/room/ChatList";
 
 const ChatPage = () => {
   const { value: search, onChange: setSearch } = useInput("");
