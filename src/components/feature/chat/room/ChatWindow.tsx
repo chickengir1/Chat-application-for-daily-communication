@@ -1,6 +1,6 @@
 import ChatHeader from "./ChatHeader";
-import MessageInput from "./MessageInput";
-import ChatBubble from "./ChatBubble";
+import MessageInput from "../message/MessageInput";
+import MessageList from "../message/MessageList";
 import { roomStore } from "@/stores/roomStore";
 import Modal from "@/components/common/Modal";
 import useWebSocket from "@/hooks/feature/webSocket/useWebSocket";
@@ -21,12 +21,15 @@ const ChatWindow = ({ roomId }: ChatWindowProps) => {
 };
 
 const ChatWindowContent = ({ roomId }: ChatWindowProps) => {
-  const { title, subtitle, participants } = roomStore();
+  const title = roomStore((state) => state.title);
+  const subtitle = roomStore((state) => state.subtitle);
+  const participants = roomStore((state) => state.participants);
   const { disconnect } = useWebSocket(roomId);
   const { filteredMessages } = useChatMessages(roomId);
   const { isModalOpen, handleModalState } = useModalState();
 
   const handleLeaveRoom = () => {
+    // TODO: 채팅방 나가기 로직 안에 디스커넥트 함수를 비동기로 호출하면 될 것 같음
     disconnect();
   };
   const currentUserId = "tester1000";
@@ -38,17 +41,7 @@ const ChatWindowContent = ({ roomId }: ChatWindowProps) => {
         subtitle={subtitle}
         onOptionsClick={handleModalState(true)}
       />
-      <div className="flex-1 overflow-y-auto p-4 scrollbar-none">
-        {filteredMessages.map((message) => (
-          <ChatBubble
-            key={message.id}
-            sender={message.sender}
-            message={message.message}
-            timestamp={message.createdAt}
-            isCurrentUser={message.sender === currentUserId}
-          />
-        ))}
-      </div>
+      <MessageList messages={filteredMessages} currentUserId={currentUserId} />
       <MessageInput roomId={roomId} />
       <Modal
         isOpen={isModalOpen}

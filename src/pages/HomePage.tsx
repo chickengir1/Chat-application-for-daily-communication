@@ -1,5 +1,5 @@
 import Button from "@/components/common/Button";
-import ChatList from "@/components/feature/chat/ChatList";
+import ChatList from "@/components/feature/chat/room/ChatList";
 import CreateChatModal from "@/components/feature/main/CreateChatModal";
 import FriendList from "@/components/feature/main/FriendList";
 import User from "@/components/feature/main/user/User";
