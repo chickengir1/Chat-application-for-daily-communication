@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { FaSearch, FaEllipsisV, FaUserCircle, FaTimes } from "react-icons/fa";
 import Input from "@/components/common/Input";
 import useInput from "@/hooks/common/useInput";
+import { searchStore } from "@/stores/searchStore";
 
 interface ChatHeaderProps {
   title: string;
@@ -16,22 +17,25 @@ const ChatHeader = ({
   avatarUrl,
   onOptionsClick,
 }: ChatHeaderProps) => {
-  const [isSearchActive, setSearchActive] = useState(false);
-  const { value: search, onChange: setSearch } = useInput("");
+  const { setQuery, setSearchActive, isSearchActive } = searchStore();
+  const { value: search, onChange: setSearch, reset } = useInput("");
 
-  // 디바운싱 로직 구현하고 API 요청 보내야함
   useEffect(() => {
-    if (search) {
-      // setDebouncedSearch(search); // 디바운싱된 값으로 변경
-      console.log("요청 보낼 밸류 및 디바운싱 로직 구현해야함 ", search);
-    }
-  }, [search]);
+    const debounce = setTimeout(() => {
+      setQuery(search);
+    }, 300);
+
+    return () => clearTimeout(debounce);
+  }, [search, setQuery]);
 
   const onSearchToggle = useCallback(
     (state: boolean) => () => {
       setSearchActive(state);
+      if (!state) {
+        reset();
+      }
     },
-    []
+    [setSearchActive, reset]
   );
 
   const avatarIcon = avatarUrl ? (
