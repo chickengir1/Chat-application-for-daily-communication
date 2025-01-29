@@ -49,7 +49,7 @@ const NotificationsPage = () => {
           <Input
             value={search}
             onChange={setSearch}
-            placeholder="검색"
+            placeholder="알람 내용 검색"
             className={styles.input}
           />
         </div>
@@ -104,7 +104,7 @@ const styles = {
     "flex h-12 md:h-14 items-center rounded-lg bg-[#505050] px-2 text-black duration-200 ease-in-out hover:bg-[#404040] w-1/2 md:w-1/3",
   searchIcon: "mx-2 text-gray-300",
   input:
-    "w-full rounded-lg bg-transparent px-2 text-black placeholder-gray-400 outline-none",
+    "w-full rounded-lg bg-transparent px-2 text-black placeholder-gray-400 outline-none text-white",
   notificationListContainer:
     "relative flex flex-col w-full h-full space-y-4 rounded-lg bg-[#505050] p-4 text-black",
   notificationList: "space-y-4",

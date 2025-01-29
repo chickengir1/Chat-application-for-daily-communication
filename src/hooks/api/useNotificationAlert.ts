@@ -10,20 +10,9 @@ interface Notification {
   read: boolean;
 }
 
-// 런타임에서 테스트 해야하는데 하다가 토큰 만료돼서 실패함 ㅠㅠ
-// interface Pageable {
-//   pageNumber: number;
-//   pageSize: number;
-//   offset: number;
-//   last: boolean;
-// }
-
 interface NotificationResponse {
-  // pageable: Pageable;
   content: Notification[];
 }
-
-// 토큰 받고 테스트 후 불필요한 코드 모두 삭제 예정
 
 const fetchNotifications = async (
   page: number,

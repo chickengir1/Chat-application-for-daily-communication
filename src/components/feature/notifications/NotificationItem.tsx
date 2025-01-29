@@ -1,3 +1,4 @@
+import { formatTime } from "@/hooks/feature/chat/RoomLists/useChatHandlers";
 import { FaUserCircle, FaTrash } from "react-icons/fa";
 
 interface NotificationItemProps {
@@ -13,22 +14,19 @@ const NotificationItem = ({
   name,
   message,
   createdAt,
-
   onDelete,
 }: NotificationItemProps) => {
   return (
     <li className={styles.listItem}>
-      <div className={styles.content}>
+      <div className={styles.leftContent}>
         <FaUserCircle className={styles.avatarIcon} />
         <div className={styles.textContainer}>
           <p className={styles.name}>{name}</p>
           <p className={styles.message}>{message}</p>
         </div>
       </div>
-      <div className={styles.actions}>
-        <p className={styles.createdAt}>
-          {new Date(createdAt).toLocaleString()}
-        </p>
+      <div className={styles.rightContent}>
+        <p className={styles.createdAt}>{formatTime(createdAt)}</p>
         {onDelete && (
           <button className={styles.deleteButton} onClick={onDelete}>
             <FaTrash />
@@ -39,16 +37,16 @@ const NotificationItem = ({
   );
 };
 
-export default NotificationItem;
-
 const styles = {
-  listItem: "flex justify-between items-center p-4 border-b",
-  content: "flex items-center space-x-4",
-  avatarIcon: "text-4xl text-gray-200",
-  textContainer: "flex flex-col",
-  name: "font-bold text-lg text-gray-50",
-  message: "text-sm text-gray-50",
-  actions: "flex items-center space-x-4",
-  createdAt: "text-sm text-gray-100",
-  deleteButton: "text-red-500 hover:text-red-100",
+  listItem: "flex justify-between items-start p-4 border-b gap-4 w-full",
+  leftContent: "flex items-start space-x-4 flex-1 min-w-0",
+  rightContent: "flex items-center space-x-2 flex-shrink-0",
+  avatarIcon: "text-4xl text-gray-200 flex-shrink-0",
+  textContainer: "flex flex-col min-w-0 flex-1",
+  name: "font-bold text-lg text-gray-50 truncate",
+
+  message: "text-sm text-gray-50 line-clamp-2 break-all",
+  createdAt: "text-sm text-gray-100 whitespace-nowrap",
+  deleteButton: "text-red-500 hover:text-red-100 flex-shrink-0",
 };
+export default NotificationItem;
