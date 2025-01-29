@@ -32,6 +32,7 @@ const ChatWindowContent = ({ roomId }: ChatWindowProps) => {
     // TODO: 채팅방 나가기 로직 안에 디스커넥트 함수를 비동기로 호출하면 될 것 같음
     disconnect();
   };
+
   const currentUserId = "tester1000";
 
   return (
@@ -54,7 +55,10 @@ const ChatWindowContent = ({ roomId }: ChatWindowProps) => {
           <div className={modalStyles.participantContainer}>
             <h2 className={modalStyles.listHeader}>참여자 목록</h2>
             {participants.map((participant, index) => (
-              <div key={index} className={modalStyles.participantItem}>
+              <div
+                key={`${participant}-${index}`}
+                className={modalStyles.participantItem}
+              >
                 {participant}
               </div>
             ))}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FaSearch, FaEllipsisV, FaUserCircle, FaTimes } from "react-icons/fa";
 import Input from "@/components/common/Input";
 import useInput from "@/hooks/common/useInput";
@@ -27,12 +27,19 @@ const ChatHeader = ({
     }
   }, [search]);
 
-  const onSearchToggle = (state: boolean) => () => {
-    setSearchActive(state);
-  };
+  const onSearchToggle = useCallback(
+    (state: boolean) => () => {
+      setSearchActive(state);
+    },
+    []
+  );
 
   const avatarIcon = avatarUrl ? (
-    <img src={avatarUrl} alt="Avatar" className={styles.avatarImage} />
+    <img
+      src={avatarUrl || "https://via.placeholder.com/150x100"}
+      alt="Avatar"
+      className={styles.avatarImage}
+    />
   ) : (
     <FaUserCircle className={styles.avatarIcon} />
   );
@@ -75,7 +82,10 @@ const ChatHeader = ({
             </button>
           </div>
         </div>
-        <button className={styles.iconButton} onClick={onOptionsClick}>
+        <button
+          className={styles.iconButton}
+          onClick={onOptionsClick ?? (() => {})}
+        >
           <FaEllipsisV size={22} />
         </button>
       </div>

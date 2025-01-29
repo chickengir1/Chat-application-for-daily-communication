@@ -1,7 +1,8 @@
 import { createContext, ReactNode } from "react";
-import { chatStore, WS_CONFIG } from "@/stores/chatStore";
+import { chatStore, Message, WS_CONFIG } from "@/stores/chatStore";
 import { authStore } from "@/stores/authStore";
 import { saveMessagesToDB } from "@/utils/IndexedDB";
+import { v4 as uuidv4 } from "uuid";
 
 interface WebSocketProviderProps {
   children: ReactNode;
@@ -24,7 +25,7 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
 
     const { accessToken } = authStore.getState();
     if (!accessToken) {
-      console.error("WebSocket 연결 실패 액세스 토큰이 없습니다.");
+      throw new Error("WebSocket 연결 실패 액세스 토큰이 없습니다.");
     }
 
     const url = new URL(`${WS_CONFIG.BASE_URL}${WS_CONFIG.PATH}/${roomId}`);
@@ -35,12 +36,23 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     socket.onopen = () => setConnected(roomId, true);
 
     const handlers = socketHandlers(roomId);
-    socket.onmessage = handlers.handleMessage;
+    socket.onmessage = (event) => handleMessage(roomId, event);
     socket.onerror = handlers.handleError;
     socket.onclose = handlers.handleClose;
 
     setSocket(roomId, socket);
     return socket;
+  };
+
+  // 디스커넥터
+  const disconnect = (roomId: string) => {
+    const socket = getSocket(roomId);
+    if (socket) {
+      socket.close();
+      leaveToRoom(roomId);
+    } else {
+      console.error(`이미 roomId=${roomId} 소켓이 없거나 닫힘`);
+    }
   };
 
   // 메시지 전송 핸들러
@@ -57,15 +69,22 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     socket.send(data);
   };
 
-  // 디스커넥터
-  const disconnect = (roomId: string) => {
-    const socket = getSocket(roomId);
-    if (socket) {
-      socket.close();
-      leaveToRoom(roomId);
-    } else {
-      console.error(`이미 roomId=${roomId} 소켓이 없거나 닫힘`);
+  // 메시지 핸들러
+  const handleMessage = async (roomId: string, event: MessageEvent) => {
+    const data = JSON.parse(event.data);
+    if (data.messageType === "UNREAD_COUNT" || data.messageType === "readby") {
+      return;
     }
+
+    const transformedMessage: Message = {
+      ...data,
+      id: uuidv4(),
+      originFileUrl: data.originFileUrl || "",
+      thumbnailUrl: data.thumbnailUrl || "",
+    };
+
+    addMessage(roomId, [transformedMessage]);
+    await saveMessagesToDB(roomId, [transformedMessage]);
   };
 
   // 에러 핸들러
@@ -76,26 +95,9 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
 
   // 이벤트 핸들러
   const socketHandlers = (roomId: string) => ({
-    handleMessage: async (event: MessageEvent) => {
-      const data = JSON.parse(event.data);
-
-      if (["UNREAD_COUNT", "readby"].includes(data.messageType)) return;
-
-      const transformedMessage = {
-        ...data,
-        id: createMessageId(roomId),
-        originFileUrl: data.originFileUrl || "",
-        thumbnailUrl: data.thumbnailUrl || "",
-      };
-
-      addMessage(roomId, [transformedMessage]);
-      await saveMessagesToDB(roomId, [transformedMessage]);
-    },
     handleError: (error: Event) => handleSocketError(roomId, error),
     handleClose: (e: CloseEvent) => {
-      console.error(
-        `WebSocket onclose roomId=${roomId}, 코드:${e.code}, 원인:${e.reason}`
-      );
+      console.error(`Closed roomId=${roomId}, 코드:${e.code}`);
       leaveToRoom(roomId);
       setConnected(roomId, false);
       setTimeout(() => connect(roomId), WS_CONFIG.RECONNECT_TIMEOUT);
@@ -113,12 +115,3 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
 export const WebSocketContext = createContext<WebSocketProviderValue | null>(
   null
 );
-
-// 메세지 아이디 생성 유틸
-const createMessageId = (() => {
-  const counters: Record<string, number> = {};
-  return (roomId: string) => {
-    counters[roomId] = (counters[roomId] || 0) + 1;
-    return `${roomId}-${Date.now()}-${counters[roomId]}`;
-  };
-})();
