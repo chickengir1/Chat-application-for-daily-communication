@@ -3,7 +3,7 @@ import { loadMessagesFromDB } from "@/utils/IndexedDB";
 import { MAX_MESSAGE_COUNT } from "@/utils/Constans";
 
 export const WS_CONFIG = {
-  BASE_URL: "wss://kdt-pt-1-pj-1-team01.elicecoding.com:8080",
+  BASE_URL: "wss://kdt-pt-1-pj-1-team01.elicecoding.com",
   PATH: "/chat",
   RECONNECT_TIMEOUT: 10000,
 } as const;
