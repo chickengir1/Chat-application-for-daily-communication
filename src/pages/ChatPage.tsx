@@ -86,7 +86,7 @@ const styles = {
   chatListHeader:
     "sticky top-0 z-5 bg-[#404040] py-4 text-center text-2xl font-bold",
   chatWindowContainer:
-    "relative flex h-screen w-full flex-col pb-2 md:w-3/5 md:p-6",
+    "relative flex max-h-[calc(100vh-1rem)] md:min-h-screen w-full flex-col pb-2 md:w-3/5 md:p-6",
   openButton:
     "fixed left-4 top-4 z-20 rounded-full bg-[#606060] p-4 text-white shadow-lg transition-all hover:bg-[#505050] md:hidden",
 };
