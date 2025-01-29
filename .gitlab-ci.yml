@@ -27,8 +27,8 @@ deploy_to_vm:
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - echo "StrictHostKeyChecking no" > ~/.ssh/config
-    - scp -r dist/* kdt@34.47.79.162:/home/kdt/front/
-    - ssh kdt@34.47.79.162 'sudo systemctl restart nginx'
+    - scp -r dist/* kdt@kdt-pt-1-pj-1-team01.elicecoding.com:/home/kdt/front/
+    - ssh kdt@kdt-pt-1-pj-1-team01.elicecoding.com 'sudo systemctl restart nginx'
   tags:
     - frontend
   only:

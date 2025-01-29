@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { authStore } from "@/stores/authStore";
 
 export const axiosInstance: AxiosInstance = axios.create({
-  baseURL: "http://34.47.79.162/",
+  baseURL: "https://kdt-pt-1-pj-1-team01.elicecoding.com/",
   headers: {
     "Content-Type": "application/json",
   },
