@@ -1,7 +1,8 @@
-import { memo, useRef, useEffect } from "react";
+import { memo, useRef } from "react";
 import ChatBubble from "./ChatBubble";
 import { Message } from "@/stores/chatStore";
 import { searchStore } from "@/stores/searchStore";
+import { useChatScroll } from "@/hooks/feature/chat/useChatScroll";
 
 interface MessageListProps {
   messages: Message[];
@@ -10,26 +11,27 @@ interface MessageListProps {
 
 const MessageList = memo(({ messages, currentUserId }: MessageListProps) => {
   const bottomRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { query, isSearchActive } = searchStore();
-
-  useEffect(() => {
-    if (query) {
-      const firstMatch = document.querySelector(`.${styles.highlight}`);
-      if (firstMatch) {
-        firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    } else if (!isSearchActive) {
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [query, messages.length, isSearchActive]);
+  useChatScroll({
+    messages,
+    query,
+    isSearchActive,
+    containerRef,
+    bottomRef,
+  });
 
   return (
-    <div className={styles.container}>
+    <div ref={containerRef} className={style.container}>
       {messages.map((message) => {
-        const search =
-          query && message.message.toLowerCase().includes(query.toLowerCase());
+        const isMatch = query
+          ? message.message.toLowerCase().includes(query.toLowerCase())
+          : false;
         return (
-          <div key={message.id} className={search ? styles.highlight : ""}>
+          <div
+            key={message.id}
+            className={`${isMatch ? style.highlight : ""} ${style.message}`}
+          >
             <ChatBubble
               sender={message.sender}
               message={message.message}
@@ -46,7 +48,8 @@ const MessageList = memo(({ messages, currentUserId }: MessageListProps) => {
 
 export default MessageList;
 
-const styles = {
-  container: "flex-1 overflow-y-auto p-4 scrollbar-none",
-  highlight: "bg-yellow-50 bg-opacity-10 rounded-md",
+const style = {
+  container: "h-full flex-1 overflow-y-auto p-4 scrollbar-none",
+  message: "my-2",
+  highlight: "rounded-md bg-yellow-50 bg-opacity-50",
 };
