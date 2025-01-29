@@ -32,4 +32,4 @@ deploy_to_vm:
   tags:
     - frontend
   only:
-    - master
+    - dev
