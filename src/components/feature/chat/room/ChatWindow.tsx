@@ -35,7 +35,7 @@ const ChatWindowContent = ({ roomId }: ChatWindowProps) => {
   const currentUserId = "tester1000";
 
   return (
-    <div className="mb-16 flex w-full flex-col overflow-hidden rounded-lg bg-[#505050] md:mb-0 md:max-h-full">
+    <div className="mb-16 flex h-full w-full flex-col overflow-hidden rounded-lg bg-[#505050] md:mb-0 md:max-h-full">
       <ChatHeader
         title={title}
         subtitle={subtitle}
