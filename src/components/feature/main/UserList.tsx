@@ -3,6 +3,7 @@ import { useInfiniteScroll } from "@/hooks/api/useInfiniteScroll";
 import { useRef } from "react";
 import { CgSmileSad } from "react-icons/cg";
 import { FaUserCircle, FaUserPlus } from "react-icons/fa";
+import useAddFriends from "@/hooks/api/useAddFriends";
 
 interface UserListProps {
   users: User[];
@@ -12,6 +13,7 @@ interface UserListProps {
 const UserList = ({ users, onScroll }: UserListProps) => {
   const ulRef = useRef<HTMLUListElement>(null);
   const liRef = useRef<HTMLLIElement>(null);
+  const { handleAddFriend } = useAddFriends();
 
   useInfiniteScroll({
     root: ulRef,
@@ -33,12 +35,11 @@ const UserList = ({ users, onScroll }: UserListProps) => {
               <div className={styles.userInfo}>
                 <div className={styles.userText}>
                   <h3 className={styles.username}>{user.nickname}</h3>
-                  {/* <p className={styles.statusMessage}>{user.statusMessage}</p> */}
                 </div>
               </div>
               <button
                 type="button"
-                onClick={() => console.log("친구추가")}
+                onClick={() => handleAddFriend(user.email)}
                 className={styles.addButton}
               >
                 <FaUserPlus />

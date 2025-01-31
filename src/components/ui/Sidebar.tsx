@@ -9,10 +9,7 @@ const Sidebar = () => {
   const navigate = useNavigation();
   const { activeIndex, handleNavigation } = navigate;
   const userProfileImage: string | null = "";
-
   const { isSignedIn, signOut } = useAuth();
-
-  console.log(`isSignedIn in Sidebar: ${isSignedIn}`);
 
   const handleLogout = async () => {
     await signOut();

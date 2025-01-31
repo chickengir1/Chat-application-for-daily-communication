@@ -1,7 +1,6 @@
 import { useUser } from "@/hooks/api/useUser";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-
 import { useDebounce } from "@/hooks/api/useDebounce";
 import UserList from "../UserList";
 import UserHeader from "./UserHeader";
@@ -13,7 +12,6 @@ const User = () => {
 
   useEffect(() => {
     if (search) {
-      console.log("search", search);
       debouncedSearchUser();
     }
   }, [search]);
