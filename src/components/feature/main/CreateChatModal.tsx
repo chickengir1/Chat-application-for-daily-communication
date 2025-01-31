@@ -1,7 +1,7 @@
 import Button from "@/components/common/Button";
+import useFriendList from "@/hooks/api/useFriendList";
 import { useChatParticipants } from "@/hooks/feature/chat/useChatParticipants";
 import { useCreateChatRoom } from "@/hooks/feature/chat/useCreateChatRoom";
-import { friendListData } from "@/utils/stub";
 import { IoClose } from "react-icons/io5";
 
 interface ChatModalProps {
@@ -20,6 +20,7 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
     handleSelectChange,
   } = useChatParticipants();
   const { error, handleCreateChatRoom } = useCreateChatRoom();
+  const { userList } = useFriendList();
 
   const handleSubmit = async () => {
     const result = await handleCreateChatRoom(
@@ -93,8 +94,12 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
                 <option value="" disabled>
                   친구를 선택하세요.
                 </option>
-                {friendListData.map((friend) => {
-                  return <option key={friend.id}>{friend.username}</option>;
+                {userList?.map((friend) => {
+                  return (
+                    <option key={friend.friendshipId}>
+                      {friend.friendName}
+                    </option>
+                  );
                 })}
               </select>
               <ul className={selectedFriends}>
@@ -121,7 +126,6 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
   );
 };
 
-// 테일윈드 스타일을 JavaScript 객체로 추출
 const modalWrapper =
   "absolute left-0 top-0 flex h-full w-full items-center justify-center px-5";
 const modalDim = "absolute left-0 top-0 h-full w-full bg-black bg-opacity-50";

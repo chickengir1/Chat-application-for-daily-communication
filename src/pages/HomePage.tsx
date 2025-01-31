@@ -3,18 +3,18 @@ import ChatList from "@/components/feature/chat/room/ChatList";
 import CreateChatModal from "@/components/feature/main/CreateChatModal";
 import FriendList from "@/components/feature/main/FriendList";
 import User from "@/components/feature/main/user/User";
+import useFriendList from "@/hooks/api/useFriendList";
 import { useRoomList } from "@/hooks/api/useRoomList";
 import useChatRooms from "@/hooks/feature/chat/RoomLists/useChatRooms";
-import { friendListData } from "@/utils/stub";
 import { useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 const HomePage = () => {
   const [friendList, setFriendList] = useState(false);
   const [createChatModal, setCreateChatModal] = useState(false);
-
-  const { rooms } = useRoomList(); // 나중에 ,isLoading, error,refetch 추가 해서 써주세요
+  const { rooms } = useRoomList();
   const { filteredRooms } = useChatRooms(rooms);
+  const { userList } = useFriendList();
 
   return (
     <>
@@ -43,7 +43,7 @@ const HomePage = () => {
                 </button>
               </div>
             </div>
-            <FriendList friends={friendListData} />
+            <FriendList friends={userList} />
           </div>
 
           <User />
@@ -85,4 +85,5 @@ const styles = {
   chatHeader:
     "flex h-[64px] items-center justify-between bg-[#404040] px-4 font-bold sm:text-[18px]",
   chatBody: "h-[calc(100%-64px)] overflow-auto",
+  loadingContainer: "flex items-center justify-center h-[30vh]",
 };
