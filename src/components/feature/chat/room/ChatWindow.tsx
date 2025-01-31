@@ -7,6 +7,9 @@ import useWebSocket from "@/hooks/feature/webSocket/useWebSocket";
 import useChatMessages from "@/hooks/feature/chat/message/useChatMessages";
 import useModalState from "@/hooks/common/useModalState";
 import { WebSocketProvider } from "@/providers/webSocketProvider";
+import { useMe } from "@/hooks/api/useMe";
+import { useEffect } from "react";
+import { userStore } from "@/stores/userStore";
 
 interface ChatWindowProps {
   roomId: string;
@@ -27,12 +30,19 @@ const ChatWindowContent = ({ roomId }: ChatWindowProps) => {
   const { disconnect } = useWebSocket(roomId);
   const { filteredMessages } = useChatMessages(roomId);
   const { isModalOpen, handleModalState } = useModalState();
+  const { getProfile } = useMe();
+  const { profile } = userStore();
+
+  useEffect(() => {
+    getProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const currentUserId = profile.nickname;
+  console.log("currentUserId", currentUserId);
 
   const handleLeaveRoom = () => {
-    // TODO: 채팅방 나가기 로직 안에 디스커넥트 함수를 비동기로 호출하면 될 것 같음
     disconnect();
   };
-  const currentUserId = "tester1000";
 
   return (
     <div className="mb-16 flex h-full w-full flex-col overflow-hidden rounded-lg bg-[#505050] md:mb-0 md:max-h-full">
