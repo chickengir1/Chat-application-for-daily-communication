@@ -38,7 +38,6 @@ const ChatWindowContent = ({ roomId }: ChatWindowProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const currentUserId = profile.nickname;
-  console.log("currentUserId", currentUserId);
 
   const handleLeaveRoom = () => {
     disconnect();
