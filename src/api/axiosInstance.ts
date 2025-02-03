@@ -7,7 +7,6 @@ export const axiosInstance: AxiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  // 최종 테스트 후 없어도 괜찮다면 삭제
   withCredentials: true,
 });
 
@@ -25,13 +24,9 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// 세션 만료시 쓸거임
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => response.data,
   (error) => {
-    // 원래는 401일때 처리하는게 맞음
-    // 하지만 토큰 관련 테스트 작업으로 인해 400으로 바꿔도 무방
-    // 작업 완료 후 401과 403으로 변경 요망
     if (error.response?.status === 401 || error.response?.status === 403) {
       console.warn("세션 만료 또는 인증 실패");
 
