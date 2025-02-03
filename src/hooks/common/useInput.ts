@@ -17,5 +17,5 @@ export default function useInput(initialValue: string) {
       }
     };
 
-  return { value, onChange, reset, onKeyDown };
+  return { value, onChange, reset, onKeyDown, setValue };
 }
