@@ -24,7 +24,7 @@ const ChatList = ({ chats, onChatClick, selectedChatId }: ChatListProps) => {
   }
 
   return (
-    <div className="p-4">
+    <div className={styles.container}>
       {chats.map((chat) => (
         <div
           key={chat.roomId}
@@ -33,11 +33,13 @@ const ChatList = ({ chats, onChatClick, selectedChatId }: ChatListProps) => {
           }`}
           onClick={handleChatClicked(chat.roomId)}
         >
-          <FaUserCircle className={styles.icon} />
-          <div className={styles.chatInfo}>
-            <div className={styles.chatText}>
-              <h3 className={styles.chatName}>{chat.roomName}</h3>
-              <p className={styles.chatLastMessage}>{chat.lastMessage}</p>
+          <div className={styles.contentWrapper}>
+            <FaUserCircle className={styles.icon} />
+            <div className={styles.chatInfo}>
+              <div className={styles.chatText}>
+                <h3 className={styles.chatName}>{chat.roomName}</h3>
+                <p className={styles.chatLastMessage}>{chat.lastMessage}</p>
+              </div>
             </div>
           </div>
           <span className={styles.chatTime}>{formatTime(chat.createdAt)}</span>
@@ -50,15 +52,17 @@ const ChatList = ({ chats, onChatClick, selectedChatId }: ChatListProps) => {
 export default ChatList;
 
 const styles = {
+  container: "p-4 w-full max-w-full",
   chatRoom:
-    "flex items-center mb-4 justify-between p-2 border-b border-gray-300",
+    "flex items-center mb-4 justify-between p-2 border-b border-gray-300 w-full",
+  contentWrapper: "flex items-center flex-1 min-w-0 mr-2",
   hover:
     "cursor-pointer transition-all duration-200 ease-in-out hover:bg-[#606060] hover:shadow-md hover:rounded-lg",
   selected: "bg-[#404040] shadow-md rounded",
   icon: "text-[#ccc] w-10 h-10 mr-3 flex-shrink-0",
-  chatInfo: "flex items-center space-x-3 flex-1 overflow-hidden",
+  chatInfo: "flex items-center flex-1 min-w-0",
   chatText: "flex-1 min-w-0",
-  chatName: "font-semibold truncate max-w-[300px]",
-  chatLastMessage: "text-sm text-gray-300 truncate",
-  chatTime: "text-sm text-gray-400 flex-shrink-0 ml-4",
+  chatName: "font-semibold truncate text-base",
+  chatLastMessage: "text-sm text-gray-300 truncate max-w-[350px]",
+  chatTime: "text-sm text-gray-400 flex-shrink-0 ml-2 whitespace-nowrap",
 };

@@ -82,7 +82,7 @@ const styles = {
   input:
     "w-full rounded-lg bg-transparent px-2 text-white outline-none placeholder-gray-400",
   chatList:
-    "h-full overflow-y-auto rounded-lg bg-[#505050] text-white scrollbar-none transition-colors",
+    "h-full overflow-y-auto rounded-lg bg-[#505050] text-white scrollbar-none transition-colors truncate",
   chatListHeader:
     "sticky top-0 z-5 bg-[#404040] py-4 text-center font-bold text-2xl",
   chatWindowContainer:
