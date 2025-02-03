@@ -3,6 +3,9 @@ import useFriendList from "@/hooks/api/useFriendList";
 import { useChatParticipants } from "@/hooks/feature/chat/useChatParticipants";
 import { useCreateChatRoom } from "@/hooks/feature/chat/useCreateChatRoom";
 import { IoClose } from "react-icons/io5";
+import { useMe } from "@/hooks/api/useMe";
+import { useEffect } from "react";
+import { userStore } from "@/stores/userStore";
 
 interface ChatModalProps {
   isOpen: boolean;
@@ -21,13 +24,21 @@ const CreateChatModal = ({ isOpen, onClose }: ChatModalProps) => {
   } = useChatParticipants();
   const { error, handleCreateChatRoom } = useCreateChatRoom();
   const { userList } = useFriendList();
+  const { getProfile } = useMe();
+  const { profile } = userStore();
+
+  useEffect(() => {
+    getProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const currentUserId = profile.nickname;
 
   const handleSubmit = async () => {
-    const result = await handleCreateChatRoom(
-      roomName,
-      roomType,
-      selectedFriend
-    );
+    const participants = selectedFriend.includes(currentUserId)
+      ? selectedFriend
+      : [currentUserId, ...selectedFriend];
+
+    const result = await handleCreateChatRoom(roomName, roomType, participants);
 
     if (result) {
       console.log("채팅방 생성 성공!", result);
