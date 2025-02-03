@@ -22,10 +22,8 @@ export const useCreateChatRoom = () => {
     const chatData = {
       roomType,
       roomName,
-      participants: selectedFriend,
-      // participants: ["tester1", "example"],
+      participants: [...selectedFriend],
     };
-    console.log(chatData);
 
     const createRoom = await handleApiCall(
       axiosInstance.post("/api/chat/room", chatData),
@@ -36,7 +34,6 @@ export const useCreateChatRoom = () => {
     );
 
     if (createRoom) {
-      console.log("데이터", createRoom);
       return createRoom;
     }
 
