@@ -1,5 +1,5 @@
-import { formatTime } from "@/hooks/feature/chat/RoomLists/useChatHandlers";
 import { FaUserCircle, FaTrash } from "react-icons/fa";
+// import { formatTime } from "@/hooks/feature/chat/RoomLists/useChatHandlers";
 
 interface NotificationItemProps {
   id: number;
@@ -9,6 +9,16 @@ interface NotificationItemProps {
   read: boolean;
   onDelete?: () => void;
 }
+
+// 서버 에러로 인한 임시 조치
+const formatKoreanTime = (createdAt: string): string => {
+  const date = new Date(createdAt);
+  date.setHours(date.getHours() + 9);
+  return date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
 
 const NotificationItem = ({
   name,
@@ -26,7 +36,7 @@ const NotificationItem = ({
         </div>
       </div>
       <div className={styles.rightContent}>
-        <p className={styles.createdAt}>{formatTime(createdAt)}</p>
+        <p className={styles.createdAt}>{formatKoreanTime(createdAt)}</p>
         {onDelete && (
           <button className={styles.deleteButton} onClick={onDelete}>
             <FaTrash />
@@ -44,7 +54,6 @@ const styles = {
   avatarIcon: "text-4xl text-gray-200 flex-shrink-0",
   textContainer: "flex flex-col min-w-0 flex-1",
   name: "font-bold text-lg text-gray-50 truncate",
-
   message: "text-sm text-gray-50 line-clamp-2 break-all",
   createdAt: "text-sm text-gray-100 whitespace-nowrap",
   deleteButton: "text-red-500 hover:text-red-100 flex-shrink-0",

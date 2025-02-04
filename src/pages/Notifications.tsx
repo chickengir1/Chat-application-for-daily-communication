@@ -22,7 +22,6 @@ const NotificationsPage = () => {
     refetch();
   }, [page, refetch]);
 
-  // 나중에 유틸 레이어나 훅 레이어로 뺄거임
   const changePage = (direction: "prev" | "next") => () => {
     setPage((prevPage) => {
       const newPage =
@@ -31,7 +30,6 @@ const NotificationsPage = () => {
     });
   };
 
-  // [로직 구현 필요] 나중에 유틸 레이어나 훅 레이어로 뺄거임
   const onNotifyDelete = (id: number) => () => {
     console.log(`알림 ${id} 삭제`);
   };
