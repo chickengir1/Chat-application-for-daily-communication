@@ -51,8 +51,6 @@ git clone https://kdt-gitlab.elice.io/pttrack/class_01/web_project_i/team01/fron
 cd chat-application
 ```
 
-````
-
 2. **의존성 설치**
 
 ```bash
@@ -138,4 +136,3 @@ chore: 빌드 업무 수정
 ## 연락처 📧
 
 프로젝트 링크: https://kdt-pt-1-pj-1-team01.elicecoding.com/login
-````
