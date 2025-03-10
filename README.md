@@ -51,11 +51,3 @@
 - IndexedDB (메시지 캐싱)
 - WebSocket (실시간 통신)
 
-## 시작하기 🚀
-
-1. **저장소 클론**
-
-```bash
-git clone 모 📧
-
-프로젝트 링크: https://kdt-pt-1-pj-1-team01.elicecoding.com/login
