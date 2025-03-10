@@ -9,8 +9,7 @@
 ### 프로젝트 팀 구성
 
 > **개발팀**: 엘리스 PT트랙 1기 1차 프로젝트 1팀
-> - **프로젝트 링크:** https://kdt-pt-1-pj-1-team01.elicecoding.com/login
-> - **Github:** https://github.com/chickengir1/Chat-application-for-daily-communication
+> - **프로젝트 링크:** https://kdt-pt-1-pj-1-team01.elicecoding.com
 > - **프론트엔드:** **이강호** 
 > - **백엔드:** 김준수, 엄수경, 강대희
 
