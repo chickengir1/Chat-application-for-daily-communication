@@ -1,18 +1,18 @@
 ### **프로젝트 개요**
 
 > **플랫폼**: 실시간 일상 커뮤니케이션 플랫폼
-> **주요 기능:** 실시간 채팅, 메시지 캐싱, 사용자 관리, 채팅방 관리
-> **타겟:** 일상적인 소통이 필요한 개인 및 그룹
-> **기술 스택:** `React, TypeScript, Tailwind CSS, Vite, Zustand, WebSocket`
+> - **주요 기능:** 실시간 채팅, 메시지 캐싱, 사용자 관리, 채팅방 관리
+> - **타겟:** 일상적인 소통이 필요한 개인 및 그룹
+> - **기술 스택:** `React, TypeScript, Tailwind CSS, Vite, Zustand, WebSocket`
 
 
 ### 프로젝트 팀 구성
 
 > **개발팀**: 엘리스 PT트랙 1기 1차 프로젝트 1팀
-> **프로젝트 링크:** https://kdt-pt-1-pj-1-team01.elicecoding.com/login
-> **Github:** https://github.com/chickengir1/Chat-application-for-daily-communication
-> **프론트엔드:** **이강호** 
-> **백엔드:** 김준수, 엄수경, 강대희
+> - **프로젝트 링크:** https://kdt-pt-1-pj-1-team01.elicecoding.com/login
+> - **Github:** https://github.com/chickengir1/Chat-application-for-daily-communication
+> - **프론트엔드:** **이강호** 
+> - **백엔드:** 김준수, 엄수경, 강대희
 
 
 ---
